@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SELCO — Fashion Store</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+:root{ --bg:#f6f4ef;--card:#fff;--text:#111;--muted:#777;--line:#e6e2da;--dark:#111; --shadow:0 20px 60px rgba(0,0,0,.10);}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Cairo,Arial,sans-serif;overflow-x:hidden}button,input,select{font:inherit}::selection{background:#111;color:#fff}
+body:before,body:after{content:"";position:fixed;width:380px;height:380px;border-radius:50%;filter:blur(90px);opacity:.18;z-index:-2;pointer-events:none}body:before{background:#fff;top:-120px;right:-100px}body:after{background:#b9b0a2;bottom:-140px;left:-80px}
+.top{background:#0b0b0b;color:#fff;text-align:center;padding:9px;font-size:12px;letter-spacing:.4px;position:relative;z-index:30}.top span{display:inline-block;animation:pulse 2s infinite}@keyframes pulse{50%{opacity:.45}}
+nav{position:sticky;top:0;z-index:25;background:rgba(246,244,239,.78);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.06)}.navin{max-width:1250px;margin:auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.logo{font-size:24px;font-weight:900;letter-spacing:1px;color:#111;text-decoration:none}
+.links{display:flex;gap:25px}.links a{color:inherit;text-decoration:none;font-size:13px;position:relative}.links a:after{content:"";position:absolute;right:0;bottom:-6px;height:1px;width:0;background:#111;transition:.3s}.links a:hover:after{width:100%}
+.navbtn{border:1px solid #111;background:#111;color:#fff;padding:10px 16px;border-radius:999px;cursor:pointer;transition:.25s;box-shadow:0 8px 25px rgba(0,0,0,.10)}.navbtn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 15px 35px rgba(0,0,0,.18)}
+.bagdot{display:inline-flex;min-width:21px;height:21px;padding:0 6px;align-items:center;justify-content:center;border-radius:999px;background:#fff;color:#111;margin-right:5px;font-size:11px;font-weight:800}
+.hero{max-width:1250px;margin:20px auto 0;padding:18px 22px 36px;display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
+.heroText{background:#0e0e0e;color:#fff;border-radius:30px;padding:55px 48px;min-height:520px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;isolation:isolate;box-shadow:var(--shadow);animation:heroIn .9s both}@keyframes heroIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.heroText:before{content:"";position:absolute;inset:auto -80px -100px auto;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,#fff3,transparent 68%);animation:float 7s ease-in-out infinite}
+.heroText:after{content:"SELCO / 26";position:absolute;left:28px;top:24px;font-size:10px;letter-spacing:3px;color:#888;transform:rotate(-90deg);transform-origin:left top}
+.kicker{letter-spacing:4px;font-size:11px;color:#a8a8a8;margin-bottom:18px}
+.hero h1{font-size:clamp(44px,6vw,82px);line-height:.98;margin:0 0 20px;letter-spacing:-3px;position:relative}.hero h1 span{display:block;color:#d6d0c6}
+.hero p{color:#bbb;line-height:1.9;max-width:520px;margin:0 0 15px}
+.cta{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;border:0;border-radius:999px;padding:14px 19px;text-decoration:none;width:max-content;transition:.3s;position:relative;overflow:hidden}
+.cta:hover{transform:translateY(-4px);box-shadow:0 18px 35px rgba(255,255,255,.13)}
+.heroImg{min-height:520px;border-radius:30px;overflow:hidden;position:relative;background:#ddd url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1200&q=85') center/cover;box-shadow:var(--shadow);animation:heroImage .95s .1s both}@keyframes heroImage{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
+.heroTag{position:absolute;bottom:22px;right:22px;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);padding:9px 13px;border-radius:13px;font-size:12px}
+.marquee{overflow:hidden;background:#111;color:#fff;border-radius:18px;max-width:1250px;margin:0 auto 35px}
+.track{display:flex;width:max-content;animation:marquee 20s linear infinite;padding:12px 0;gap:28px;font-size:12px;letter-spacing:2px}.track b{font-size:15px}@keyframes marquee{to{transform:translateX(-50%)}}
+.container{max-width:1250px;margin:auto;padding:0 22px 70px}
+.bar{display:flex;justify-content:space-between;align-items:flex-end;gap:15px;margin:25px 0 18px}
+.bar h2{font-size:33px;margin:0;letter-spacing:-1px}.bar p{margin:5px 0 0;color:var(--muted);font-size:13px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;padding:8px 13px;border-radius:999px;cursor:pointer;transition:.25s}
+.chip:hover{transform:translateY(-2px)}.chip.active{background:#111;color:#fff;box-shadow:0 10px 25px rgba(0,0,0,.10)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:rgba(255,255,255,.86);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 5px 18px rgba(0,0,0,.04);transition:transform .35s,box-shadow .35s;opacity:0;transform:translateY(25px)}
+.card.visible{opacity:1;transform:none}.card:hover{transform:translateY(-9px);box-shadow:0 25px 50px rgba(0,0,0,.12)}
+.pic{aspect-ratio:4/5;position:relative;overflow:hidden;background:#ddd}
+.pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .65s}
+.card:hover .pic img{transform:scale(1.08)}
+.badge{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.9);padding:6px 9px;border-radius:999px;font-size:10px;font-weight:800;z-index:2}
+.quick{position:absolute;left:12px;bottom:12px;background:#111;color:#fff;border:0;border-radius:999px;padding:8px 12px;font-size:11px;opacity:0;transform:translateY(10px);transition:.3s;cursor:pointer}
+.card:hover .quick{opacity:1;transform:none}
+.info{padding:15px}.name{font-weight:900;font-size:15px;margin-bottom:4px}.muted{color:var(--muted);font-size:12px}.price{font-weight:900;font-size:16px;margin:10px 0}
+.buy{width:100%;background:#111;color:#fff;border:0;padding:11px;border-radius:12px;cursor:pointer;transition:.25s}.buy:hover{transform:translateY(-2px);box-shadow:0 12px 25px rgba(0,0,0,.17)}
+.story{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px;margin:60px 0}
+.storyImg{min-height:380px;border-radius:24px;background:url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=85') center/cover;box-shadow:var(--shadow)}
+.storyText{background:#fff;border:1px solid var(--line);border-radius:24px;padding:35px}
+.storyText h3{font-size:34px;margin-top:0}.storyText p{line-height:2;color:#666}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:25px}
+.stat{background:#f7f5f0;padding:15px;border-radius:15px}.stat strong{font-size:23px;display:block}.stat span{font-size:11px;color:#777}
+footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;color:#777;font-weight:700}
+.drawer,.modal{position:fixed;inset:0;background:rgba(0,0,0,.48);display:none;z-index:40}
+.panel{position:absolute;right:0;top:0;bottom:0;width:min(560px,100%);background:#fff;padding:22px;overflow:auto;box-shadow:-20px 0 60px rgba(0,0,0,.15);animation:slide .35s both}@keyframes slide{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+.modalBox{background:#fff;width:min(600px,94%);max-height:90vh;overflow:auto;margin:5vh auto;border-radius:24px;padding:24px;animation:pop .35s both}@keyframes pop{from{transform:scale(.96) translateY(15px);opacity:0}to{transform:none;opacity:1}}
+.close{float:left;border:0;background:#eee;border-radius:50%;width:35px;height:35px;cursor:pointer;transition:.2s}.close:hover{transform:rotate(90deg)}
+.cartrow{display:grid;grid-template-columns:1fr auto;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}
+.qty{display:flex;gap:8px;align-items:center}.qty button{border:1px solid var(--line);background:#fff;border-radius:8px;width:30px;height:30px;cursor:pointer}
+.total{font-size:21px;font-weight:900;margin:20px 0}
+.field{margin:12px 0}.field label{display:block;font-size:12px;margin-bottom:6px}.field input,.field select{width:100%;padding:12px;border:1px solid #ddd;border-radius:11px;background:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.payment-badge{background:#f4f4f4;border:1px solid #ddd;padding:12px;border-radius:11px;font-weight:700;color:#333;display:flex;align-items:center;gap:8px}
+.submit{width:100%;padding:13px;border:0;border-radius:12px;background:#111;color:#fff;cursor:pointer;font-weight:900;transition:.25s;margin-top:10px}.submit:hover{transform:translateY(-2px);box-shadow:0 15px 30px rgba(0,0,0,.15)}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}.reveal.visible{opacity:1;transform:none}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.heroText,.heroImg{min-height:430px}.grid{grid-template-columns:repeat(2,1fr)}.story{grid-template-columns:1fr}.links{display:none}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.heroText{padding:38px 28px}.hero h1{font-size:48px}}
+</style>
+</head>
+<body>
+<div class="top"><span>✨ شحن لجميع المحافظات • الدفع عند الاستلام فقط • NEW DROP 2026 ✨</span></div>
+
+<nav>
+ <div class="navin">
+  <a href="#" class="logo">SELCO.</a>
+  <div class="links">
+    <a href="#shop">المتجر</a>
+    <a href="#story">البراند</a>
+  </div>
+  <button class="navbtn" onclick="openCart()">السلة <span class="bagdot" id="cartCount">0</span></button>
+ </div>
+</nav>
+
+<section class="hero">
+ <div class="heroText">
+  <div class="kicker">NEW COLLECTION / 2026</div>
+  <h1>Wear it.<span>Own it.</span></h1>
+  <p>تشكيلة ملابس عصرية مصممة بأعلى جودة. اطلب الآن وادفع عند الاستلام باب البيت.</p>
+  <a class="cta" href="#shop">اكتشف المجموعة <span>←</span></a>
+ </div>
+ <div class="heroImg">
+  <div class="heroTag">LIMITED / DROP 01</div>
+ </div>
+</section>
+
+<div class="marquee">
+ <div class="track">
+  <span>PREMIUM FIT</span><b>✦</b><span>STREET ENERGY</span><b>✦</b><span>NEW SEASON</span><b>✦</b><span>MADE TO MOVE</span><b>✦</b>
+  <span>PREMIUM FIT</span><b>✦</b><span>STREET ENERGY</span><b>✦</b><span>NEW SEASON</span><b>✦</b><span>MADE TO MOVE</span><b>✦</b>
+ </div>
+</div>
+
+<main class="container" id="shop">
+ <div class="bar reveal">
+  <div><h2>Shop the Drop</h2><p>اختر القطعة، المقاس واللون، وأكمل طلبك في ثوانٍ.</p></div>
+  <div class="filters" id="filters"></div>
+ </div>
+ <div class="grid" id="products"></div>
+
+ <section class="story reveal" id="story">
+  <div class="storyImg"></div>
+  <div class="storyText">
+   <div class="kicker" style="color:#888">ABOUT SELCO</div>
+   <h3>مش مجرد متجر.<br>دي تجربة براند.</h3>
+   <p>تصاميم خاصة بخامات ممتازة وراحة كاملة أثناء الحركة. اختر ملابسك بسهولة وادفع عند الاستلام بدون أي تعقيدات.</p>
+   <div class="stats">
+     <div class="stat"><strong>100%</strong><span>قطن ممتاز</span></div>
+     <div class="stat"><strong>COD</strong><span>الدفع عند الاستلام</span></div>
+     <div class="stat"><strong>2026</strong><span>التشكيلة الجديدة</span></div>
+   </div>
+  </div>
+ </section>
+</main>
+
+<footer>SELCO © 2026 — Fashion Store</footer>
+
+<div class="drawer" id="cartDrawer" onclick="if(event.target===this)closeCart()">
+ <div class="panel">
+  <button class="close" onclick="closeCart()">×</button>
+  <h2>سلة المشتريات</h2>
+  <div id="cartItems"></div>
+  <div class="total">الإجمالي: <span id="cartTotal">0</span> جنيه</div>
+  <button class="submit" onclick="openCheckout()">إتمام الطلب (الدفع عند الاستلام)</button>
+ </div>
+</div>
+
+<div class="modal" id="checkoutModal" onclick="if(event.target===this)closeCheckout()">
+ <div class="modalBox">
+  <button class="close" onclick="closeCheckout()">×</button>
+  <h2>بيانات الشحن والتوصيل</h2>
+  <div class="row">
+    <div class="field"><label>الاسم بالكامل</label><input id="name" placeholder="أدخل اسمك"></div>
+    <div class="field"><label>رقم الهاتف</label><input id="phone" placeholder="01xxxxxxxx"></div>
+  </div>
+  <div class="row">
+    <div class="field"><label>المحافظة</label><input id="gov" placeholder="مثال: القاهرة"></div>
+    <div class="field"><label>المدينة / المنطقة</label><input id="city" placeholder="مثال: نصر سيتي"></div>
+  </div>
+  <div class="field"><label>العنوان بالتفصيل</label><input id="address" placeholder="اسم الشارع، رقم المبنى، الشقة"></div>
+  
+  <div class="field">
+    <label>طريقة الدفع</label>
+    <div class="payment-badge">
+      💵 الدفع عند الاستلام (COD)
+    </div>
+  </div>
+
+  <div class="total">الإجمالي النهائي: <span id="checkoutTotal">0</span> جنيه</div>
+  <button class="submit" onclick="placeOrder()">تأكيد الطلب وإرسال عبر الواتساب</button>
+ </div>
+</div>
+
+<script>
+const img = [
+ 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85',
+ 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=900&q=85',
+ 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=78',
+ 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=85',
+ 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=900&q=85',
+ 'https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=900&q=85',
+ 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=900&q=85',
+ 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=85'
+];
+
+const products = [
+ {id:1,name:"Oversized T-Shirt",cat:"تيشيرت",price:499,sizes:["S","M","L","XL"],colors:["أسود","أبيض"]},
+ {id:2,name:"Essential Hoodie",cat:"هودي",price:799,sizes:["M","L","XL"],colors:["أسود","رمادي"]},
+ {id:3,name:"Relaxed Pants",cat:"بنطلون",price:699,sizes:["S","M","L","XL"],colors:["بيج","أسود"]},
+ {id:4,name:"Classic Shirt",cat:"قميص",price:649,sizes:["M","L","XL"],colors:["أبيض","أزرق"]},
+ {id:5,name:"Basic Sweatshirt",cat:"سويت شيرت",price:749,sizes:["M","L","XL"],colors:["رمادي","أسود"]},
+ {id:6,name:"Cargo Pants",cat:"بنطلون",price:899,sizes:["M","L","XL"],colors:["زيتي","أسود"]},
+ {id:7,name:"Everyday Tee",cat:"تيشيرت",price:449,sizes:["S","M","L"],colors:["أبيض","أسود"]},
+ {id:8,name:"Denim Jacket",cat:"جاكيت",price:999,sizes:["M","L","XL"],colors:["أزرق"]}
+];
+
+let cart = JSON.parse(localStorage.getItem("selco_cart") || "[]");
+let filter = "الكل";
+
+const cats = ["الكل", ...new Set(products.map(p => p.cat))];
+document.getElementById("filters").innerHTML = cats.map(c => `<button class="chip ${c==="الكل"?"active":""}" onclick="setFilter('${c}',this)">${c}</button>`).join("");
+
+function setFilter(c, el) {
+  filter = c;
+  document.querySelectorAll("#filters .chip").forEach(x => x.classList.remove("active"));
+  el.classList.add("active");
+  renderProducts();
+}
+
+function renderProducts() {
+  let list = filter === "الكل" ? products : products.filter(p => p.cat === filter);
+  document.getElementById("products").innerHTML = list.map((p, i) => `
+    <div class="card reveal">
+      <div class="pic">
+        <span class="badge">جديد</span>
+        <img src="${img[i % img.length]}" alt="${p.name}">
+        <button class="quick" onclick="addToCart(${p.id})">+ أضف سريعًا</button>
+      </div>
+      <div class="info">
+        <div class="name">${p.name}</div>
+        <div class="muted">${p.colors.join(" / ")}</div>
+        <div class="price">${p.price} جنيه</div>
+        <button class="buy" onclick="addToCart(${p.id})">أضف للسلة</button>
+      </div>
+    </div>
+  `).join("");
+  observeReveals();
+}
+
+function saveCart() {
+  localStorage.setItem("selco_cart", JSON.stringify(cart));
+  updateCart();
+}
+
+function addToCart(id) {
+  let p = products.find(p => p.id === id);
+  let item = cart.find(x => x.id === id);
+  if (item) item.qty++;
+  else cart.push({ id, size: "M", color: p.colors[0], qty: 1 });
+  saveCart();
+  openCart();
+}
+
+function updateCart() {
+  document.getElementById("cartCount").textContent = cart.reduce((a, b) => a + b.qty, 0);
+  let total = 0;
+  document.getElementById("cartItems").innerHTML = cart.length ? cart.map((x, i) => {
+    let p = products.find(p => p.id === x.id);
+    total += p.price * x.qty;
+    return `
+      <div class="cartrow">
+        <div>
+          <b>${p.name}</b>
+          <div class="muted">${p.price} جنيه — مقاس ${x.size}</div>
+        </div>
+        <div class="qty">
+          <button onclick="changeQty(${i}, -1)">−</button>
+          <span>${x.qty}</span>
+          <button onclick="changeQty(${i}, 1)">+</button>
+        </div>
+      </div>
+    `;
+  }).join("") : "<p class='muted'>السلة فارغة حاليًا.</p>";
+  
+  document.getElementById("cartTotal").textContent = total;
+}
+
+function changeQty(i, d) {
+  cart[i].qty += d;
+  if (cart[i].qty <= 0) cart.splice(i, 1);
+  saveCart();
+}
+
+function openCart() {
+  updateCart();
+  document.getElementById("cartDrawer").style.display = "block";
+}
+
+function closeCart() {
+  document.getElementById("cartDrawer").style.display = "none";
+}
+
+function openCheckout() {
+  if (!cart.length) {
+    alert("سلة المشتريات فارغة!");
+    return;
+  }
+  closeCart();
+  document.getElementById("checkoutTotal").textContent = document.getElementById("cartTotal").textContent;
+  document.getElementById("checkoutModal").style.display = "block";
+}
+
+function closeCheckout() {
+  document.getElementById("checkoutModal").style.display = "none";
+}
+
+function placeOrder() {
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const gov = document.getElementById("gov").value.trim();
+  const city = document.getElementById("city").value.trim();
+  const address = document.getElementById("address").value.trim();
+
+  if (!name || !phone || !gov || !city || !address) {
+    alert("برجاء إكمال جميع بيانات الشحن.");
+    return;
+  }
+
+  const total = cart.reduce((s, x) => s + products.find(p => p.id === x.id).price * x.qty, 0);
+  
+  let itemsText = cart.map(x => {
+    let p = products.find(p => p.id === x.id);
+    return `• ${p.name} (مقاس: ${x.size}) - الكمية: ${x.qty} - السعر: ${p.price * x.qty} جنيه`;
+  }).join("\n");
+
+  const orderId = Math.floor(1000 + Math.random() * 9000);
+  
+  let whatsappMessage = `*طلب جديد من متجر SELCO* 🛍️\n\n` +
+    `🔢 *رقم الطلب:* #${orderId}\n` +
+    `👤 *الاسم:* ${name}\n` +
+    `📞 *رقم الهاتف:* ${phone}\n` +
+    `📍 *العنوان:* ${gov} - ${city} - ${address}\n` +
+    `💰 *طريقة الدفع:* الدفع عند الاستلام\n\n` +
+    `🛒 *المنتجات المطلوبة:*\n${itemsText}\n\n` +
+    `💵 *الإجمالي النهائي:* *${total} جنيه*`;
+
+  const whatsappNumber = "201273472788";
+  
+  cart = [];
+  saveCart();
+  closeCheckout();
+
+  // استخدام encodeURIComponent لحل مشكلة الرموز والمسافات تماماً
+  const encodedMessage = encodeURIComponent(whatsappMessage);
+  window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+}
+
+function observeReveals() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add("visible");
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll(".reveal:not(.visible)").forEach(el => obs.observe(el));
+}
+
+renderProducts();
+updateCart();
+observeReveals();
+</script>
+</body>
+</html>
