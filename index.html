@@ -301,17 +301,17 @@ function placeOrder() {
   let itemsText = cart.map(x => {
     let p = products.find(p => p.id === x.id);
     return `• ${p.name} (مقاس: ${x.size}) - الكمية: ${x.qty} - السعر: ${p.price * x.qty} جنيه`;
-  }).join("%0A");
+  }).join("\n");
 
   const orderId = Math.floor(1000 + Math.random() * 9000);
   
-  let whatsappMessage = `*طلب جديد من متجر SELCO* 🛍️%0A%0A` +
-    `🔢 *رقم الطلب:* #${orderId}%0A` +
-    `👤 *الاسم:* ${name}%0A` +
-    `📞 *رقم الهاتف:* ${phone}%0A` +
-    `📍 *العنوان:* ${gov} - ${city} - ${address}%0A` +
-    `💰 *طريقة الدفع:* الدفع عند الاستلام%0A%0A` +
-    `🛒 *المنتجات المطلوبة:*%0A${itemsText}%0A%0A` +
+  let whatsappMessage = `*طلب جديد من متجر SELCO* 🛍️\n\n` +
+    `🔢 *رقم الطلب:* #${orderId}\n` +
+    `👤 *الاسم:* ${name}\n` +
+    `📞 *رقم الهاتف:* ${phone}\n` +
+    `📍 *العنوان:* ${gov} - ${city} - ${address}\n` +
+    `💰 *طريقة الدفع:* الدفع عند الاستلام\n\n` +
+    `🛒 *المنتجات المطلوبة:*\n${itemsText}\n\n` +
     `💵 *الإجمالي النهائي:* *${total} جنيه*`;
 
   const whatsappNumber = "201273472788";
@@ -320,7 +320,9 @@ function placeOrder() {
   saveCart();
   closeCheckout();
 
-  window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`, '_blank');
+  // استخدام encodeURIComponent لحل مشكلة الرموز والمسافات تماماً
+  const encodedMessage = encodeURIComponent(whatsappMessage);
+  window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
 }
 
 function observeReveals() {
