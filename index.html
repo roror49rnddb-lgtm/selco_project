@@ -51,11 +51,6 @@ nav{position:sticky;top:0;z-index:25;background:rgba(246,244,239,.78);backdrop-f
 .storyText h3{font-size:34px;margin-top:0}.storyText p{line-height:2;color:#666}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:25px}
 .stat{background:#f7f5f0;padding:15px;border-radius:15px}.stat strong{font-size:23px;display:block}.stat span{font-size:11px;color:#777}
-.user-orders{margin-top:35px;background:#fff;border:1px solid var(--line);border-radius:26px;padding:26px;box-shadow:var(--shadow)}
-.user-orders h2{margin-top:0;font-size:24px}.user-orders p{color:var(--muted);font-size:13px}
-.user-orders table{width:100%;border-collapse:collapse;margin-top:15px}
-.user-orders th,.user-orders td{padding:12px;border-bottom:1px solid var(--line);text-align:right;font-size:13px}
-.status{padding:5px 12px;border-radius:999px;background:#eef7ed;color:#1e7e34;font-weight:700;display:inline-block;font-size:12px}
 footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;color:#777;font-weight:700}
 .drawer,.modal{position:fixed;inset:0;background:rgba(0,0,0,.48);display:none;z-index:40}
 .panel{position:absolute;right:0;top:0;bottom:0;width:min(560px,100%);background:#fff;padding:22px;overflow:auto;box-shadow:-20px 0 60px rgba(0,0,0,.15);animation:slide .35s both}@keyframes slide{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
@@ -82,7 +77,6 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
   <div class="links">
     <a href="#shop">المتجر</a>
     <a href="#story">البراند</a>
-    <a href="#my-orders">طلباتي</a>
   </div>
   <button class="navbtn" onclick="openCart()">السلة <span class="bagdot" id="cartCount">0</span></button>
  </div>
@@ -125,26 +119,6 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
      <div class="stat"><strong>COD</strong><span>الدفع عند الاستلام</span></div>
      <div class="stat"><strong>2026</strong><span>التشكيلة الجديدة</span></div>
    </div>
-  </div>
- </section>
-
- <section class="user-orders reveal" id="my-orders">
-  <h2>سجل طلباتي</h2>
-  <p>هنا تظهر الطلبات التي قمت بإجرائها من هذا الجهاز لمتابعة حالتها.</p>
-  <div style="overflow:auto">
-    <table>
-      <thead>
-        <tr>
-          <th>رقم الطلب</th>
-          <th>التاريخ</th>
-          <th>المنتجات</th>
-          <th>الإجمالي</th>
-          <th>طريقة الدفع</th>
-          <th>الحالة</th>
-        </tr>
-      </thead>
-      <tbody id="userOrdersBody"></tbody>
-    </table>
   </div>
  </section>
 </main>
@@ -346,33 +320,9 @@ function placeOrder() {
   cart = [];
   saveCart();
   closeCheckout();
-  renderUserOrders();
 
   alert("تم إرسال طلبك بنجاح! رقم الطلب #" + order.id);
   ["name", "phone", "gov", "city", "address"].forEach(id => document.getElementById(id).value = "");
-  
-  document.getElementById("my-orders").scrollIntoView({ behavior: 'smooth' });
-}
-
-function renderUserOrders() {
-  const orders = JSON.parse(localStorage.getItem("selco_user_orders") || "[]");
-  const tbody = document.getElementById("userOrdersBody");
-  
-  if (!orders.length) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#888;">لا توجد طلبات سابقة لهذا الجهاز.</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = orders.map(o => `
-    <tr>
-      <td><b>#${o.id}</b></td>
-      <td>${o.date}</td>
-      <td>${o.items}</td>
-      <td><b>${o.total} جنيه</b></td>
-      <td>${o.payment}</td>
-      <td><span class="status">${o.status}</span></td>
-    </tr>
-  `).join("");
 }
 
 function observeReveals() {
@@ -386,7 +336,6 @@ function observeReveals() {
 
 renderProducts();
 updateCart();
-renderUserOrders();
 observeReveals();
 </script>
 </body>
