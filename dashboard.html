@@ -3,118 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة التحكم - SELCO Admin</title>
+  <title>SELCO - إضافة منتج</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    * { box-sizing: border-box; font-family: system-ui, sans-serif; }
-    body { background-color: #f4f4f5; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-    .container { width: 100%; max-width: 500px; background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-    h1 { margin-top: 0; text-align: center; font-size: 22px; color: #111; margin-bottom: 20px; }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #333; }
-    input[type="text"], input[type="number"], textarea, input[type="file"] { width: 100%; padding: 10px 12px; border: 1px solid #e4e4e7; border-radius: 8px; font-size: 14px; outline: none; }
-    button { width: 100%; background: #000; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; margin-top: 10px; }
-    button:disabled { background: #a1a1aa; cursor: not-allowed; }
-    #status { margin-top: 15px; text-align: center; font-weight: 600; font-size: 14px; }
+    body { font-family: system-ui, sans-serif; background: #f4f4f5; display: flex; justify-content: center; padding: 40px 10px; margin: 0; }
+    .card { background: #fff; padding: 25px; border-radius: 12px; width: 100%; max-width: 450px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    h2 { text-align: center; margin-top: 0; }
+    label { display: block; margin: 12px 0 4px; font-weight: bold; }
+    input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+    button { width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 6px; margin-top: 20px; font-size: 16px; cursor: pointer; }
+    button:disabled { background: #888; }
+    #msg { margin-top: 15px; text-align: center; font-weight: bold; }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>إضافة منتج جديد - SELCO</h1>
-  
-  <div class="form-group">
+<div class="card">
+  <h2>إضافة منتج جديد</h2>
+  <form id="addForm">
     <label>اسم المنتج</label>
-    <input type="text" id="title" placeholder="مثال: T-Shirt Black">
-  </div>
-  
-  <div class="form-group">
+    <input type="text" id="title" required>
+
     <label>السعر (EGP)</label>
-    <input type="number" id="price" placeholder="500">
-  </div>
+    <input type="number" id="price" required>
 
-  <div class="form-group">
     <label>الوصف</label>
-    <textarea id="description" rows="3" placeholder="وصف المنتج..."></textarea>
-  </div>
+    <textarea id="description" rows="3"></textarea>
 
-  <div class="form-group">
     <label>صورة المنتج</label>
-    <input type="file" id="image" accept="image/*">
-  </div>
+    <input type="file" id="image" accept="image/*" required>
 
-  <button type="button" id="submitBtn">حفظ ونشر المنتج</button>
-
-  <div id="status"></div>
+    <button type="submit" id="btn">حفظ ونشر المنتج</button>
+  </form>
+  <div id="msg"></div>
 </div>
 
 <script>
   const SUPABASE_URL = "https://gvbqjpaeibpdobgqiibq.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2YnFqcGFlaWJwZG9iZ3FpaWJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzcyOTMsImV4cCI6MjEwMzE1MzI5M30.28Vzz0yP5nEJ3Fkv7kM1eiL5Ff6_rrTNtOsv1-D3HWs"; 
-  
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2YnFqcGFlaWJwZG9iZ3FpaWJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzcyOTMsImV4cCI6MjEwMzE1MzI5M30.28Vzz0yP5nEJ3Fkv7kM1eiL5Ff6_rrTNtOsv1-D3HWs";
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  document.getElementById('submitBtn').addEventListener('click', async () => {
-    const titleVal = document.getElementById('title').value;
-    const priceVal = document.getElementById('price').value;
-    const descVal = document.getElementById('description').value;
-    const fileInput = document.getElementById('image');
-    const statusDiv = document.getElementById('status');
-    const submitBtn = document.getElementById('submitBtn');
+  document.getElementById('addForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('btn');
+    const msg = document.getElementById('msg');
 
-    if (!titleVal || !priceVal || fileInput.files.length === 0) {
-      alert('يرجى ملء جميع البيانات واختيار صورة أولاً');
-      return;
-    }
-
-    submitBtn.disabled = true;
-    statusDiv.style.color = "#3b82f6";
-    statusDiv.innerText = "جاري الرفع...";
+    btn.disabled = true;
+    msg.style.color = "blue";
+    msg.innerText = "جاري الحفظ...";
 
     try {
-      const file = fileInput.files[0];
+      const title = document.getElementById('title').value;
+      const price = parseFloat(document.getElementById('price').value);
+      const description = document.getElementById('description').value;
+      const file = document.getElementById('image').files[0];
+
+      // 1. رفع الصورة
       const fileName = Date.now() + "_" + file.name;
+      const { error: imgErr } = await supabase.storage.from('product-images').upload(fileName, file);
 
-      const { data: imgData, error: imgErr } = await supabase.storage
-        .from('product-images')
-        .upload(fileName, file);
-
-      let imgUrl = "";
+      let imageUrl = "";
       if (!imgErr) {
-        const { data: publicUrlData } = supabase.storage
-          .from('product-images')
-          .getPublicUrl(fileName);
-        imgUrl = publicUrlData.publicUrl;
+        const { data } = supabase.storage.from('product-images').getPublicUrl(fileName);
+        imageUrl = data.publicUrl;
       }
 
-      const { error: dbErr } = await supabase
-        .from('products')
-        .insert([{
-          title: titleVal,
-          price: parseFloat(priceVal),
-          description: descVal,
-          image_url: imgUrl
-        }]);
+      // 2. إدخال البيانات في الجدول
+      const { error: dbErr } = await supabase.from('products').insert([{
+        title: title,
+        price: price,
+        description: description,
+        image_url: imageUrl
+      }]);
 
-      if (dbErr) throw new Error(dbErr.message);
+      if (dbErr) throw dbErr;
 
-      statusDiv.style.color = "#16a34a";
-      statusDiv.innerText = "تمت إضافة المنتج بنجاح!";
-      alert("تم الحفظ بنجاح!");
-
-      document.getElementById('title').value = '';
-      document.getElementById('price').value = '';
-      document.getElementById('description').value = '';
-      fileInput.value = '';
+      msg.style.color = "green";
+      msg.innerText = "تمت الإضافة بنجاح! 🎉";
+      document.getElementById('addForm').reset();
     } catch (err) {
-      statusDiv.style.color = "#dc2626";
-      statusDiv.innerText = "خطأ: " + err.message;
-      alert("حدث خطأ: " + err.message);
+      msg.style.color = "red";
+      msg.innerText = "خطأ: " + err.message;
     } finally {
-      submitBtn.disabled = false;
+      btn.disabled = false;
     }
   });
 </script>
-
 </body>
 </html>
