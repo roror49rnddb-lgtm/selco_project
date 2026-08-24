@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم - SELCO Admin</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * { box-sizing: border-box; font-family: system-ui, sans-serif; }
+    body { background: #f4f4f5; margin: 0; padding: 20px; }
+    .container { max-width: 600px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    h1 { margin-top: 0; text-align: center; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
+    input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
+    button { width: 100%; background: #000; color: #fff; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; }
+    button:hover { background: #333; }
+    #status { margin-top: 15px; text-align: center; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>إضافة منتج جديد - SELCO</h1>
+  <form id="productForm">
+    <div class="form-group">
+      <label>اسم المنتج:</label>
+      <input type="text" id="name" required placeholder="مثال: T-Shirt Black">
+    </div>
+    
+    <div class="form-group">
+      <label>السعر (EGP):</label>
+      <input type="number" id="price" required placeholder="500">
+    </div>
+
+    <div class="form-group">
+      <label>الوصف:</label>
+      <textarea id="description" rows="3" placeholder="وصف المنتج..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>صورة المنتج:</label>
+      <input type="file" id="image" accept="image/*" required>
+    </div>
+
+    <button type="submit" id="submitBtn">حفظ ونشر المنتج</button>
+  </form>
+
+  <div id="status"></div>
+</div>
+
+<script>
+  // بيانات الربط بـ Supabase الخاص بـ SELCO
+  const SUPABASE_URL = "https://gvbqjpaeibpdobgqiibq.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2YnFqcGllaWJwZG9iZ3FpaWJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAxNzE3NzMsImV4cCI6MjA1NTc0Nzc3M30.4i4Q5Zk2y_6l_aD0J8S8G1X_G9k9G9k9G9k9G9k9G9k"; // استبدلها بـ Anon Key بتاعك
+  
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const form = document.getElementById('productForm');
+  const statusDiv = document.getElementById('status');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    statusDiv.innerText = "جاري رفع الصورة والبيانات...";
+
+    try {
+      const file = document.getElementById('image').files[0];
+      const fileName = `${Date.now()}_${file.name}`;
+
+      // 1. رفع الصورة لـ product-images
+      const { data: imgData, error: imgError } = await supabase.storage
+        .from('product-images')
+        .upload(fileName, file);
+
+      if (imgError) throw imgError;
+
+      // 2. جلب رابط الصورة العام
+      const { data: publicUrlData } = supabase.storage
+        .from('product-images')
+        .getPublicUrl(fileName);
+
+      const imageUrl = publicUrlData.publicUrl;
+
+      // 3. حفظ بيانات المنتج في جدول products
+      const { error: dbError } = await supabase
+        .from('products')
+        .insert([{
+          name: document.getElementById('name').value,
+          price: parseFloat(document.getElementById('price').value),
+          description: document.getElementById('description').value,
+          image_url: imageUrl
+        }]);
+
+      if (dbError) throw dbError;
+
+      statusDiv.style.color = "green";
+      statusDiv.innerText = "تمت إضافة المنتج بنجاح! 🎉";
+      form.reset();
+    } catch (err) {
+      statusDiv.style.color = "red";
+      statusDiv.innerText = "حدث خطأ: " + err.message;
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>
