@@ -67,17 +67,17 @@ function hostedPaymentUrl(order) {
     currency: order.currency,
     hash: order.hash,
     mode: order.mode,
-    merchantRedirect: [order.me](https://order.me)rchantRedirect,
+    merchantRedirect: order.merchantRedirect,
     display: order.display || "ar",
     failureRedirect: "true",
     redirectMethod: "get",
     allowedMethods: order.allowedMethods || "card,wallet",
     brandColor: "rgba(0, 0, 0, 1)"
   });
-  if ([order.me](https://order.me)taData) params.set("metaData", [order.me](https://order.me)taData);
+  if (order.metaData) params.set("metaData", order.metaData);
   return `${order.baseUrl}?${params.toString()}`;
 }
-
+  
 function supabase() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
