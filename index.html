@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SELCO — Fashion Store</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
 :root{ --bg:#f6f4ef;--card:#fff;--text:#111;--muted:#777;--line:#e6e2da;--dark:#111; --shadow:0 20px 60px rgba(0,0,0,.10);}
@@ -261,18 +262,52 @@ const img = [
  'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=85'
 ];
 
-const products = [
- {id:1,name:"Oversized T-Shirt",cat:"تيشيرت",price:499,sizes:["S","M","L","XL"],colors:["أسود","أبيض"]},
- {id:2,name:"Essential Hoodie",cat:"هودي",price:799,sizes:["M","L","XL"],colors:["أسود","رمادي"]},
- {id:3,name:"Relaxed Pants",cat:"بنطلون",price:699,sizes:["S","M","L","XL"],colors:["بيج","أسود"]},
- {id:4,name:"Classic Shirt",cat:"قميص",price:649,sizes:["M","L","XL"],colors:["أبيض","أزرق"]},
- {id:5,name:"Basic Sweatshirt",cat:"سويت شيرت",price:749,sizes:["M","L","XL"],colors:["رمادي","أسود"]},
- {id:6,name:"Cargo Pants",cat:"بنطلون",price:899,sizes:["M","L","XL"],colors:["زيتي","أسود"]},
- {id:7,name:"Everyday Tee",cat:"تيشيرت",price:449,sizes:["S","M","L"],colors:["أبيض","أسود"]},
- {id:8,name:"Denim Jacket",cat:"جاكيت",price:999,sizes:["M","L","XL"],colors:["أزرق"]}
+const SUPABASE_URL = "https://gvbqjpaeibpdobgqiibq.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2YnFqcGFlaWJwZG9iZ3FpaWJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzcyOTMsImV4cCI6MjEwMzE1MzI5M30.28Vzz0yP5nEJ3Fkv7kM1eiL5Ff6_rrTNtOsv1-D3HWs";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const fallbackProducts = [
+ {id:"1",name:"Oversized T-Shirt",cat:"تيشيرت",price:499,sizes:["S","M","L","XL"],colors:["أسود","أبيض"],image:""},
+ {id:"2",name:"Essential Hoodie",cat:"هودي",price:799,sizes:["M","L","XL"],colors:["أسود","رمادي"],image:""},
+ {id:"3",name:"Relaxed Pants",cat:"بنطلون",price:699,sizes:["S","M","L","XL"],colors:["بيج","أسود"],image:""},
+ {id:"4",name:"Classic Shirt",cat:"قميص",price:649,sizes:["M","L","XL"],colors:["أبيض","أزرق"],image:""},
+ {id:"5",name:"Basic Sweatshirt",cat:"سويت شيرت",price:749,sizes:["M","L","XL"],colors:["رمادي","أسود"],image:""},
+ {id:"6",name:"Cargo Pants",cat:"بنطلون",price:899,sizes:["M","L","XL"],colors:["زيتي","أسود"],image:""},
+ {id:"7",name:"Everyday Tee",cat:"تيشيرت",price:449,sizes:["S","M","L"],colors:["أبيض","أسود"],image:""},
+ {id:"8",name:"Denim Jacket",cat:"جاكيت",price:999,sizes:["M","L","XL"],colors:["أزرق"],image:""}
 ];
 
-let cart = JSON.parse(localStorage.getItem("selco_cart") || "[]");
+let products = fallbackProducts;
+
+function mapProduct(row) {
+  return {
+    id: String(row.id),
+    name: row.title || "",
+    cat: row.category || "أخرى",
+    price: Number(row.price) || 0,
+    sizes: Array.isArray(row.sizes) && row.sizes.length ? row.sizes : ["S", "M", "L", "XL"],
+    colors: Array.isArray(row.colors) ? row.colors : [],
+    stock: row.stock,
+    image: Array.isArray(row.images) && row.images.length ? row.images[0] : ""
+  };
+}
+
+async function loadProducts() {
+  const { data, error } = await db
+    .from("products")
+    .select("id,title,description,price,stock,category,images,sizes,colors,created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Supabase products fetch failed:", error.message);
+    return;
+  }
+  if (data && data.length) products = data.map(mapProduct);
+  renderProducts();
+  updateCart();
+}
+
+let cart = JSON.parse(localStorage.getItem("selco_cart") || "[]").map(x => ({ ...x, id: String(x.id) }));
 let filter = "الكل";
 let language = localStorage.getItem("selco_language") || "ar";
 
@@ -353,7 +388,7 @@ function applyLanguage() {
   localStorage.setItem("selco_language", language);
 }
 
-const cats = ["الكل", ...new Set(products.map(p => p.cat))];
+const escapeAttr = value => String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/'/g, "&#39;").replace(/</g, "&lt;");
 
 function setFilter(c, el) {
   filter = c;
@@ -364,21 +399,23 @@ function setFilter(c, el) {
 
 function renderProducts() {
   let query = (document.getElementById("searchInput")?.value || "").trim().toLowerCase();
+  const cats = ["الكل", ...new Set(products.map(p => p.cat))];
+  if (!cats.includes(filter)) filter = "الكل";
   let list = filter === "الكل" ? products : products.filter(p => p.cat === filter);
   if (query) list = list.filter(p => `${p.name} ${p.cat} ${p.colors.join(" ")}`.toLowerCase().includes(query));
   document.getElementById("filters").innerHTML = cats.map(c => `<button class="chip ${c===filter?"active":""}" onclick="setFilter('${c}',this)">${c === "الكل" ? tr("all") : translatedCat(c)}</button>`).join("");
   document.getElementById("products").innerHTML = list.map((p, i) => `
-     <div class="card reveal" onclick="openProduct(${p.id})">
+     <div class="card reveal" onclick="openProduct('${escapeAttr(p.id)}')">
       <div class="pic">
         <span class="badge">${tr("newItem")}</span>
-        <img src="${img[i % img.length]}" alt="${p.name}">
-         <button class="quick" onclick="event.stopPropagation();addToCart(${p.id})">+ أضف سريعًا</button>
+        <img src="${escapeAttr(p.image || img[i % img.length])}" alt="${escapeAttr(p.name)}">
+         <button class="quick" onclick="event.stopPropagation();addToCart('${escapeAttr(p.id)}')">+ أضف سريعًا</button>
       </div>
       <div class="info">
         <div class="name">${p.name}</div>
-        <div class="muted">${p.colors.map(translatedColor).join(" / ")}</div>
+        <div class="muted">${p.colors.length ? p.colors.map(translatedColor).join(" / ") : translatedCat(p.cat)}</div>
         <div class="price">${p.price} جنيه</div>
-        <button class="buy" onclick="event.stopPropagation();addToCart(${p.id})">${tr("add")}</button>
+        <button class="buy" onclick="event.stopPropagation();addToCart('${escapeAttr(p.id)}')">${tr("add")}</button>
       </div>
     </div>
   `).join("");
@@ -392,9 +429,10 @@ function saveCart() {
 
 function addToCart(id, size = "M", color = null) {
   let p = products.find(p => p.id === id);
+  if (!p) return;
   let item = cart.find(x => x.id === id);
   if (item) item.qty++;
-  else cart.push({ id, size, color: color || p.colors[0], qty: 1 });
+  else cart.push({ id, size: p.sizes.includes(size) ? size : p.sizes[0], color: color || p.colors[0] || "", qty: 1 });
   saveCart();
   openCart();
 }
@@ -421,13 +459,13 @@ function openProduct(id) {
   selectedProduct = products.find(p => p.id === id);
   if (!selectedProduct) return;
   selectedSize = selectedProduct.sizes.includes("M") ? "M" : selectedProduct.sizes[0];
-  selectedColor = selectedProduct.colors[0];
+  selectedColor = selectedProduct.colors[0] || "";
   document.getElementById("productTitle").textContent = selectedProduct.name;
   document.getElementById("productCat").textContent = selectedProduct.cat;
   document.getElementById("productPrice").textContent = selectedProduct.price;
   document.getElementById("sizeOptions").innerHTML = selectedProduct.sizes.map(size =>
     `<button class="sizeOption ${size === selectedSize ? "active" : ""}" onclick="chooseSize('${size}')">${size}</button>`).join("");
-  document.getElementById("colorOptions").innerHTML = selectedProduct.colors.map(color =>
+  document.getElementById("colorOptions").innerHTML = (selectedProduct.colors || []).map(color =>
     `<button class="colorOption ${color === selectedColor ? "active" : ""}" style="background:${colorSwatches[color] || "#ddd"}" aria-label="${color}" title="${color}" onclick="chooseColor('${color}')"></button>`).join("");
   refreshProductChoice();
   document.getElementById("productModal").classList.add("open");
@@ -456,7 +494,7 @@ function refreshProductChoice() {
   document.querySelectorAll(".sizeOption").forEach(button => button.classList.toggle("active", button.textContent === selectedSize));
   document.querySelectorAll(".colorOption").forEach(button => button.classList.toggle("active", button.title === selectedColor));
   const preview = document.getElementById("productPreview");
-  preview.style.backgroundImage = `url('${colorImages[selectedColor] || img[selectedProduct.id - 1]}')`;
+  preview.style.backgroundImage = `url('${selectedProduct.image || colorImages[selectedColor] || img[0]}')`;
   preview.style.filter = "none";
 }
 
@@ -473,6 +511,7 @@ function updateCart() {
   let total = 0;
   document.getElementById("cartItems").innerHTML = cart.length ? cart.map((x, i) => {
     let p = products.find(p => p.id === x.id);
+    if (!p) return "";
     total += p.price * x.qty;
     return `
       <div class="cartrow">
@@ -592,12 +631,13 @@ function placeOrder() {
     return;
   }
 
-  const total = cart.reduce((s, x) => s + products.find(p => p.id === x.id).price * x.qty, 0);
-  
+  const total = cart.reduce((s, x) => s + (products.find(p => p.id === x.id)?.price || 0) * x.qty, 0);
+
   let itemsText = cart.map(x => {
     let p = products.find(p => p.id === x.id);
+    if (!p) return "";
     return `• ${p.name} (مقاس: ${x.size}) - الكمية: ${x.qty} - السعر: ${p.price * x.qty} جنيه`;
-  }).join("\n");
+  }).filter(Boolean).join("\n");
 
   const orderId = Math.floor(1000 + Math.random() * 9000);
   
@@ -641,6 +681,7 @@ document.addEventListener("keydown", e => {
 
 applyLanguage();
 observeReveals();
+loadProducts();
 </script>
 </body>
 </html>
