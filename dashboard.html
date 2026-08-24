@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم - SELCO Admin</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * { box-sizing: border-box; font-family: system-ui, sans-serif; }
+    body { background-color: #f4f4f5; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .container { width: 100%; max-width: 500px; background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    h1 { margin-top: 0; text-align: center; font-size: 22px; color: #111; margin-bottom: 20px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #333; }
+    input[type="text"], input[type="number"], textarea, input[type="file"] { width: 100%; padding: 10px 12px; border: 1px solid #e4e4e7; border-radius: 8px; font-size: 14px; outline: none; }
+    button { width: 100%; background: #000; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; margin-top: 10px; }
+    button:disabled { background: #a1a1aa; cursor: not-allowed; }
+    #status { margin-top: 15px; text-align: center; font-weight: 600; font-size: 14px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>إضافة منتج جديد - SELCO</h1>
+  <form id="productForm">
+    <div class="form-group">
+      <label>اسم المنتج</label>
+      <input type="text" id="name" required placeholder="مثال: T-Shirt Black">
+    </div>
+    
+    <div class="form-group">
+      <label>السعر (EGP)</label>
+      <input type="number" id="price" required placeholder="500">
+    </div>
+
+    <div class="form-group">
+      <label>الوصف</label>
+      <textarea id="description" rows="3" placeholder="وصف المنتج..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>صورة المنتج</label>
+      <input type="file" id="image" accept="image/*" required>
+    </div>
+
+    <button type="submit" id="submitBtn">حفظ ونشر المنتج</button>
+  </form>
+
+  <div id="status"></div>
+</div>
+
+<script>
+  const SUPABASE_URL = "https://gvbqjpaeibpdobgqiibq.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_BQmjypF4UFcDA_m8GGqxCw_otcRa7fT";
+  
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const form = document.getElementById('productForm');
+  const statusDiv = document.getElementById('status');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    statusDiv.style.color = "#3b82f6";
+    statusDiv.innerText = "جاري رفع الصورة والبيانات...";
+
+    try {
+      const file = document.getElementById('image').files[0];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+
+      const { data: imgData, error: imgError } = await supabase.storage
+        .from('product-images')
+        .upload(fileName, file);
+
+      if (imgError) throw imgError;
+
+      const { data: publicUrlData } = supabase.storage
+        .from('product-images')
+        .getPublicUrl(fileName);
+
+      const imageUrl = publicUrlData.publicUrl;
+
+      const { error: dbError } = await supabase
+        .from('products')
+        .insert([{
+          name: document.getElementById('name').value,
+          price: parseFloat(document.getElementById('price').value),
+          description: document.getElementById('description').value,
+          image_url: imageUrl
+        }]);
+
+      if (dbError) throw dbError;
+
+      statusDiv.style.color = "#16a34a";
+      statusDiv.innerText = "تمت إضافة المنتج بنجاح! 🎉";
+      form.reset();
+    } catch (err) {
+      statusDiv.style.color = "#dc2626";
+      statusDiv.innerText = "حدث خطأ: " + err.message;
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>
