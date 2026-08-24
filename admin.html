@@ -12,10 +12,11 @@
     h1 { margin-top: 0; text-align: center; font-size: 22px; color: #111; margin-bottom: 20px; }
     .form-group { margin-bottom: 15px; }
     label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #333; }
-    input[type="text"], input[type="number"], textarea, input[type="file"] { width: 100%; padding: 10px 12px; border: 1px solid #e4e4e7; border-radius: 8px; font-size: 14px; outline: none; }
-    .sizes { display: flex; flex-wrap: wrap; gap: 10px; }
-    .sizes label { display: flex; align-items: center; gap: 6px; margin: 0; font-weight: 500; border: 1px solid #e4e4e7; border-radius: 8px; padding: 8px 12px; cursor: pointer; }
-    .sizes input { width: auto; }
+    input[type="text"], input[type="number"], textarea, input[type="file"], select { width: 100%; padding: 10px 12px; border: 1px solid #e4e4e7; border-radius: 8px; font-size: 14px; outline: none; background: #fff; }
+    .options { display: flex; flex-wrap: wrap; gap: 10px; }
+    .options label { display: flex; align-items: center; gap: 6px; margin: 0; font-weight: 500; border: 1px solid #e4e4e7; border-radius: 8px; padding: 8px 12px; cursor: pointer; }
+    .options input { width: auto; }
+    .swatch { width: 14px; height: 14px; border-radius: 50%; border: 1px solid #e4e4e7; display: inline-block; }
     button { width: 100%; background: #000; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; margin-top: 10px; }
     button:disabled { background: #a1a1aa; cursor: not-allowed; }
     #status { margin-top: 15px; text-align: center; font-weight: 600; font-size: 14px; min-height: 20px; }
@@ -42,8 +43,33 @@
     </div>
 
     <div class="form-group">
+      <label for="category">الفئة</label>
+      <select id="category" required>
+        <option value="" disabled selected>اختر الفئة</option>
+        <option value="تيشيرت">تيشيرت</option>
+        <option value="هودي">هودي</option>
+        <option value="بنطلون">بنطلون</option>
+        <option value="قميص">قميص</option>
+        <option value="سويت شيرت">سويت شيرت</option>
+        <option value="جاكيت">جاكيت</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>الألوان المتاحة</label>
+      <div class="options" id="colors">
+        <label><input type="checkbox" name="color" value="أسود"><span class="swatch" style="background:#171717"></span> أسود</label>
+        <label><input type="checkbox" name="color" value="أبيض"><span class="swatch" style="background:#f4f4f0"></span> أبيض</label>
+        <label><input type="checkbox" name="color" value="أزرق"><span class="swatch" style="background:#3b6f9f"></span> أزرق</label>
+        <label><input type="checkbox" name="color" value="رمادي"><span class="swatch" style="background:#858781"></span> رمادي</label>
+        <label><input type="checkbox" name="color" value="بيج"><span class="swatch" style="background:#c8b69c"></span> بيج</label>
+        <label><input type="checkbox" name="color" value="زيتي"><span class="swatch" style="background:#69705d"></span> زيتي</label>
+      </div>
+    </div>
+
+    <div class="form-group">
       <label>المقاسات المتاحة</label>
-      <div class="sizes" id="sizes">
+      <div class="options" id="sizes">
         <label><input type="checkbox" name="size" value="S"> S</label>
         <label><input type="checkbox" name="size" value="M"> M</label>
         <label><input type="checkbox" name="size" value="L"> L</label>
@@ -89,15 +115,25 @@
     const title = document.getElementById('title').value.trim();
     const price = parseFloat(document.getElementById('price').value);
     const description = document.getElementById('description').value.trim();
+    const category = document.getElementById('category').value;
     const sizes = Array.from(document.querySelectorAll('input[name="size"]:checked')).map((el) => el.value);
+    const colors = Array.from(document.querySelectorAll('input[name="color"]:checked')).map((el) => el.value);
     const file = document.getElementById('image').files[0];
 
     if (!title || isNaN(price) || !file) {
       setStatus("برجاء ملء جميع الحقول المطلوبة واختيار صورة.", "#dc2626");
       return;
     }
+    if (!category) {
+      setStatus("برجاء اختيار الفئة.", "#dc2626");
+      return;
+    }
     if (sizes.length === 0) {
       setStatus("برجاء اختيار مقاس واحد على الأقل.", "#dc2626");
+      return;
+    }
+    if (colors.length === 0) {
+      setStatus("برجاء اختيار لون واحد على الأقل.", "#dc2626");
       return;
     }
 
@@ -119,7 +155,9 @@
         title: title,
         price: price,
         description: description,
+        category: category,
         sizes: sizes,
+        colors: colors,
         images: [imageUrl]
       }]);
 
