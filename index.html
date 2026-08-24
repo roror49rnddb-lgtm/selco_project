@@ -68,7 +68,9 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
 .total{font-size:21px;font-weight:900;margin:20px 0}
 .field{margin:12px 0}.field label{display:block;font-size:12px;margin-bottom:6px}.field input,.field select{width:100%;padding:12px;border:1px solid #ddd;border-radius:11px;background:#fff}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.payment-badge{background:#f4f4f4;border:1px solid #ddd;padding:12px;border-radius:11px;font-weight:700;color:#333;display:flex;align-items:center;gap:8px}
+.payment-badge{background:#f4f4f4;border:1px solid #ddd;padding:12px;border-radius:11px;font-weight:700;color:#333;display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:8px;transition:.2s}
+.payment-badge:hover{border-color:#111}.payment-badge.active{background:#fff;border-color:#111;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.payment-badge input{width:auto;margin:0;accent-color:#111}
 .submit{width:100%;padding:13px;border:0;border-radius:12px;background:#111;color:#fff;cursor:pointer;font-weight:900;transition:.25s;margin-top:10px}.submit:hover{transform:translateY(-2px);box-shadow:0 15px 30px rgba(0,0,0,.15)}
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}.reveal.visible{opacity:1;transform:none}
  @media(max-width:900px){.hero{grid-template-columns:1fr}.heroText,.heroImg{min-height:430px}.grid{grid-template-columns:repeat(2,1fr)}.story{grid-template-columns:1fr}.links{display:none}.navActions{gap:12px}.navActions .accountBtn{display:none}}
@@ -192,13 +194,18 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
   
   <div class="field">
     <label>طريقة الدفع</label>
-    <div class="payment-badge">
-      💵 الدفع عند الاستلام (COD)
+    <div class="payment-badge active" id="payCodBox" onclick="selectPayment('cod')">
+      <input type="radio" name="paymethod" value="cod" checked onclick="event.stopPropagation();selectPayment('cod')">
+      <span id="codLabel">💵 الدفع عند الاستلام (COD)</span>
+    </div>
+    <div class="payment-badge" id="payKashierBox" onclick="selectPayment('kashier')">
+      <input type="radio" name="paymethod" value="kashier" onclick="event.stopPropagation();selectPayment('kashier')">
+      <span id="kashierLabel">💳 الدفع بالبطاقة عبر Kashier (وضع تجريبي)</span>
     </div>
   </div>
 
   <div class="total">الإجمالي النهائي: <span id="checkoutTotal">0</span> جنيه</div>
-  <button class="submit" onclick="placeOrder()">تأكيد الطلب وإرسال عبر الواتساب</button>
+  <button class="submit" id="checkoutSubmit" onclick="placeOrder()">تأكيد الطلب وإرسال عبر الواتساب</button>
  </div>
  </div>
  <div class="productModal" id="productModal" onclick="if(event.target===this)closeProduct()">
@@ -323,6 +330,7 @@ const translations = {
     cart: "سلة المشتريات", empty: "السلة فارغة حاليًا.", finish: "إتمام الطلب (الدفع عند الاستلام)",
     checkout: "بيانات الشحن والتوصيل", fullName: "الاسم بالكامل", phone: "رقم الهاتف", governorate: "المحافظة",
     city: "المدينة / المنطقة", address: "العنوان بالتفصيل", payment: "طريقة الدفع", codFull: "💵 الدفع عند الاستلام (COD)",
+    kashierFull: "💳 الدفع بالبطاقة عبر Kashier (وضع تجريبي)", payNow: "الدفع الآمن عبر Kashier", processing: "جارٍ تجهيز الدفع...",
     finalTotal: "الإجمالي النهائي:", confirm: "تأكيد الطلب وإرسال عبر الواتساب", search: "ابحث عن منتج...",
     all: "الكل", newItem: "جديد", quick: "+ أضف سريعًا", add: "أضف للسلة", size: "المقاس:", color: "اللون:"
   },
@@ -337,6 +345,7 @@ const translations = {
     cart: "Shopping cart", empty: "Your cart is currently empty.", finish: "Checkout (cash on delivery)",
     checkout: "Shipping & delivery details", fullName: "Full name", phone: "Phone number", governorate: "Governorate",
     city: "City / area", address: "Full address", payment: "Payment method", codFull: "💵 Cash on delivery (COD)",
+    kashierFull: "💳 Pay by card via Kashier (test mode)", payNow: "Pay securely via Kashier", processing: "Preparing payment...",
     finalTotal: "Final total:", confirm: "Confirm order via WhatsApp", search: "Search for a product...",
     all: "All", newItem: "New", quick: "+ Quick add", add: "Add to cart", size: "Size:", color: "Color:"
   }
@@ -363,10 +372,13 @@ function applyLanguage() {
   set("footer", tr("footer")); document.getElementById("searchInput").placeholder = tr("search");
   set(".panel h2", tr("cart")); set(".panel .submit", tr("finish")); set(".modalBox h2", tr("checkout"));
   document.querySelectorAll(".field label").forEach((label, index) => label.textContent = [tr("fullName"),tr("phone"),tr("governorate"),tr("city"),tr("address"),tr("payment")][index] || label.textContent);
-  set(".payment-badge", tr("codFull"));
+  const codLabel = document.getElementById("codLabel");
+  const kashierLabel = document.getElementById("kashierLabel");
+  if (codLabel) codLabel.textContent = tr("codFull");
+  if (kashierLabel) kashierLabel.textContent = tr("kashierFull");
   const checkoutTotal = document.getElementById("checkoutTotal");
   if (checkoutTotal) checkoutTotal.parentElement.firstChild.textContent = `${tr("finalTotal")} `;
-  set(".modalBox .submit", tr("confirm")); set(".menuPanel a:nth-of-type(1)", tr("store")); set(".menuPanel a:nth-of-type(2)", language === "ar" ? "عن SELCO" : "About SELCO");
+  syncCheckoutButton(); set(".menuPanel a:nth-of-type(1)", tr("store")); set(".menuPanel a:nth-of-type(2)", language === "ar" ? "عن SELCO" : "About SELCO");
   set(".menuPanel a:nth-of-type(3)", language === "ar" ? "كل المنتجات" : "All products");
   const optionTitles = document.querySelectorAll(".productDetails .optionTitle");
   if (optionTitles[0]) optionTitles[0].firstChild.textContent = `${tr("size")} `;
@@ -619,18 +631,99 @@ function closeMessage() {
   document.body.style.overflow = "";
 }
 
-function placeOrder() {
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const gov = document.getElementById("gov").value.trim();
-  const city = document.getElementById("city").value.trim();
-  const address = document.getElementById("address").value.trim();
+function selectedPaymentMethod() {
+  const checked = document.querySelector('input[name="paymethod"]:checked');
+  return checked ? checked.value : "cod";
+}
 
-  if (!name || !phone || !gov || !city || !address) {
+function selectPayment(method) {
+  document.querySelectorAll('input[name="paymethod"]').forEach(input => {
+    input.checked = input.value === method;
+  });
+  document.getElementById("payCodBox").classList.toggle("active", method === "cod");
+  document.getElementById("payKashierBox").classList.toggle("active", method === "kashier");
+  syncCheckoutButton();
+}
+
+function syncCheckoutButton() {
+  const button = document.getElementById("checkoutSubmit");
+  if (button) button.textContent = selectedPaymentMethod() === "kashier" ? tr("payNow") : tr("confirm");
+}
+
+function shippingDetails() {
+  const details = {
+    name: document.getElementById("name").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    gov: document.getElementById("gov").value.trim(),
+    city: document.getElementById("city").value.trim(),
+    address: document.getElementById("address").value.trim()
+  };
+  if (!details.name || !details.phone || !details.gov || !details.city || !details.address) {
     showMessage("بيانات ناقصة", "برجاء إكمال جميع بيانات الشحن حتى نتمكن من إرسال طلبك.", "✎");
+    return null;
+  }
+  return details;
+}
+
+async function payWithKashier(customer) {
+  const button = document.getElementById("checkoutSubmit");
+  button.disabled = true;
+  button.textContent = tr("processing");
+  try {
+    const response = await fetch("/api/kashier-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        customer,
+        items: cart.map(x => ({ id: x.id, qty: x.qty, size: x.size, color: x.color }))
+      })
+    });
+    const payload = await response.json();
+    if (!response.ok || !payload.paymentUrl) throw new Error(payload.error || "payment session failed");
+    localStorage.setItem("selco_pending_order", payload.merchantOrderId);
+    window.location.href = payload.paymentUrl;
+  } catch (err) {
+    console.error("Kashier session failed:", err);
+    button.disabled = false;
+    syncCheckoutButton();
+    showMessage("تعذر بدء الدفع", err.message || "برجاء المحاولة مرة أخرى أو اختيار الدفع عند الاستلام.", "✕");
+  }
+}
+
+function handlePaymentReturn() {
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get("payment");
+  if (!status) return;
+  const orderId = params.get("order") || localStorage.getItem("selco_pending_order") || "";
+  localStorage.removeItem("selco_pending_order");
+  window.history.replaceState({}, document.title, window.location.pathname);
+
+  if (status === "paid") {
+    cart = [];
+    saveCart();
+    updateCart();
+    showMessage("تم الدفع بنجاح", `تم استلام الدفع وتأكيد طلبك${orderId ? ` رقم ${orderId}` : ""}. سنتواصل معك لتأكيد الشحن.`, "✓");
+  } else if (status === "pending") {
+    showMessage("الدفع قيد المراجعة", "لم يتم تأكيد العملية بعد. سنحدّث حالة الطلب فور وصول تأكيد البنك.", "⏳");
+  } else {
+    showMessage("لم يكتمل الدفع", "لم تتم عملية الدفع. يمكنك المحاولة مرة أخرى أو اختيار الدفع عند الاستلام.", "✕");
+  }
+}
+
+function placeOrder() {
+  const details = shippingDetails();
+  if (!details) return;
+
+  if (selectedPaymentMethod() === "kashier") {
+    if (!cart.length) {
+      showMessage("السلة فارغة", "أضف منتجًا واحدًا على الأقل قبل إتمام الطلب.", "🛒");
+      return;
+    }
+    payWithKashier(details);
     return;
   }
 
+  const { name, phone, gov, city, address } = details;
   const total = cart.reduce((s, x) => s + (products.find(p => p.id === x.id)?.price || 0) * x.qty, 0);
 
   let itemsText = cart.map(x => {
@@ -682,6 +775,7 @@ document.addEventListener("keydown", e => {
 applyLanguage();
 observeReveals();
 loadProducts();
+handlePaymentReturn();
 </script>
 </body>
 </html>
