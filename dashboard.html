@@ -25,7 +25,7 @@
   
   <div class="form-group">
     <label>اسم المنتج</label>
-    <input type="text" id="name" placeholder="مثال: T-Shirt Black">
+    <input type="text" id="title" placeholder="مثال: T-Shirt Black">
   </div>
   
   <div class="form-group">
@@ -54,14 +54,14 @@
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   async function sendData() {
-    const nameVal = document.getElementById('name').value;
+    const titleVal = document.getElementById('title').value;
     const priceVal = document.getElementById('price').value;
     const descVal = document.getElementById('description').value;
     const fileInput = document.getElementById('image');
     const statusDiv = document.getElementById('status');
     const submitBtn = document.getElementById('submitBtn');
 
-    if (!nameVal || !priceVal || fileInput.files.length === 0) {
+    if (!titleVal || !priceVal || fileInput.files.length === 0) {
       alert('يرجى ملء جميع البيانات واختيار صورة');
       return;
     }
@@ -79,37 +79,38 @@
         .from('product-images')
         .upload(fileName, file);
 
-      if (imgErr) throw new Error("مشكلة في رفع الصورة: " + imgErr.message);
+      let imgUrl = "";
+      if (!imgErr) {
+        const { data: publicUrlData } = supabase.storage
+          .from('product-images')
+          .getPublicUrl(fileName);
+        imgUrl = publicUrlData.publicUrl;
+      }
 
-      // 2. رابط الصورة
-      const { data: publicUrlData } = supabase.storage
-        .from('product-images')
-        .getPublicUrl(fileName);
-
-      // 3. حفظ البيانات
+      // 2. إدخال المنتج بالاسم البرمجي الصحيح للحقول (title بدلاً من name)
       const { error: dbErr } = await supabase
         .from('products')
         .insert([{
-          name: nameVal,
+          title: titleVal,
           price: parseFloat(priceVal),
           description: descVal,
-          image_url: publicUrlData.publicUrl
+          image_url: imgUrl
         }]);
 
-      if (dbErr) throw new Error("مشكلة في حفظ البيانات: " + dbErr.message);
+      if (dbErr) throw new Error(dbErr.message);
 
       statusDiv.style.color = "#16a34a";
-      statusDiv.innerText = "تمت إضافة المنتج بنجاح! 🎉";
+      statusDiv.innerText = "تمت إضافة المنتج بنجاح!";
       alert("تم الحفظ بنجاح!");
-      
-      document.getElementById('name').value = '';
+
+      document.getElementById('title').value = '';
       document.getElementById('price').value = '';
       document.getElementById('description').value = '';
       fileInput.value = '';
     } catch (err) {
       statusDiv.style.color = "#dc2626";
-      statusDiv.innerText = err.message;
-      alert(err.message);
+      statusDiv.innerText = "خطأ: " + err.message;
+      alert("حدث خطأ: " + err.message);
     } finally {
       submitBtn.disabled = false;
     }
