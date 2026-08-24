@@ -12,19 +12,17 @@
     h1 { margin-top: 0; text-align: center; font-size: 22px; color: #111; margin-bottom: 20px; }
     .form-group { margin-bottom: 15px; }
     label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #333; }
-    input[type="text"], input[type="number"], textarea, input[type="file"] { width: 100%; padding: 10px 12px; border: 1px solid #e4e4e7; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s; }
-    input:focus, textarea:focus { border-color: #000; }
-    button { width: 100%; background: #000; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; margin-top: 10px; transition: background 0.2s; }
-    button:hover { background: #27272a; }
+    input[type="text"], input[type="number"], textarea, input[type="file"] { width: 100%; padding: 10px 12px; border: 1px solid #e4e4e7; border-radius: 8px; font-size: 14px; outline: none; }
+    button { width: 100%; background: #000; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; margin-top: 10px; }
     button:disabled { background: #a1a1aa; cursor: not-allowed; }
-    #status { margin-top: 15px; text-align: center; font-weight: 600; font-size: 14px; }
+    #status { margin-top: 15px; text-align: center; font-weight: 600; font-size: 14px; min-height: 20px; }
   </style>
 </head>
 <body>
 
 <div class="container">
   <h1>إضافة منتج جديد - SELCO</h1>
-  <form id="productForm">
+  <form id="productForm" onsubmit="return false;">
     <div class="form-group">
       <label>اسم المنتج</label>
       <input type="text" id="name" required placeholder="مثال: T-Shirt Black">
@@ -45,7 +43,7 @@
       <input type="file" id="image" accept="image/*" required>
     </div>
 
-    <button type="submit" id="submitBtn">حفظ ونشر المنتج</button>
+    <button type="button" id="submitBtn" onclick="uploadProduct()">حفظ ونشر المنتج</button>
   </form>
 
   <div id="status"></div>
@@ -57,54 +55,66 @@
   
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  const form = document.getElementById('productForm');
-  const statusDiv = document.getElementById('status');
-  const submitBtn = document.getElementById('submitBtn');
+  async function uploadProduct() {
+    const name = document.getElementById('name').value.trim();
+    const price = document.getElementById('price').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const fileInput = document.getElementById('image');
+    const statusDiv = document.getElementById('status');
+    const submitBtn = document.getElementById('submitBtn');
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    if (!name || !price || !fileInput.files[0]) {
+      alert("برجاء ملء جميع الحقول المطلوبة واختيار صورة!");
+      return;
+    }
+
     submitBtn.disabled = true;
     statusDiv.style.color = "#3b82f6";
     statusDiv.innerText = "جاري رفع الصورة والبيانات...";
 
     try {
-      const file = document.getElementById('image').files[0];
+      const file = fileInput.files[0];
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}.${fileExt}`;
 
+      // 1. رفع الصورة
       const { data: imgData, error: imgError } = await supabase.storage
         .from('product-images')
         .upload(fileName, file);
 
-      if (imgError) throw imgError;
+      if (imgError) throw new Error("خطأ في رفع الصورة: " + imgError.message);
 
+      // 2. جلب رابط الصورة
       const { data: publicUrlData } = supabase.storage
         .from('product-images')
         .getPublicUrl(fileName);
 
       const imageUrl = publicUrlData.publicUrl;
 
+      // 3. إدخال البيانات في الجدول
       const { error: dbError } = await supabase
         .from('products')
         .insert([{
-          name: document.getElementById('name').value,
-          price: parseFloat(document.getElementById('price').value),
-          description: document.getElementById('description').value,
+          name: name,
+          price: parseFloat(price),
+          description: description,
           image_url: imageUrl
         }]);
 
-      if (dbError) throw dbError;
+      if (dbError) throw new Error("خطأ في حفظ البيانات بالجدول: " + dbError.message);
 
       statusDiv.style.color = "#16a34a";
       statusDiv.innerText = "تمت إضافة المنتج بنجاح! 🎉";
-      form.reset();
+      alert("تم إضافة المنتج بنجاح!");
+      document.getElementById('productForm').reset();
     } catch (err) {
       statusDiv.style.color = "#dc2626";
-      statusDiv.innerText = "حدث خطأ: " + err.message;
+      statusDiv.innerText = err.message;
+      alert(err.message);
     } finally {
       submitBtn.disabled = false;
     }
-  });
+  }
 </script>
 
 </body>
