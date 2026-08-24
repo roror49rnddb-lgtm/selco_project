@@ -38,6 +38,11 @@
     </div>
 
     <div class="form-group">
+      <label for="stock">المخزون (الكمية المتاحة)</label>
+      <input type="number" id="stock" min="0" step="1" value="10" required>
+    </div>
+
+    <div class="form-group">
       <label for="description">الوصف</label>
       <textarea id="description" rows="3" placeholder="وصف المنتج..."></textarea>
     </div>
@@ -114,13 +119,14 @@
 
     const title = document.getElementById('title').value.trim();
     const price = parseFloat(document.getElementById('price').value);
+    const stock = parseInt(document.getElementById('stock').value, 10);
     const description = document.getElementById('description').value.trim();
     const category = document.getElementById('category').value;
     const sizes = Array.from(document.querySelectorAll('input[name="size"]:checked')).map((el) => el.value);
     const colors = Array.from(document.querySelectorAll('input[name="color"]:checked')).map((el) => el.value);
     const file = document.getElementById('image').files[0];
 
-    if (!title || isNaN(price) || !file) {
+    if (!title || isNaN(price) || isNaN(stock) || !file) {
       setStatus("برجاء ملء جميع الحقول المطلوبة واختيار صورة.", "#dc2626");
       return;
     }
@@ -154,6 +160,7 @@
       const { error: insertError } = await client.from('products').insert([{
         title: title,
         price: price,
+        stock: stock,
         description: description,
         category: category,
         sizes: sizes,
