@@ -50,7 +50,8 @@
 
 <script>
   const SUPABASE_URL = "https://gvbqjpaeibpdobgqiibq.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_BQmjypF4UFcDA_m8GGqxCw_otcRa7fT";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2YnFqcGFlaWJwZG9iZ3FpaWJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzcyOTMsImV4cCI6MjEwMzE1MzI5M30.28Vzz0yP5nEJ3Fkv7kM1eiL5Ff6_rrTNtOsv1-D3HWs"; 
+  
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   async function sendData() {
@@ -74,7 +75,6 @@
       const file = fileInput.files[0];
       const fileName = Date.now() + "_" + file.name;
 
-      // 1. رفع الصورة
       const { data: imgData, error: imgErr } = await supabase.storage
         .from('product-images')
         .upload(fileName, file);
@@ -87,7 +87,6 @@
         imgUrl = publicUrlData.publicUrl;
       }
 
-      // 2. إدخال المنتج بالاسم البرمجي الصحيح للحقول (title بدلاً من name)
       const { error: dbErr } = await supabase
         .from('products')
         .insert([{
