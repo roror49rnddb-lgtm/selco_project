@@ -13,6 +13,9 @@
     .form-group { margin-bottom: 15px; }
     label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #333; }
     input[type="text"], input[type="number"], textarea, input[type="file"] { width: 100%; padding: 10px 12px; border: 1px solid #e4e4e7; border-radius: 8px; font-size: 14px; outline: none; }
+    .sizes { display: flex; flex-wrap: wrap; gap: 10px; }
+    .sizes label { display: flex; align-items: center; gap: 6px; margin: 0; font-weight: 500; border: 1px solid #e4e4e7; border-radius: 8px; padding: 8px 12px; cursor: pointer; }
+    .sizes input { width: auto; }
     button { width: 100%; background: #000; color: #fff; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; margin-top: 10px; }
     button:disabled { background: #a1a1aa; cursor: not-allowed; }
     #status { margin-top: 15px; text-align: center; font-weight: 600; font-size: 14px; min-height: 20px; }
@@ -22,99 +25,114 @@
 
 <div class="container">
   <h1>إضافة منتج جديد - SELCO</h1>
-  <form id="productForm" onsubmit="return false;">
+  <form id="productForm">
     <div class="form-group">
-      <label>اسم المنتج</label>
-      <input type="text" id="name" required placeholder="مثال: T-Shirt Black">
+      <label for="title">اسم المنتج</label>
+      <input type="text" id="title" required placeholder="مثال: T-Shirt Black">
     </div>
     
     <div class="form-group">
-      <label>السعر (EGP)</label>
-      <input type="number" id="price" required placeholder="500">
+      <label for="price">السعر (EGP)</label>
+      <input type="number" id="price" min="0" step="0.01" required placeholder="500">
     </div>
 
     <div class="form-group">
-      <label>الوصف</label>
+      <label for="description">الوصف</label>
       <textarea id="description" rows="3" placeholder="وصف المنتج..."></textarea>
     </div>
 
     <div class="form-group">
-      <label>صورة المنتج</label>
+      <label>المقاسات المتاحة</label>
+      <div class="sizes" id="sizes">
+        <label><input type="checkbox" name="size" value="S"> S</label>
+        <label><input type="checkbox" name="size" value="M"> M</label>
+        <label><input type="checkbox" name="size" value="L"> L</label>
+        <label><input type="checkbox" name="size" value="XL"> XL</label>
+        <label><input type="checkbox" name="size" value="XXL"> XXL</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="image">صورة المنتج</label>
       <input type="file" id="image" accept="image/*" required>
     </div>
 
-    <button type="button" id="submitBtn" onclick="uploadProduct()">حفظ ونشر المنتج</button>
+    <button type="submit" id="submitBtn">حفظ ونشر المنتج</button>
+    <div id="status"></div>
   </form>
-
-  <div id="status"></div>
 </div>
 
 <script>
   const SUPABASE_URL = "https://gvbqjpaeibpdobgqiibq.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_BQmjypF4UFcDA_m8GGqxCw_otcRa7fT";
-  
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2YnFqcGFlaWJwZG9iZ3FpaWJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzcyOTMsImV4cCI6MjEwMzE1MzI5M30.28Vzz0yP5nEJ3Fkv7kM1eiL5Ff6_rrTNtOsv1-D3HWs";
+  const BUCKET = "product-images";
 
-  async function uploadProduct() {
-    const name = document.getElementById('name').value.trim();
-    const price = document.getElementById('price').value.trim();
+  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const form = document.getElementById('productForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const statusDiv = document.getElementById('status');
+
+  function setStatus(text, color) {
+    statusDiv.textContent = text;
+    statusDiv.style.color = color;
+  }
+
+  function safeName(name) {
+    const ext = name.includes('.') ? name.split('.').pop().toLowerCase() : 'jpg';
+    return Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById('title').value.trim();
+    const price = parseFloat(document.getElementById('price').value);
     const description = document.getElementById('description').value.trim();
-    const fileInput = document.getElementById('image');
-    const statusDiv = document.getElementById('status');
-    const submitBtn = document.getElementById('submitBtn');
+    const sizes = Array.from(document.querySelectorAll('input[name="size"]:checked')).map((el) => el.value);
+    const file = document.getElementById('image').files[0];
 
-    if (!name || !price || !fileInput.files[0]) {
-      alert("برجاء ملء جميع الحقول المطلوبة واختيار صورة!");
+    if (!title || isNaN(price) || !file) {
+      setStatus("برجاء ملء جميع الحقول المطلوبة واختيار صورة.", "#dc2626");
+      return;
+    }
+    if (sizes.length === 0) {
+      setStatus("برجاء اختيار مقاس واحد على الأقل.", "#dc2626");
       return;
     }
 
     submitBtn.disabled = true;
-    statusDiv.style.color = "#3b82f6";
-    statusDiv.innerText = "جاري رفع الصورة والبيانات...";
+    setStatus("جاري الحفظ...", "#3b82f6");
 
     try {
-      const file = fileInput.files[0];
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}.${fileExt}`;
+      const path = safeName(file.name);
+      const { error: uploadError } = await client.storage
+        .from(BUCKET)
+        .upload(path, file, { cacheControl: "3600", contentType: file.type || "image/jpeg" });
 
-      // 1. رفع الصورة
-      const { data: imgData, error: imgError } = await supabase.storage
-        .from('product-images')
-        .upload(fileName, file);
+      if (uploadError) throw new Error("فشل رفع الصورة: " + uploadError.message);
 
-      if (imgError) throw new Error("خطأ في رفع الصورة: " + imgError.message);
+      const { data: urlData } = client.storage.from(BUCKET).getPublicUrl(path);
+      const imageUrl = urlData.publicUrl;
 
-      // 2. جلب رابط الصورة
-      const { data: publicUrlData } = supabase.storage
-        .from('product-images')
-        .getPublicUrl(fileName);
+      const { error: insertError } = await client.from('products').insert([{
+        title: title,
+        price: price,
+        description: description,
+        sizes: sizes,
+        images: [imageUrl]
+      }]);
 
-      const imageUrl = publicUrlData.publicUrl;
+      if (insertError) throw new Error("فشل حفظ المنتج: " + insertError.message);
 
-      // 3. إدخال البيانات في الجدول
-      const { error: dbError } = await supabase
-        .from('products')
-        .insert([{
-          name: name,
-          price: parseFloat(price),
-          description: description,
-          image_url: imageUrl
-        }]);
-
-      if (dbError) throw new Error("خطأ في حفظ البيانات بالجدول: " + dbError.message);
-
-      statusDiv.style.color = "#16a34a";
-      statusDiv.innerText = "تمت إضافة المنتج بنجاح! 🎉";
-      alert("تم إضافة المنتج بنجاح!");
-      document.getElementById('productForm').reset();
+      setStatus("تمت إضافة المنتج بنجاح! 🎉", "#16a34a");
+      form.reset();
     } catch (err) {
-      statusDiv.style.color = "#dc2626";
-      statusDiv.innerText = err.message;
-      alert(err.message);
+      setStatus("خطأ: " + err.message, "#dc2626");
     } finally {
       submitBtn.disabled = false;
     }
-  }
+  });
 </script>
 
 </body>
