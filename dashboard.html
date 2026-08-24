@@ -43,7 +43,7 @@
     <input type="file" id="image" accept="image/*">
   </div>
 
-  <button type="button" id="submitBtn" onclick="sendData()">حفظ ونشر المنتج</button>
+  <button type="button" id="submitBtn">حفظ ونشر المنتج</button>
 
   <div id="status"></div>
 </div>
@@ -54,7 +54,7 @@
   
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  async function sendData() {
+  document.getElementById('submitBtn').addEventListener('click', async () => {
     const titleVal = document.getElementById('title').value;
     const priceVal = document.getElementById('price').value;
     const descVal = document.getElementById('description').value;
@@ -63,7 +63,7 @@
     const submitBtn = document.getElementById('submitBtn');
 
     if (!titleVal || !priceVal || fileInput.files.length === 0) {
-      alert('يرجى ملء جميع البيانات واختيار صورة');
+      alert('يرجى ملء جميع البيانات واختيار صورة أولاً');
       return;
     }
 
@@ -113,7 +113,7 @@
     } finally {
       submitBtn.disabled = false;
     }
-  }
+  });
 </script>
 
 </body>
