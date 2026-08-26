@@ -1,0 +1,7 @@
+{
+  "name": "selco_project",
+  "version": "1.0.0",
+  "description": "E-commerce store with Kashier payment",
+  "main": "index.html",
+  "dependencies": {}
+}
