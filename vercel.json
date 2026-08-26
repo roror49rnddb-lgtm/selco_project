@@ -12,6 +12,18 @@
   ],
   "routes": [
     {
+      "src": "/api/kashier-session",
+      "dest": "/api/kashier-session.js"
+    },
+    {
+      "src": "/api/kashier-callback",
+      "dest": "/api/kashier-callback.js"
+    },
+    {
+      "src": "/api/kashier-webhook",
+      "dest": "/api/kashier-webhook.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },
