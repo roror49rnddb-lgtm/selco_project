@@ -72,7 +72,7 @@ module.exports = async function handler(req, res) {
     }
 
     const kashier = config();
-    const merchantOrderId = `SELCO-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+    const merchantOrderId = `CYCLO-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
     const amount = total.toFixed(2);
     const currency = "EGP";
 

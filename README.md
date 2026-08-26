@@ -1,4 +1,4 @@
-# selco_project
+# cyclo_project
 a online store
 
 ## Kashier checkout setup
