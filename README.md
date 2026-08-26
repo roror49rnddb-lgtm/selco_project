@@ -1,4 +1,4 @@
-# selco_project
+# cyclo_project
 a online store
 
 ## Kashier checkout setup
@@ -15,7 +15,7 @@ The Kashier secret key is only used inside those functions, never in the browser
    | `KASHIER_MID` | `MID-49672-453` |
    | `KASHIER_API_KEY` | the Kashier Payment API key (test key while `KASHIER_MODE=test`) |
    | `KASHIER_MODE` | `test` (switch to `live` with the live key + MID when going live) |
-   | `SUPABASE_URL` | `https://gvbqjpaeibpdobgqiibq.supabase.co` |
+   | `SUPABASE_URL` | `https://sawzpupdhswkclsfftzf.supabase.co` |
    | `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (Project Settings → API) |
 
 3. In the Kashier dashboard, set the webhook URL to `https://<your-domain>/api/kashier-webhook`.

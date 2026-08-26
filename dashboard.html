@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SELCO - إضافة منتج</title>
+  <title>CYCLO - إضافة منتج</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; }
     body { font-family: system-ui, -apple-system, sans-serif; background: #f4f4f5; display: flex; justify-content: center; padding: 40px 10px; margin: 0; }
-    .card { background: #fff; padding: 25px; border-radius: 12px; width: 100%; max-width: 450px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .card { background: #fff; padding: 25px; border-radius: 12px; width: 100%; max-width: 480px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     h2 { text-align: center; margin-top: 0; }
     label { display: block; margin: 12px 0 4px; font-weight: bold; }
     input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; background: #fff; }
@@ -19,6 +19,16 @@
     button { width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 6px; margin-top: 20px; font-size: 16px; cursor: pointer; }
     button:disabled { background: #888; cursor: not-allowed; }
     #msg { margin-top: 15px; text-align: center; font-weight: bold; min-height: 20px; }
+    .image-upload-area { border: 2px dashed #d4d4d8; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: .2s; margin-bottom: 10px; }
+    .image-upload-area:hover { border-color: #111; background: #fafafa; }
+    .image-upload-area p { margin: 0; color: #71717a; font-size: 13px; }
+    .preview-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .preview-item { position: relative; width: 80px; height: 80px; border-radius: 8px; overflow: hidden; border: 1px solid #e4e4e7; }
+    .preview-item img { width: 100%; height: 100%; object-fit: cover; }
+    .preview-item .remove-btn { position: absolute; top: 2px; right: 2px; width: 22px; height: 22px; border-radius: 50%; background: rgba(0,0,0,.6); color: #fff; border: 0; cursor: pointer; font-size: 14px; display: grid; place-items: center; padding: 0; }
+    .preview-item .remove-btn:hover { background: #dc2626; }
+    .preview-item .badge-main { position: absolute; bottom: 0; left: 0; right: 0; background: #111; color: #fff; font-size: 9px; text-align: center; padding: 2px; font-weight: 700; }
+    .file-input { display: none; }
   </style>
 </head>
 <body>
@@ -68,8 +78,12 @@
       <label><input type="checkbox" name="size" value="XXL"> XXL</label>
     </div>
 
-    <label for="image">صورة المنتج</label>
-    <input type="file" id="image" accept="image/*" required>
+    <label>صور المنتج (يمكنك اختيار أكثر من صورة)</label>
+    <div class="image-upload-area" id="uploadArea" onclick="document.getElementById('image').click()">
+      <p>اضغط لاختيار صور واحدة أو أكثر</p>
+    </div>
+    <input type="file" id="image" class="file-input" accept="image/*" multiple>
+    <div class="preview-grid" id="previewGrid"></div>
 
     <button type="submit" id="btn">حفظ ونشر المنتج</button>
     <div id="msg"></div>
@@ -77,8 +91,8 @@
 </div>
 
 <script>
-  const SUPABASE_URL = "https://gvbqjpaeibpdobgqiibq.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2YnFqcGFlaWJwZG9iZ3FpaWJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzcyOTMsImV4cCI6MjEwMzE1MzI5M30.28Vzz0yP5nEJ3Fkv7kM1eiL5Ff6_rrTNtOsv1-D3HWs";
+  const SUPABASE_URL = "https://sawzpupdhswkclsfftzf.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhd3pwdXBkaHN3a2Nsc2ZmdHpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3NDQ2MDUsImV4cCI6MjEwMzMyMDYwNX0.oBxMI9ATIXmYHp26wZfNMG221SLaHLDmn4ieYXJMJOk";
   const BUCKET = "product-images";
 
   const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -86,6 +100,9 @@
   const form = document.getElementById("addForm");
   const btn = document.getElementById("btn");
   const msg = document.getElementById("msg");
+  const fileInput = document.getElementById("image");
+  const previewGrid = document.getElementById("previewGrid");
+  let selectedFiles = [];
 
   function setStatus(text, color) {
     msg.textContent = text;
@@ -95,6 +112,29 @@
   function safeName(name) {
     const ext = name.includes(".") ? name.split(".").pop().toLowerCase() : "jpg";
     return Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "." + ext;
+  }
+
+  fileInput.addEventListener("change", (e) => {
+    const newFiles = Array.from(e.target.files);
+    newFiles.forEach(f => selectedFiles.push(f));
+    renderPreviews();
+    fileInput.value = "";
+  });
+
+  function renderPreviews() {
+    previewGrid.innerHTML = selectedFiles.map((file, i) => {
+      const url = URL.createObjectURL(file);
+      return `<div class="preview-item">
+        <img src="${url}" alt="preview">
+        ${i === 0 ? '<div class="badge-main">رئيسية</div>' : ''}
+        <button type="button" class="remove-btn" onclick="removeFile(${i})">×</button>
+      </div>`;
+    }).join("");
+  }
+
+  function removeFile(index) {
+    selectedFiles.splice(index, 1);
+    renderPreviews();
   }
 
   form.addEventListener("submit", async (e) => {
@@ -107,10 +147,9 @@
     const category = document.getElementById("category").value;
     const sizes = Array.from(document.querySelectorAll('input[name="size"]:checked')).map((el) => el.value);
     const colors = Array.from(document.querySelectorAll('input[name="color"]:checked')).map((el) => el.value);
-    const file = document.getElementById("image").files[0];
 
-    if (!title || isNaN(price) || isNaN(stock) || !file) {
-      setStatus("برجاء ملء جميع الحقول المطلوبة واختيار صورة.", "#dc2626");
+    if (!title || isNaN(price) || isNaN(stock)) {
+      setStatus("برجاء ملء جميع الحقول المطلوبة.", "#dc2626");
       return;
     }
     if (!category) {
@@ -125,20 +164,25 @@
       setStatus("برجاء اختيار لون واحد على الأقل.", "#dc2626");
       return;
     }
+    if (selectedFiles.length === 0) {
+      setStatus("برجاء اختيار صورة واحدة على الأقل.", "#dc2626");
+      return;
+    }
 
     btn.disabled = true;
-    setStatus("جاري الحفظ...", "#3b82f6");
+    setStatus("جاري رفع الصور وحفظ المنتج...", "#3b82f6");
 
     try {
-      const path = safeName(file.name);
-      const { error: uploadError } = await client.storage
-        .from(BUCKET)
-        .upload(path, file, { cacheControl: "3600", contentType: file.type || "image/jpeg" });
-
-      if (uploadError) throw new Error("فشل رفع الصورة: " + uploadError.message);
-
-      const { data: urlData } = client.storage.from(BUCKET).getPublicUrl(path);
-      const imageUrl = urlData.publicUrl;
+      const imageUrls = [];
+      for (const file of selectedFiles) {
+        const path = safeName(file.name);
+        const { error: uploadError } = await client.storage
+          .from(BUCKET)
+          .upload(path, file, { cacheControl: "3600", contentType: file.type || "image/jpeg" });
+        if (uploadError) throw new Error("فشل رفع الصورة: " + uploadError.message);
+        const { data: urlData } = client.storage.from(BUCKET).getPublicUrl(path);
+        imageUrls.push(urlData.publicUrl);
+      }
 
       const { error: insertError } = await client.from("products").insert([{
         title: title,
@@ -148,13 +192,15 @@
         category: category,
         sizes: sizes,
         colors: colors,
-        images: [imageUrl]
+        images: imageUrls
       }]);
 
       if (insertError) throw new Error("فشل حفظ المنتج: " + insertError.message);
 
       setStatus("تمت إضافة المنتج بنجاح! 🎉", "#16a34a");
       form.reset();
+      selectedFiles = [];
+      renderPreviews();
     } catch (err) {
       setStatus("خطأ: " + err.message, "#dc2626");
     } finally {

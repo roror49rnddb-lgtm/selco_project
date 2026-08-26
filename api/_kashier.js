@@ -15,22 +15,47 @@ function orderHash({ mid, orderId, amount, currency, secret }) {
   return crypto.createHmac("sha256", secret).update(path).digest("hex");
 }
 
-function validateSignature(payload, secret) {
-  if (!payload || !payload.signature) return false;
-  const queryString =
-    "paymentStatus=" + payload.paymentStatus +
-    "&cardDataToken=" + payload.cardDataToken +
-    "&maskedCard=" + payload.maskedCard +
-    "&merchantOrderId=" + payload.merchantOrderId +
-    "&orderId=" + payload.orderId +
-    "&cardBrand=" + payload.cardBrand +
-    "&orderReference=" + payload.orderReference +
-    "&transactionId=" + payload.transactionId +
-    "&amount=" + payload.amount +
-    "&currency=" + payload.currency;
+/**
+ * Validate the HMAC-SHA256 signature returned by Kashier.
+ *
+ * Kashier signs *all* callback/webhook parameters (except `signature` and
+ * `mode`) in the order they appear, building a query string
+ * `key1=value1&key2=value2&...` and computing
+ *   HMAC-SHA256(queryString, apiKey).
+ *
+ * This mirrors the official PHP demo:
+ *   foreach ($_GET as $key => $value) {
+ *     if ($key === 'signature' || $key === 'mode') continue;
+ *     $queryString .= '&' . $key . '=' . $value;
+ *   }
+ *   $queryString = ltrim($queryString, '&');
+ *
+ * @param {URLSearchParams|Record<string,*>} params
+ * @param {string} secret
+ */
+function validateSignature(params, secret) {
+  // Retrieve the signature regardless of whether params is URLSearchParams or a plain object.
+  const sig =
+    params instanceof URLSearchParams ? params.get("signature") : params.signature;
+  if (!sig) return false;
+
+  const parts = [];
+  if (params instanceof URLSearchParams) {
+    for (const [key, value] of params) {
+      if (key === "signature" || key === "mode") continue;
+      parts.push(`${key}=${value}`);
+    }
+  } else {
+    for (const [key, value] of Object.entries(params)) {
+      if (key === "signature" || key === "mode") continue;
+      if (value === undefined || value === null) continue;
+      parts.push(`${key}=${value}`);
+    }
+  }
+  const queryString = parts.join("&");
   const expected = crypto.createHmac("sha256", secret).update(queryString).digest("hex");
   const a = Buffer.from(expected);
-  const b = Buffer.from(String(payload.signature));
+  const b = Buffer.from(String(sig));
   return a.length === b.length && crypto.timingSafeEqual(a, b);
 }
 
@@ -52,7 +77,7 @@ function hostedPaymentUrl(order) {
   if (order.metaData) params.set("metaData", order.metaData);
   return `${order.baseUrl}?${params.toString()}`;
 }
-
+  
 function supabase() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
