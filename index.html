@@ -61,7 +61,7 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
 .messageModal{position:fixed;inset:0;background:rgba(10,10,10,.58);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:20px;z-index:70}.messageModal.open{display:flex}.messageBox{width:min(420px,100%);background:linear-gradient(145deg,#fff 0%,#f8f5ef 100%);border:1px solid #fff;border-radius:28px;padding:34px 28px 26px;text-align:center;box-shadow:0 28px 80px rgba(0,0,0,.25);animation:messagePop .35s cubic-bezier(.2,.8,.2,1) both}.messageIcon{width:58px;height:58px;display:grid;place-items:center;margin:0 auto 16px;border-radius:50%;background:#111;color:#fff;font-size:27px}.messageBox h3{margin:0 0 9px;font-size:22px;font-weight:900}.messageBox p{margin:0 auto 24px;color:#666;font-size:14px;line-height:1.9}.messageOk{border:0;background:#111;color:#fff;border-radius:999px;padding:12px 34px;cursor:pointer;font-weight:800;min-width:120px;transition:.25s}.messageOk:hover{transform:translateY(-2px);box-shadow:0 10px 22px #0003}@keyframes messagePop{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
 .loginModal{position:fixed;inset:0;background:rgba(10,10,10,.62);backdrop-filter:blur(9px);display:none;align-items:center;justify-content:center;padding:20px;z-index:65}.loginModal.open{display:flex}.loginBox{width:min(440px,100%);background:#fff;border-radius:28px;padding:30px;box-shadow:0 28px 80px rgba(0,0,0,.28);animation:messagePop .35s cubic-bezier(.2,.8,.2,1) both}.loginHead{text-align:center;margin:8px 0 22px}.loginAvatar{width:58px;height:58px;display:grid;place-items:center;margin:0 auto 14px;border-radius:50%;background:#111;color:#fff;font-size:25px}.loginHead h2{margin:0 0 5px;font-size:25px}.loginHead p{margin:0;color:#777;font-size:12px}.loginBox .close{margin-top:-8px}.loginField{margin:14px 0;text-align:right}.loginField label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}.loginField input{width:100%;border:1px solid #ddd;border-radius:12px;padding:13px 14px;outline:0;background:#fafafa;direction:ltr;text-align:left;transition:.2s}.loginField input:focus{border-color:#111;background:#fff;box-shadow:0 0 0 3px #1111}.forgot{display:block;color:#555;text-decoration:none;text-align:left;font-size:12px;margin:2px 0 18px}.forgot:hover{text-decoration:underline}.loginSubmit{width:100%;border:0;border-radius:12px;background:#111;color:#fff;padding:13px;cursor:pointer;font-weight:800}.loginDivider{display:flex;align-items:center;gap:10px;color:#999;font-size:11px;margin:20px 0}.loginDivider:before,.loginDivider:after{content:"";height:1px;background:#e6e2da;flex:1}.socialBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}.socialBtn{border:1px solid #ddd;border-radius:12px;background:#fff;padding:11px 8px;cursor:pointer;font-weight:700;font-size:12px;transition:.2s}.socialBtn:hover{transform:translateY(-2px);box-shadow:0 8px 18px #0001}.googleMark{color:#4285f4;font-weight:900}.facebookMark{color:#1877f2;font-weight:900}.createAccount{text-align:center;color:#777;font-size:12px;margin:21px 0 0}.createAccount button{border:0;background:none;color:#111;font-weight:800;cursor:pointer}
 .productModal{position:fixed;inset:0;background:rgba(10,10,10,.62);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}.productModal.open{display:flex}.productBox{width:min(1240px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;background:#fff;border-radius:28px;padding:22px;box-shadow:0 28px 80px #0004;animation:messagePop .35s cubic-bezier(.2,.8,.2,1) both}.productLayout{display:grid;grid-template-columns:1fr 1fr;gap:28px;direction:ltr}.productPreview{min-height:460px;border-radius:20px;background:#eee center/cover no-repeat;transition:filter .35s,background-image .35s}.productDetails{direction:rtl;padding:12px 5px}.productDetails h2{font-size:28px;margin:12px 0 4px}.productDetails .productCat{color:#888;font-size:12px}.optionTitle{font-size:13px;font-weight:800;margin:24px 0 10px}.optionTitle span{font-weight:400;color:#777}.sizeOptions{display:flex;gap:8px;flex-wrap:wrap}.sizeOption{min-width:45px;padding:10px;border:1px solid #ddd;background:#fff;border-radius:10px;cursor:pointer}.sizeOption.active{background:#111;color:#fff;border-color:#111}.colorOptions{display:flex;gap:12px}.colorOption{width:36px;height:36px;border-radius:50%;border:3px solid #fff;outline:1px solid #ddd;cursor:pointer;transition:.2s}.colorOption.active{outline:2px solid #111;transform:scale(1.12)}.productPrice{font-size:24px;font-weight:900;margin:18px 0}.productAdd{width:100%;border:0;border-radius:13px;background:#111;color:#fff;padding:14px;cursor:pointer;font-weight:800}.productAdd:hover{transform:translateY(-2px);box-shadow:0 12px 25px #0002}@media(max-width:700px){.productLayout{grid-template-columns:1fr;gap:8px}.productPreview{min-height:320px}.productDetails h2{font-size:23px}}
-.close{float:left;border:0;background:#eee;border-radius:50%;width:35px;height:35px;cursor:pointer;transition:.2s}.close:hover{transform:rotate(90deg)}
+.close{float:left;border:0;background:#eee;border-radius:50%;width:35px;height:35px;cursor:pointer;transition:.22s}.close:hover{transform:rotate(90deg)}
 .cartrow{display:grid;grid-template-columns:1fr auto;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}
 .qty{display:flex;gap:8px;align-items:center}.qty button{border:1px solid var(--line);background:#fff;border-radius:8px;width:30px;height:30px;cursor:pointer}
 .total{font-size:21px;font-weight:900;margin:20px 0}
@@ -88,225 +88,225 @@ window.si = window.si || function () { (window.siq = window.siq || []).push(argu
 <div class="top"><span>✨ شحن لجميع المحافظات • الدفع عند الاستلام فقط • NEW DROP 2026 ✨</span></div>
 
 <nav>
- <div class="navin">
-  <a href="#" class="logo">SELCO.</a>
-  <div class="links">
-    <a href="#shop">المتجر</a>
-    <a href="#story">البراند</a>
+  <div class="navin">
+    <a href="#" class="logo">SELCO.</a>
+    <div class="links">
+      <a href="#shop">المتجر</a>
+      <a href="#story">البراند</a>
+    </div>
+    <div class="navActions">
+      <button class="iconBtn langBtn" id="languageButton" onclick="toggleLanguage()" aria-label="Change language">🇬🇧</button>
+      <button class="iconBtn" onclick="toggleSearch()" aria-label="البحث">
+        <svg viewBox="0 0 48 48"><circle cx="20" cy="20" r="13"></circle><path d="m30 30 12 12"></path></svg>
+      </button>
+      <button class="iconBtn accountBtn" onclick="openAccount()" aria-label="الحساب">
+        <svg viewBox="0 0 48 48"><circle cx="24" cy="15" r="8"></circle><path d="M9 40c1-9 6-14 15-14s14 5 15 14"></path></svg>
+      </button>
+      <button class="iconBtn cartIcon" onclick="openCart()" aria-label="السلة">
+        <svg viewBox="0 0 48 48"><path d="M5 8h6l4 24h22l5-17H13"></path><circle cx="19" cy="40" r="3"></circle><circle cx="35" cy="40" r="3"></circle></svg>
+        <span class="bagdot" id="cartCount">0</span>
+      </button>
+      <button class="iconBtn menuBtn" id="menuButton" onclick="toggleMenu()" aria-label="القائمة"><span></span><span></span><span></span></button>
+    </div>
   </div>
-  <div class="navActions">
-    <button class="iconBtn langBtn" id="languageButton" onclick="toggleLanguage()" aria-label="Change language">🇬🇧</button>
-    <button class="iconBtn" onclick="toggleSearch()" aria-label="البحث">
-     <svg viewBox="0 0 48 48"><circle cx="20" cy="20" r="13"></circle><path d="m30 30 12 12"></path></svg>
-    </button>
-    <button class="iconBtn accountBtn" onclick="openAccount()" aria-label="الحساب">
-     <svg viewBox="0 0 48 48"><circle cx="24" cy="15" r="8"></circle><path d="M9 40c1-9 6-14 15-14s14 5 15 14"></path></svg>
-    </button>
-    <button class="iconBtn cartIcon" onclick="openCart()" aria-label="السلة">
-     <svg viewBox="0 0 48 48"><path d="M5 8h6l4 24h22l5-17H13"></path><circle cx="19" cy="40" r="3"></circle><circle cx="35" cy="40" r="3"></circle></svg>
-     <span class="bagdot" id="cartCount">0</span>
-    </button>
-    <button class="iconBtn menuBtn" id="menuButton" onclick="toggleMenu()" aria-label="القائمة"><span></span><span></span><span></span></button>
-  </div>
- </div>
 
- <div class="searchBox" id="searchBox">
-  <div class="searchInner">
-   <input id="searchInput" type="search" placeholder="ابحث عن منتج..." oninput="searchProducts(this.value)" aria-label="البحث عن منتج">
-   <svg viewBox="0 0 48 48"><circle cx="20" cy="20" r="13"></circle><path d="m30 30 12 12"></path></svg>
+  <div class="searchBox" id="searchBox">
+    <div class="searchInner">
+      <input id="searchInput" type="search" placeholder="ابحث عن منتج..." oninput="searchProducts(this.value)" aria-label="البحث عن منتج">
+      <svg viewBox="0 0 48 48"><circle cx="20" cy="20" r="13"></circle><path d="m30 30 12 12"></path></svg>
+    </div>
   </div>
- </div>
 </nav>
 
 <div class="menuShade" id="menuShade" onclick="toggleMenu()"></div>
 
 <aside class="menuPanel" id="menuPanel">
- <button class="close" onclick="toggleMenu()">×</button>
- <a href="#shop" onclick="toggleMenu()">المتجر</a>
- <a href="#story" onclick="toggleMenu()">عن SELCO</a>
- <a href="#shop" onclick="toggleMenu()">كل المنتجات</a>
- <a href="#" onclick="openCart();toggleMenu()">السلة (<span id="menuCartCount">0</span>)</a>
+  <button class="close" onclick="toggleMenu()">×</button>
+  <a href="#shop" onclick="toggleMenu()">المتجر</a>
+  <a href="#story" onclick="toggleMenu()">عن SELCO</a>
+  <a href="#shop" onclick="toggleMenu()">كل المنتجات</a>
+  <a href="#" onclick="openCart();toggleMenu()">السلة (<span id="menuCartCount">0</span>)</a>
 </aside>
 
 <section class="hero">
- <div class="heroText">
-  <div class="kicker">NEW COLLECTION / 2026</div>
-  <h1>Wear it.<span>Own it.</span></h1>
-  <p>تشكيلة ملابس عصرية مصممة بأعلى جودة. اطلب الآن وادفع عند الاستلام باب البيت.</p>
-  <a class="cta" href="#shop">اكتشف المجموعة <span>←</span></a>
- </div>
+  <div class="heroText">
+    <div class="kicker">NEW COLLECTION / 2026</div>
+    <h1>Wear it.<span>Own it.</span></h1>
+    <p>تشكيلة ملابس عصرية مصممة بأعلى جودة. اطلب الآن وادفع عند الاستلام باب البيت.</p>
+    <a class="cta" href="#shop">اكتشف المجموعة <span>←</span></a>
+  </div>
 
- <div class="heroImg">
-  <div class="heroTag">LIMITED / DROP 01</div>
- </div>
+  <div class="heroImg">
+    <div class="heroTag">LIMITED / DROP 01</div>
+  </div>
 </section>
 
 <div class="marquee">
- <div class="track">
-  <span>PREMIUM FIT</span><b>✦</b><span>STREET ENERGY</span><b>✦</b><span>NEW SEASON</span><b>✦</b><span>MADE TO MOVE</span><b>✦</b>
-  <span>PREMIUM FIT</span><b>✦</b><span>STREET ENERGY</span><b>✦</b><span>NEW SEASON</span><b>✦</b><span>MADE TO MOVE</span><b>✦</b>
- </div>
+  <div class="track">
+    <span>PREMIUM FIT</span><b>✦</b><span>STREET ENERGY</span><b>✦</b><span>NEW SEASON</span><b>✦</b><span>MADE TO MOVE</span><b>✦</b>
+    <span>PREMIUM FIT</span><b>✦</b><span>STREET ENERGY</span><b>✦</b><span>NEW SEASON</span><b>✦</b><span>MADE TO MOVE</span><b>✦</b>
+  </div>
 </div>
 
 <main class="container" id="shop">
- <div class="bar reveal">
-  <div>
-   <h2>Shop the Drop</h2>
-   <p>اختر القطعة، المقاس واللون، وأكمل طلبك في ثوانٍ.</p>
+  <div class="bar reveal">
+    <div>
+      <h2>Shop the Drop</h2>
+      <p>اختر القطعة، المقاس واللون، وأكمل طلبك في ثوانٍ.</p>
+    </div>
+    <div class="filters" id="filters"></div>
   </div>
-  <div class="filters" id="filters"></div>
- </div>
 
- <div class="grid" id="products"></div>
+  <div class="grid" id="products"></div>
 
- <section class="story reveal" id="story">
-  <div class="storyImg"></div>
-  <div class="storyText">
-   <div class="kicker" style="color:#888">ABOUT SELCO</div>
-   <h3>مش مجرد متجر.<br>دي تجربة براند.</h3>
-   <p>تصاميم خاصة بخامات ممتازة وراحة كاملة أثناء الحركة. اختر ملابسك بسهولة وادفع عند الاستلام بدون أي تعقيدات.</p>
-   <div class="stats">
-    <div class="stat"><strong>100%</strong><span>قطن ممتاز</span></div>
-    <div class="stat"><strong>COD</strong><span>الدفع عند الاستلام</span></div>
-    <div class="stat"><strong>2026</strong><span>التشكيلة الجديدة</span></div>
-   </div>
-  </div>
- </section>
+  <section class="story reveal" id="story">
+    <div class="storyImg"></div>
+    <div class="storyText">
+      <div class="kicker" style="color:#888">ABOUT SELCO</div>
+      <h3>مش مجرد متجر.<br>دي تجربة براند.</h3>
+      <p>تصاميم خاصة بخامات ممتازة وراحة كاملة أثناء الحركة. اختر ملابسك بسهولة وادفع عند الاستلام بدون أي تعقيدات.</p>
+      <div class="stats">
+        <div class="stat"><strong>100%</strong><span>قطن ممتاز</span></div>
+        <div class="stat"><strong>COD</strong><span>الدفع عند الاستلام</span></div>
+        <div class="stat"><strong>2026</strong><span>التشكيلة الجديدة</span></div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer>SELCO © 2026 — Fashion Store</footer>
 
 <div class="drawer" id="cartDrawer" onclick="if(event.target===this)closeCart()">
- <div class="panel">
-  <button class="close" onclick="closeCart()">×</button>
-  <h2>سلة المشتريات</h2>
-  <div id="cartItems"></div>
-  <div class="total">الإجمالي: <span id="cartTotal">0</span> جنيه</div>
-  <button class="submit" onclick="openCheckout()">إتمام الطلب (الدفع عند الاستلام)</button>
- </div>
+  <div class="panel">
+    <button class="close" onclick="closeCart()">×</button>
+    <h2>سلة المشتريات</h2>
+    <div id="cartItems"></div>
+    <div class="total">الإجمالي: <span id="cartTotal">0</span> جنيه</div>
+    <button class="submit" onclick="openCheckout()">إتمام الطلب (الدفع عند الاستلام)</button>
+  </div>
 </div>
 
 <div class="modal" id="checkoutModal" onclick="if(event.target===this)closeCheckout()">
- <div class="modalBox">
-  <button class="close" onclick="closeCheckout()">×</button>
-  <h2>بيانات الشحن والتوصيل</h2>
+  <div class="modalBox">
+    <button class="close" onclick="closeCheckout()">×</button>
+    <h2>بيانات الشحن والتوصيل</h2>
 
-  <div class="row">
-   <div class="field"><label>الاسم بالكامل</label><input id="name" placeholder="أدخل اسمك"></div>
-   <div class="field"><label>رقم الهاتف</label><input id="phone" placeholder="01xxxxxxxx"></div>
+    <div class="row">
+      <div class="field"><label>الاسم بالكامل</label><input id="name" placeholder="أدخل اسمك"></div>
+      <div class="field"><label>رقم الهاتف</label><input id="phone" placeholder="01xxxxxxxx"></div>
+    </div>
+
+    <div class="row">
+      <div class="field"><label>المحافظة</label><input id="gov" placeholder="مثال: القاهرة"></div>
+      <div class="field"><label>المدينة / المنطقة</label><input id="city" placeholder="مثال: نصر سيتي"></div>
+    </div>
+
+    <div class="field">
+      <label>العنوان بالتفصيل</label>
+      <input id="address" placeholder="اسم الشارع، رقم المبنى، الشقة">
+    </div>
+
+    <div class="field">
+      <label>طريقة الدفع</label>
+
+      <div class="payment-badge active" id="payCodBox" onclick="selectPayment('cod')">
+        <input type="radio" name="paymethod" value="cod" checked onclick="event.stopPropagation();selectPayment('cod')">
+        <span id="codLabel">💵 الدفع عند الاستلام (COD)</span>
+      </div>
+
+      <div class="payment-badge" id="payKashierBox" onclick="selectPayment('kashier')">
+        <input type="radio" name="paymethod" value="kashier" onclick="event.stopPropagation();selectPayment('kashier')">
+        <span id="kashierLabel">💳 الدفع بالبطاقة عبر Kashier (وضع تجريبي)</span>
+      </div>
+    </div>
+
+    <div class="total">الإجمالي النهائي: <span id="checkoutTotal">0</span> جنيه</div>
+    <button class="submit" id="checkoutSubmit" onclick="placeOrder()">تأكيد الطلب وإرسال عبر الواتساب</button>
   </div>
-
-  <div class="row">
-   <div class="field"><label>المحافظة</label><input id="gov" placeholder="مثال: القاهرة"></div>
-   <div class="field"><label>المدينة / المنطقة</label><input id="city" placeholder="مثال: نصر سيتي"></div>
-  </div>
-
-  <div class="field">
-   <label>العنوان بالتفصيل</label>
-   <input id="address" placeholder="اسم الشارع، رقم المبنى، الشقة">
-  </div>
-
-  <div class="field">
-   <label>طريقة الدفع</label>
-
-   <div class="payment-badge active" id="payCodBox" onclick="selectPayment('cod')">
-    <input type="radio" name="paymethod" value="cod" checked onclick="event.stopPropagation();selectPayment('cod')">
-    <span id="codLabel">💵 الدفع عند الاستلام (COD)</span>
-   </div>
-
-   <div class="payment-badge" id="payKashierBox" onclick="selectPayment('kashier')">
-    <input type="radio" name="paymethod" value="kashier" onclick="event.stopPropagation();selectPayment('kashier')">
-    <span id="kashierLabel">💳 الدفع بالبطاقة عبر Kashier (وضع تجريبي)</span>
-   </div>
-  </div>
-
-  <div class="total">الإجمالي النهائي: <span id="checkoutTotal">0</span> جنيه</div>
-  <button class="submit" id="checkoutSubmit" onclick="placeOrder()">تأكيد الطلب وإرسال عبر الواتساب</button>
- </div>
 </div>
 
 <div class="productModal" id="productModal" onclick="if(event.target===this)closeProduct()">
- <div class="productBox">
-  <button class="close" onclick="closeProduct()" aria-label="إغلاق">×</button>
+  <div class="productBox">
+    <button class="close" onclick="closeProduct()" aria-label="إغلاق">×</button>
 
-  <div class="productLayout">
-   <div class="productPreview" id="productPreview"></div>
+    <div class="productLayout">
+      <div class="productPreview" id="productPreview"></div>
 
-   <div class="productDetails">
-    <div class="productCat" id="productCat"></div>
-    <h2 id="productTitle"></h2>
-    <div class="productPrice"><span id="productPrice"></span> جنيه</div>
+      <div class="productDetails">
+        <div class="productCat" id="productCat"></div>
+        <h2 id="productTitle"></h2>
+        <div class="productPrice"><span id="productPrice"></span> جنيه</div>
 
-    <div class="optionTitle">المقاس: <span id="selectedSizeLabel"></span></div>
-    <div class="sizeOptions" id="sizeOptions"></div>
+        <div class="optionTitle">المقاس: <span id="selectedSizeLabel"></span></div>
+        <div class="sizeOptions" id="sizeOptions"></div>
 
-    <div class="optionTitle">اللون: <span id="selectedColorLabel"></span></div>
-    <div class="colorOptions" id="colorOptions"></div>
+        <div class="optionTitle">اللون: <span id="selectedColorLabel"></span></div>
+        <div class="colorOptions" id="colorOptions"></div>
 
-    <button class="productAdd" onclick="addSelectedProduct()">أضف للسلة</button>
-   </div>
+        <button class="productAdd" onclick="addSelectedProduct()">أضف للسلة</button>
+      </div>
+    </div>
   </div>
- </div>
 </div>
 
 <div class="messageModal" id="messageModal" role="dialog" aria-modal="true" aria-labelledby="messageTitle" onclick="if(event.target===this)closeMessage()">
- <div class="messageBox">
-  <div class="messageIcon" id="messageIcon">!</div>
-  <h3 id="messageTitle">تنبيه</h3>
-  <p id="messageText"></p>
-  <button class="messageOk" onclick="closeMessage()">حسنًا</button>
- </div>
+  <div class="messageBox">
+    <div class="messageIcon" id="messageIcon">!</div>
+    <h3 id="messageTitle">تنبيه</h3>
+    <p id="messageText"></p>
+    <button class="messageOk" onclick="closeMessage()">حسنًا</button>
+  </div>
 </div>
 
 <div class="loginModal" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle" onclick="if(event.target===this)closeLogin()">
- <div class="loginBox">
-  <button class="close" onclick="closeLogin()" aria-label="إغلاق">×</button>
+  <div class="loginBox">
+    <button class="close" onclick="closeLogin()" aria-label="إغلاق">×</button>
 
-  <div class="loginHead">
-   <div class="loginAvatar">♙</div>
-   <h2 id="loginTitle">أهلًا بك في SELCO</h2>
-   <p>سجّل دخولك لمتابعة طلباتك وحفظ منتجاتك المفضلة</p>
+    <div class="loginHead">
+      <div class="loginAvatar">♙</div>
+      <h2 id="loginTitle">أهلًا بك في SELCO</h2>
+      <p>سجّل دخولك لمتابعة طلباتك وحفظ منتجاتك المفضلة</p>
+    </div>
+
+    <form onsubmit="submitLogin(event)">
+      <div class="loginField">
+        <label for="loginEmail">البريد الإلكتروني</label>
+        <input id="loginEmail" type="email" placeholder="name@example.com" required>
+      </div>
+
+      <div class="loginField">
+        <label for="loginPassword">كلمة المرور</label>
+        <input id="loginPassword" type="password" placeholder="••••••••" minlength="6" required>
+      </div>
+
+      <a class="forgot" href="#" onclick="forgotPassword(event)">نسيت كلمة المرور؟</a>
+      <button class="loginSubmit" type="submit">تسجيل الدخول</button>
+    </form>
+
+    <div class="loginDivider">أو سجّل الدخول بواسطة</div>
+
+    <div class="socialBtns">
+      <button class="socialBtn" onclick="socialLogin('Google')" type="button"><span class="googleMark">G</span> Google</button>
+      <button class="socialBtn" onclick="socialLogin('Facebook')" type="button"><span class="facebookMark">f</span> Facebook</button>
+    </div>
+
+    <p class="createAccount">
+      ليس لديك حساب؟
+      <button onclick="showMessage('إنشاء حساب','نموذج إنشاء الحساب جاهز للربط بقاعدة البيانات قريبًا.','✦')" type="button">أنشئ حسابًا</button>
+    </p>
   </div>
-
-  <form onsubmit="submitLogin(event)">
-   <div class="loginField">
-    <label for="loginEmail">البريد الإلكتروني</label>
-    <input id="loginEmail" type="email" placeholder="name@example.com" required>
-   </div>
-
-   <div class="loginField">
-    <label for="loginPassword">كلمة المرور</label>
-    <input id="loginPassword" type="password" placeholder="••••••••" minlength="6" required>
-   </div>
-
-   <a class="forgot" href="#" onclick="forgotPassword(event)">نسيت كلمة المرور؟</a>
-   <button class="loginSubmit" type="submit">تسجيل الدخول</button>
-  </form>
-
-  <div class="loginDivider">أو سجّل الدخول بواسطة</div>
-
-  <div class="socialBtns">
-   <button class="socialBtn" onclick="socialLogin('Google')" type="button"><span class="googleMark">G</span> Google</button>
-   <button class="socialBtn" onclick="socialLogin('Facebook')" type="button"><span class="facebookMark">f</span> Facebook</button>
-  </div>
-
-  <p class="createAccount">
-   ليس لديك حساب؟
-   <button onclick="showMessage('إنشاء حساب','نموذج إنشاء الحساب جاهز للربط بقاعدة البيانات قريبًا.','✦')" type="button">أنشئ حسابًا</button>
-  </p>
- </div>
 </div>
 
 <script>
 const img = [
- 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85',
- 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=900&q=85',
- 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=78',
- 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=85',
- 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=900&q=85',
- 'https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=900&q=85',
- 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=900&q=85',
- 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=85'
+  'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85',
+  'https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=900&q=85',
+  'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=78',
+  'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=85',
+  'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=900&q=85',
+  'https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=900&q=85',
+  'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=900&q=85',
+  'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=85'
 ];
 
 const SUPABASE_URL = "https://gvbqjpaeibpdobgqiibq.supabase.co";
@@ -314,45 +314,45 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const fallbackProducts = [
- {id:"1",name:"Oversized T-Shirt",cat:"تيشيرت",price:499,sizes:["S","M","L","XL"],colors:["أسود","أبيض"],image:""},
- {id:"2",name:"Essential Hoodie",cat:"هودي",price:799,sizes:["M","L","XL"],colors:["أسود","رمادي"],image:""},
- {id:"3",name:"Relaxed Pants",cat:"بنطلون",price:699,sizes:["S","M","L","XL"],colors:["بيج","أسود"],image:""},
- {id:"4",name:"Classic Shirt",cat:"قميص",price:649,sizes:["M","L","XL"],colors:["أبيض","أزرق"],image:""},
- {id:"5",name:"Basic Sweatshirt",cat:"سويت شيرت",price:749,sizes:["M","L","XL"],colors:["رمادي","أسود"],image:""},
- {id:"6",name:"Cargo Pants",cat:"بنطلون",price:899,sizes:["M","L","XL"],colors:["زيتي","أسود"],image:""},
- {id:"7",name:"Everyday Tee",cat:"تيشيرت",price:449,sizes:["S","M","L"],colors:["أبيض","أسود"],image:""},
- {id:"8",name:"Denim Jacket",cat:"جاكيت",price:999,sizes:["M","L","XL"],colors:["أزرق"],image:""}
+  {id:"1",name:"Oversized T-Shirt",cat:"تيشيرت",price:499,sizes:["S","M","L","XL"],colors:["أسود","أبيض"],image:""},
+  {id:"2",name:"Essential Hoodie",cat:"هودي",price:799,sizes:["M","L","XL"],colors:["أسود","رمادي"],image:""},
+  {id:"3",name:"Relaxed Pants",cat:"بنطلون",price:699,sizes:["S","M","L","XL"],colors:["بيج","أسود"],image:""},
+  {id:"4",name:"Classic Shirt",cat:"قميص",price:649,sizes:["M","L","XL"],colors:["أبيض","أزرق"],image:""},
+  {id:"5",name:"Basic Sweatshirt",cat:"سويت شيرت",price:749,sizes:["M","L","XL"],colors:["رمادي","أسود"],image:""},
+  {id:"6",name:"Cargo Pants",cat:"بنطلون",price:899,sizes:["M","L","XL"],colors:["زيتي","أسود"],image:""},
+  {id:"7",name:"Everyday Tee",cat:"تيشيرت",price:449,sizes:["S","M","L"],colors:["أبيض","أسود"],image:""},
+  {id:"8",name:"Denim Jacket",cat:"جاكيت",price:999,sizes:["M","L","XL"],colors:["أزرق"],image:""}
 ];
 
 let products = fallbackProducts;
 
 function mapProduct(row) {
- return {
-  id: String(row.id),
-  name: row.title || "",
-  cat: row.category || "أخرى",
-  price: Number(row.price) || 0,
-  sizes: Array.isArray(row.sizes) && row.sizes.length ? row.sizes : ["S", "M", "L", "XL"],
-  colors: Array.isArray(row.colors) ? row.colors : [],
-  stock: row.stock,
-  image: Array.isArray(row.images) && row.images.length ? row.images[0] : ""
- };
+  return {
+    id: String(row.id),
+    name: row.title || "",
+    cat: row.category || "أخرى",
+    price: Number(row.price) || 0,
+    sizes: Array.isArray(row.sizes) && row.sizes.length ? row.sizes : ["S", "M", "L", "XL"],
+    colors: Array.isArray(row.colors) ? row.colors : [],
+    stock: row.stock,
+    image: Array.isArray(row.images) && row.images.length ? row.images[0] : ""
+  };
 }
 
 async function loadProducts() {
- const { data, error } = await db
-  .from("products")
-  .select("id,title,description,price,stock,category,images,sizes,colors,created_at")
-  .order("created_at", { ascending: false });
+  const { data, error } = await db
+    .from("products")
+    .select("id,title,description,price,stock,category,images,sizes,colors,created_at")
+    .order("created_at", { ascending: false });
 
- if (error) {
-  console.error("Supabase products fetch failed:", error.message);
-  return;
- }
+  if (error) {
+    console.error("Supabase products fetch failed:", error.message);
+    return;
+  }
 
- if (data && data.length) products = data.map(mapProduct);
- renderProducts();
- updateCart();
+  if (data && data.length) products = data.map(mapProduct);
+  renderProducts();
+  updateCart();
 }
 
 let cart = JSON.parse(localStorage.getItem("selco_cart") || "[]").map(x => ({ ...x, id: String(x.id) }));
@@ -360,340 +360,571 @@ let filter = "الكل";
 let language = localStorage.getItem("selco_language") || "ar";
 
 const translations = {
- ar: {
-  top: "✨ شحن لجميع المحافظات • الدفع عند الاستلام فقط • NEW DROP 2026 ✨",
-  store: "المتجر",
-  brand: "البراند",
-  kicker: "NEW COLLECTION / 2026",
-  heroTitle: "Wear it.",
-  heroSpan: "Own it.",
-  heroText: "تشكيلة ملابس عصرية مصممة بأعلى جودة. اطلب الآن وادفع عند الاستلام باب البيت.",
-  discover: "اكتشف المجموعة ←",
-  shopTitle: "Shop the Drop",
-  shopText: "اختر القطعة، المقاس واللون، وأكمل طلبك في ثوانٍ.",
-  about: "ABOUT SELCO",
-  storyTitle: "مش مجرد متجر.<br>دي تجربة براند.",
-  storyText: "تصاميم خاصة بخامات ممتازة وراحة كاملة أثناء الحركة. اختر ملابسك بسهولة وادفع عند الاستلام بدون أي تعقيدات.",
-  cotton: "قطن ممتاز",
-  cod: "الدفع عند الاستلام",
-  collection: "التشكيلة الجديدة",
-  footer: "SELCO © 2026 — Fashion Store",
-  cart: "سلة المشتريات",
-  empty: "السلة فارغة حاليًا.",
-  finish: "إتمام الطلب (الدفع عند الاستلام)",
-  checkout: "بيانات الشحن والتوصيل",
-  fullName: "الاسم بالكامل",
-  phone: "رقم الهاتف",
-  governorate: "المحافظة",
-  city: "المدينة / المنطقة",
-  address: "العنوان بالتفصيل",
-  payment: "طريقة الدفع",
-  codFull: "💵 الدفع عند الاستلام (COD)",
-  kashierFull: "💳 الدفع بالبطاقة عبر Kashier (وضع تجريبي)",
-  payNow: "الدفع الآمن عبر Kashier",
-  processing: "جارٍ تجهيز الدفع...",
-  finalTotal: "الإجمالي النهائي:",
-  confirm: "تأكيد الطلب وإرسال عبر الواتساب",
-  search: "ابحث عن منتج...",
-  all: "الكل",
-  newItem: "جديد",
-  quick: "+ أضف سريعًا",
-  add: "أضف للسلة",
-  size: "المقاس:",
-  color: "اللون:"
- },
- en: {
-  top: "✨ Nationwide shipping • Cash on delivery • NEW DROP 2026 ✨",
-  store: "Shop",
-  brand: "The brand",
-  kicker: "NEW COLLECTION / 2026",
-  heroTitle: "Wear it.",
-  heroSpan: "Own it.",
-  heroText: "Modern essentials made with premium quality. Order now and pay at your doorstep.",
-  discover: "Discover the collection →",
-  shopTitle: "Shop the Drop",
-  shopText: "Choose your piece, size and color, then complete your order in seconds.",
-  about: "ABOUT SELCO",
-  storyTitle: "More than a store.<br>It's a brand experience.",
-  storyText: "Distinctive designs, premium fabrics and all-day comfort. Choose your pieces easily and pay on delivery.",
-  cotton: "Premium cotton",
-  cod: "Cash on delivery",
-  collection: "New collection",
-  footer: "SELCO © 2026 — Fashion Store",
-  cart: "Shopping cart",
-  empty: "Your cart is currently empty.",
-  finish: "Checkout (cash on delivery)",
-  checkout: "Shipping & delivery details",
-  fullName: "Full name",
-  phone: "Phone number",
-  governorate: "Governorate",
-  city: "City / area",
-  address: "Full address",
-  payment: "Payment method",
-  codFull: "💵 Cash on delivery (COD)",
-  kashierFull: "💳 Pay by card via Kashier (test mode)",
-  payNow: "Pay securely via Kashier",
-  processing: "Preparing payment...",
-  finalTotal: "Final total:",
-  confirm: "Confirm order via WhatsApp",
-  search: "Search for a product...",
-  all: "All",
-  newItem: "New",
-  quick: "+ Quick add",
-  add: "Add to cart",
-  size: "Size:",
-  color: "Color:"
- }
+  ar: {
+    top: "✨ شحن لجميع المحافظات • الدفع عند الاستلام فقط • NEW DROP 2026 ✨",
+    store: "المتجر",
+    brand: "البراند",
+    kicker: "NEW COLLECTION / 2026",
+    heroTitle: "Wear it.",
+    heroSpan: "Own it.",
+    heroText: "تشكيلة ملابس عصرية مصممة بأعلى جودة. اطلب الآن وادفع عند الاستلام باب البيت.",
+    discover: "اكتشف المجموعة ←",
+    shopTitle: "Shop the Drop",
+    shopText: "اختر القطعة، المقاس واللون، وأكمل طلبك في ثوانٍ.",
+    about: "ABOUT SELCO",
+    storyTitle: "مش مجرد متجر.<br>دي تجربة براند.",
+    storyText: "تصاميم خاصة بخامات ممتازة وراحة كاملة أثناء الحركة. اختر ملابسك بسهولة وادفع عند الاستلام بدون أي تعقيدات.",
+    cotton: "قطن ممتاز",
+    cod: "الدفع عند الاستلام",
+    collection: "التشكيلة الجديدة",
+    footer: "SELCO © 2026 — Fashion Store",
+    cart: "سلة المشتريات",
+    empty: "السلة فارغة حاليًا.",
+    finish: "إتمام الطلب (الدفع عند الاستلام)",
+    checkout: "بيانات الشحن والتوصيل",
+    fullName: "الاسم بالكامل",
+    phone: "رقم الهاتف",
+    governorate: "المحافظة",
+    city: "المدينة / المنطقة",
+    address: "العنوان بالتفصيل",
+    payment: "طريقة الدفع",
+    codFull: "💵 الدفع عند الاستلام (COD)",
+    kashierFull: "💳 الدفع بالبطاقة عبر Kashier (وضع تجريبي)",
+    payNow: "الدفع الآمن عبر Kashier",
+    processing: "جارٍ تجهيز الدفع...",
+    finalTotal: "الإجمالي النهائي:",
+    confirm: "تأكيد الطلب وإرسال عبر الواتساب",
+    search: "ابحث عن منتج...",
+    all: "الكل",
+    newItem: "جديد",
+    quick: "+ أضف سريعًا",
+    add: "أضف للسلة",
+    size: "المقاس:",
+    color: "اللون:"
+  },
+  en: {
+    top: "✨ Nationwide shipping • Cash on delivery • NEW DROP 2026 ✨",
+    store: "Shop",
+    brand: "The brand",
+    kicker: "NEW COLLECTION / 2026",
+    heroTitle: "Wear it.",
+    heroSpan: "Own it.",
+    heroText: "Modern essentials made with premium quality. Order now and pay at your doorstep.",
+    discover: "Discover the collection →",
+    shopTitle: "Shop the Drop",
+    shopText: "Choose your piece, size and color, then complete your order in seconds.",
+    about: "ABOUT SELCO",
+    storyTitle: "More than a store.<br>It's a brand experience.",
+    storyText: "Distinctive designs, premium fabrics and all-day comfort. Choose your pieces easily and pay on delivery.",
+    cotton: "Premium cotton",
+    cod: "Cash on delivery",
+    collection: "New collection",
+    footer: "SELCO © 2026 — Fashion Store",
+    cart: "Shopping cart",
+    empty: "Your cart is currently empty.",
+    finish: "Checkout (cash on delivery)",
+    checkout: "Shipping & delivery details",
+    fullName: "Full name",
+    phone: "Phone number",
+    governorate: "Governorate",
+    city: "City / area",
+    address: "Full address",
+    payment: "Payment method",
+    codFull: "💵 Cash on delivery (COD)",
+    kashierFull: "💳 Pay by card via Kashier (test mode)",
+    payNow: "Pay securely via Kashier",
+    processing: "Preparing payment...",
+    finalTotal: "Final total:",
+    confirm: "Confirm order via WhatsApp",
+    search: "Search for a product...",
+    all: "All",
+    newItem: "New",
+    quick: "+ Quick add",
+    add: "Add to cart",
+    size: "Size:",
+    color: "Color:"
+  }
 };
 
 const catNames = {
- "الكل": ["All", "الكل"],
- "تيشيرت": ["T-Shirt", "تيشيرت"],
- "هودي": ["Hoodie", "هودي"],
- "بنطلون": ["Pants", "بنطلون"],
- "قميص": ["Shirt", "قميص"],
- "سويت شيرت": ["Sweatshirt", "سويت شيرت"],
- "جاكيت": ["Jacket", "جاكيت"]
+  "الكل": ["All", "الكل"],
+  "تيشيرت": ["T-Shirt", "تيشيرت"],
+  "هودي": ["Hoodie", "هودي"],
+  "بنطلون": ["Pants", "بنطلون"],
+  "قميص": ["Shirt", "قميص"],
+  "سويت شيرت": ["Sweatshirt", "سويت شيرت"],
+  "جاكيت": ["Jacket", "جاكيت"]
 };
 
 const colorNames = {
- "أسود": ["Black", "أسود"],
- "أبيض": ["White", "أبيض"],
- "أزرق": ["Blue", "أزرق"],
- "رمادي": ["Gray", "رمادي"],
- "بيج": ["Beige", "بيج"],
- "زيتي": ["Olive", "زيتي"]
+  "أسود": ["Black", "أسود"],
+  "أبيض": ["White", "أبيض"],
+  "أزرق": ["Blue", "أزرق"],
+  "رمادي": ["Gray", "رمادي"],
+  "بيج": ["Beige", "بيج"],
+  "زيتي": ["Olive", "زيتي"]
 };
 
 const tr = key => translations[language][key];
 const translatedCat = value => catNames[value]?.[language === "en" ? 0 : 1] || value;
 const translatedColor = value => colorNames[value]?.[language === "en" ? 0 : 1] || value;
 
+let selectedPayment = 'cod';
+let selectedModalProduct = null;
+let selectedModalSize = '';
+let selectedModalColor = '';
+
+function toggleLanguage() {
+  language = language === 'ar' ? 'en' : 'ar';
+  localStorage.setItem('selco_language', language);
+  applyLanguage();
+}
+
 function applyLanguage() {
- const set = (selector, value, html = false) => {
-  const node = document.querySelector(selector);
-  if (node) html ? node.innerHTML = value : node.textContent = value;
- };
+  document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.lang = language;
+  document.getElementById('languageButton').textContent = language === 'ar' ? '🇬🇧' : '🇪🇬';
+  
+  const topSpan = document.querySelector('.top span');
+  if (topSpan) topSpan.textContent = tr('top');
 
- document.documentElement.lang = language;
- document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+  const kicker = document.querySelector('.heroText .kicker');
+  if (kicker) kicker.textContent = tr('kicker');
 
- set(".top span", tr("top"));
- set(".links a:nth-child(1)", tr("store"));
- set(".links a:nth-child(2)", tr("brand"));
- set(".hero .kicker", tr("kicker"));
- set(".hero h1", `${tr("heroTitle")}<span>${tr("heroSpan")}</span>`, true);
- set(".hero p", tr("heroText"));
- set(".hero .cta", tr("discover"));
- set(".bar h2", tr("shopTitle"));
- set(".bar p", tr("shopText"));
- set(".storyText .kicker", tr("about"));
- set(".storyText h3", tr("storyTitle"), true);
- set(".storyText p", tr("storyText"));
- set(".stat:nth-child(1) span", tr("cotton"));
- set(".stat:nth-child(2) span", tr("cod"));
- set(".stat:nth-child(3) span", tr("collection"));
- set("footer", tr("footer"));
+  const heroH1 = document.querySelector('.hero h1');
+  if (heroH1) heroH1.innerHTML = `${tr('heroTitle')}<span>${tr('heroSpan')}</span>`;
 
- document.getElementById("searchInput").placeholder = tr("search");
+  const heroP = document.querySelector('.hero p');
+  if (heroP) heroP.textContent = tr('heroText');
 
- set(".panel h2", tr("cart"));
- set(".panel .submit", tr("finish"));
- set(".modalBox h2", tr("checkout"));
+  const cta = document.querySelector('.cta');
+  if (cta) cta.innerHTML = `${tr('discover')} <span>${language === 'ar' ? '←' : '→'}</span>`;
 
- document.querySelectorAll(".field label").forEach((label, index) => {
-  label.textContent = [
-   tr("fullName"),
-   tr("phone"),
-   tr("governorate"),
-   tr("city"),
-   tr("address"),
-   tr("payment")
-  ][index] || label.textContent;
- });
+  const shopH2 = document.querySelector('.bar h2');
+  if (shopH2) shopH2.textContent = tr('shopTitle');
 
- const codLabel = document.getElementById("codLabel");
- const kashierLabel = document.getElementById("kashierLabel");
+  const shopP = document.querySelector('.bar p');
+  if (shopP) shopP.textContent = tr('shopText');
 
- if (codLabel) codLabel.textContent = tr("codFull");
- if (kashierLabel) kashierLabel.textContent = tr("kashierFull");
+  const storyKicker = document.querySelector('.storyText .kicker');
+  if (storyKicker) storyKicker.textContent = tr('about');
 
- const checkoutTotal = document.getElementById("checkoutTotal");
- if (checkoutTotal) checkoutTotal.parentElement.firstChild.textContent = `${tr("finalTotal")} `;
+  const storyH3 = document.querySelector('.storyText h3');
+  if (storyH3) storyH3.innerHTML = tr('storyTitle');
 
- syncCheckoutButton();
+  const storyP = document.querySelector('.storyText p');
+  if (storyP) storyP.textContent = tr('storyText');
 
- set(".menuPanel a:nth-of-type(1)", tr("store"));
- set(".menuPanel a:nth-of-type(2)", language === "ar" ? "عن SELCO" : "About SELCO");
- set(".menuPanel a:nth-of-type(3)", language === "ar" ? "كل المنتجات" : "All products");
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.placeholder = tr('search');
 
- const optionTitles = document.querySelectorAll(".productDetails .optionTitle");
- if (optionTitles[0]) optionTitles[0].firstChild.textContent = `${tr("size")} `;
- if (optionTitles[1]) optionTitles[1].firstChild.textContent = `${tr("color")} `;
+  const codLabel = document.getElementById('codLabel');
+  if (codLabel) codLabel.textContent = tr('codFull');
 
- set("#loginTitle", language === "ar" ? "أهلًا بك في SELCO" : "Welcome to SELCO");
- set(".loginHead p", language === "ar" ? "سجّل دخولك لمتابعة طلباتك وحفظ منتجاتك المفضلة" : "Sign in to track orders and save your favorite products");
- document.querySelectorAll(".loginField label")[0].textContent = language === "ar" ? "البريد الإلكتروني" : "Email address";
- document.querySelectorAll(".loginField label")[1].textContent = language === "ar" ? "كلمة المرور" : "Password";
- set(".forgot", language === "ar" ? "نسيت كلمة المرور؟" : "Forgot password?");
- set(".loginSubmit", language === "ar" ? "تسجيل الدخول" : "Sign in");
- set(".loginDivider", language === "ar" ? "أو سجّل الدخول بواسطة" : "Or continue with");
+  const kashierLabel = document.getElementById('kashierLabel');
+  if (kashierLabel) kashierLabel.textContent = tr('kashierFull');
 
- const createAccount = document.querySelector(".createAccount");
-
- if (createAccount) {
-  createAccount.firstChild.textContent = language === "ar" ? "ليس لديك حساب؟ " : "Don't have an account? ";
-  createAccount.querySelector("button").textContent = language === "ar" ? "أنشئ حسابًا" : "Create one";
- }
-
- set("#languageButton", language === "ar" ? "🇬🇧" : "عربي");
-
- renderProducts();
- updateCart();
- refreshProductChoice();
-
- localStorage.setItem("selco_language", language);
+  renderFilters();
+  renderProducts();
+  updateCart();
+  syncCheckoutButton();
 }
 
-const escapeAttr = value =>
- String(value)
-  .replace(/&/g, "&amp;")
-  .replace(/"/g, "&quot;")
-  .replace(/'/g, "&#39;")
-  .replace(/</g, "&lt;");
-
-function setFilter(c, el) {
- filter = c;
- document.querySelectorAll("#filters .chip").forEach(x => x.classList.remove("active"));
- el.classList.add("active");
- renderProducts();
+function toggleSearch() {
+  document.getElementById('searchBox').classList.toggle('open');
 }
 
-function renderProducts() {
- let query = (document.getElementById("searchInput")?.value || "").trim().toLowerCase();
- const cats = ["الكل", ...new Set(products.map(p => p.cat))];
-
- if (!cats.includes(filter)) filter = "الكل";
-
- let list = filter === "الكل" ? products : products.filter(p => p.cat === filter);
-
- if (query) {
-  list = list.filter(p =>
-   `${p.name} ${p.cat} ${p.colors.join(" ")}`
-    .toLowerCase()
-    .includes(query)
-  );
- }
-
- document.getElementById("filters").innerHTML = cats
-  .map(c => `<button class="chip ${c === filter ? "active" : ""}" onclick="setFilter('${c}',this)">${c === "الكل" ? tr("all") : translatedCat(c)}</button>`)
-  .join("");
-
- document.getElementById("products").innerHTML = list
-  .map((p, i) => `
-   <div class="card reveal" data-product-id="${escapeAttr(p.id)}" onclick="openProduct(this.dataset.productId)">
-    <div class="pic">
-     <span class="badge">${tr("newItem")}</span>
-     <img src="${escapeAttr(p.image || img[i % img.length])}" alt="${escapeAttr(p.name)}">
-     <button class="quick" onclick="event.stopPropagation();addToCart('${escapeAttr(p.id)}')">+ أضف سريعًا</button>
-    </div>
-
-    <div class="info">
-     <div class="name">${p.name}</div>
-     <div class="muted">${p.colors.length ? p.colors.map(translatedColor).join(" / ") : translatedCat(p.cat)}</div>
-     <div class="price">${p.price} جنيه</div>
-     <button class="buy" onclick="event.stopPropagation();addToCart('${escapeAttr(p.id)}')">${tr("add")}</button>
-    </div>
-   </div>
-  `)
-  .join("");
-
- observeReveals();
+function toggleMenu() {
+  document.getElementById('menuPanel').classList.toggle('open');
+  document.getElementById('menuShade').classList.toggle('open');
+  document.getElementById('menuButton').classList.toggle('open');
 }
 
-function saveCart() {
- localStorage.setItem("selco_cart", JSON.stringify(cart));
- updateCart();
+function showMessage(title, msg, icon = '!') {
+  document.getElementById('messageTitle').textContent = title;
+  document.getElementById('messageText').textContent = msg;
+  document.getElementById('messageIcon').textContent = icon;
+  document.getElementById('messageModal').classList.add('open');
 }
 
-function addToCart(id, size = "M", color = null) {
- let p = products.find(p => p.id === id);
- if (!p) return;
-
- let item = cart.find(x => x.id === id);
-
- if (item) {
-  item.qty++;
- } else {
-  cart.push({
-   id,
-   size: p.sizes.includes(size) ? size : p.sizes[0],
-   color: color || p.colors[0] || "",
-   qty: 1
-  });
- }
-
- saveCart();
- openCart();
+function closeMessage() {
+  document.getElementById('messageModal').classList.remove('open');
 }
 
-let selectedProduct = null;
-let selectedSize = "M";
-let selectedColor = "";
+function openAccount() {
+  document.getElementById('loginModal').classList.add('open');
+}
 
-const colorSwatches = {
- "أبيض": "#f4f4f0",
- "أسود": "#171717",
- "أزرق": "#3b6f9f",
- "رمادي": "#858781",
- "بيج": "#c8b69c",
- "زيتي": "#69705d"
-};
+function closeLogin() {
+  document.getElementById('loginModal').classList.remove('open');
+}
 
-const colorImages = {
- "أبيض": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1100&q=90",
- "أسود": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=1100&q=90",
- "أزرق": "https://images.unsplash.com/photo-1622445275576-721325763afe?auto=format&fit=crop&w=1100&q=90",
- "رمادي": "https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&w=1100&q=90",
- "بيج": "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1100&q=90",
- "زيتي": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1100&q=90"
-};
+function submitLogin(e) {
+  e.preventDefault();
+  closeLogin();
+  showMessage('تم تسجيل الدخول', 'مرحبًا بك مجددًا في SELCO!', '✓');
+}
+
+function forgotPassword(e) {
+  e.preventDefault();
+  showMessage('استعادة كلمة المرور', 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك.', '✉');
+}
+
+function socialLogin(provider) {
+  showMessage(provider, `جاري الاتصال عبر ${provider}...`, '✦');
+}
+
+function renderFilters() {
+  const categories = ["الكل", "تيشيرت", "هودي", "بنطلون", "قميص", "سويت شيرت", "جاكيت"];
+  const container = document.getElementById("filters");
+  if (!container) return;
+  
+  container.innerHTML = categories.map(cat => `
+    <button class="chip ${filter === cat ? 'active' : ''}" onclick="setFilter('${cat}')">
+      ${translatedCat(cat)}
+    </button>
+  `).join('');
+}
+
+function setFilter(cat) {
+  filter = cat;
+  renderFilters();
+  renderProducts();
+}
+
+function searchProducts(query) {
+  const q = query.trim().toLowerCase();
+  const filtered = products.filter(p => p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q));
+  renderProducts(filtered);
+}
+
+function renderProducts(list = products) {
+  const grid = document.getElementById("products");
+  if (!grid) return;
+
+  const filteredList = filter === "الكل" ? list : list.filter(p => p.cat === filter);
+  
+  grid.innerHTML = filteredList.map((p, idx) => {
+    const imgSrc = p.image || img[idx % img.length];
+    return `
+      <div class="card visible">
+        <div class="pic">
+          <img src="${imgSrc}" alt="${p.name}">
+          <span class="badge">${tr('newItem')}</span>
+          <button class="quick" onclick="openProduct('${p.id}')">${tr('quick')}</button>
+        </div>
+        <div class="info">
+          <div class="muted">${translatedCat(p.cat)}</div>
+          <div class="name">${p.name}</div>
+          <div class="price">${p.price} EGP</div>
+          <button class="buy" onclick="openProduct('${p.id}')">${tr('add')}</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
 
 function openProduct(id) {
- selectedProduct = products.find(p => p.id === id);
- if (!selectedProduct) return;
+  selectedModalProduct = products.find(p => p.id === id);
+  if (!selectedModalProduct) return;
 
- selectedSize = selectedProduct.sizes.includes("M")
-  ? "M"
-  : selectedProduct.sizes[0];
+  selectedModalSize = selectedModalProduct.sizes[0] || 'M';
+  selectedModalColor = selectedModalProduct.colors[0] || '';
 
- selectedColor = selectedProduct.colors[0] || "";
+  const idx = products.findIndex(p => p.id === id);
+  const imgSrc = selectedModalProduct.image || img[idx % img.length];
 
- document.getElementById("productTitle").textContent = selectedProduct.name;
- document.getElementById("productCat").textContent = selectedProduct.cat;
- document.getElementById("productPrice").textContent = selectedProduct.price;
+  document.getElementById('productPreview').style.backgroundImage = `url('${imgSrc}')`;
+  document.getElementById('productCat').textContent = translatedCat(selectedModalProduct.cat);
+  document.getElementById('productTitle').textContent = selectedModalProduct.name;
+  document.getElementById('productPrice').textContent = selectedModalProduct.price;
 
- document.getElementById("sizeOptions").innerHTML =
-  selectedProduct.sizes
-   .map(size =>
-    `<button class="sizeOption ${size === selectedSize ? "active" : ""}" onclick="chooseSize('${size}')">${size}</button>`
-   )
-   .join("");
+  renderSizeOptions();
+  renderColorOptions();
 
- document.getElementById("colorOptions").innerHTML =
-  (selectedProduct.colors || [])
-   .map(color =>
-    `<button class="colorOption ${color === selectedColor ? "active" : ""}" style="background:${colorSwatches[color] || "#ddd"}" aria-label="${color}" title="${color}" onclick="chooseColor('${color}')"></button>`
-   )
-   .join("");
-
- refreshProductChoice();
-
- document.getElementById("productModal").classList.add("open");
- document.body.style.overflow = "hidden";
+  document.getElementById('productModal').classList.add('open');
 }
 
 function closeProduct() {
- docum **…**
+  document.getElementById('productModal').classList.remove('open');
+}
 
-_This response is too long to display in full._
+function renderSizeOptions() {
+  const container = document.getElementById('sizeOptions');
+  if (!container || !selectedModalProduct) return;
+
+  document.getElementById('selectedSizeLabel').textContent = selectedModalSize;
+  container.innerHTML = selectedModalProduct.sizes.map(s => `
+    <button class="sizeOption ${selectedModalSize === s ? 'active' : ''}" onclick="selectSize('${s}')">${s}</button>
+  `).join('');
+}
+
+function selectSize(s) {
+  selectedModalSize = s;
+  renderSizeOptions();
+}
+
+function renderColorOptions() {
+  const container = document.getElementById('colorOptions');
+  if (!container || !selectedModalProduct) return;
+
+  document.getElementById('selectedColorLabel').textContent = translatedColor(selectedModalColor);
+  container.innerHTML = selectedModalProduct.colors.map(c => `
+    <button class="colorOption ${selectedModalColor === c ? 'active' : ''}" style="background-color: ${getColorHex(c)}" onclick="selectColor('${c}')"></button>
+  `).join('');
+}
+
+function selectColor(c) {
+  selectedModalColor = c;
+  renderColorOptions();
+}
+
+function getColorHex(c) {
+  const map = { "أسود": "#000", "أبيض": "#fff", "أزرق": "#1d4ed8", "رمادي": "#6b7280", "بيج": "#d1d5db", "زيتي": "#3f6212" };
+  return map[c] || "#888";
+}
+
+function addSelectedProduct() {
+  if (!selectedModalProduct) return;
+  addToCart(selectedModalProduct.id, selectedModalSize, selectedModalColor);
+  closeProduct();
+  openCart();
+}
+
+function addToCart(id, size = 'M', color = '') {
+  const product = products.find(p => p.id === id);
+  if (!product) return;
+
+  const existing = cart.find(x => x.id === id && x.size === size && x.color === color);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ id, name: product.name, price: product.price, size, color, qty: 1 });
+  }
+  saveCart();
+}
+
+function changeQty(index, delta) {
+  cart[index].qty += delta;
+  if (cart[index].qty <= 0) cart.splice(index, 1);
+  saveCart();
+}
+
+function saveCart() {
+  localStorage.setItem('selco_cart', JSON.stringify(cart));
+  updateCart();
+}
+
+function updateCart() {
+  const totalQty = cart.reduce((acc, x) => acc + x.qty, 0);
+  const totalPrice = cart.reduce((acc, x) => acc + (x.price * x.qty), 0);
+
+  document.getElementById('cartCount').textContent = totalQty;
+  document.getElementById('menuCartCount').textContent = totalQty;
+  document.getElementById('cartTotal').textContent = totalPrice;
+  document.getElementById('checkoutTotal').textContent = totalPrice;
+
+  const container = document.getElementById('cartItems');
+  if (!container) return;
+
+  if (cart.length === 0) {
+    container.innerHTML = `<p style="text-align:center;color:#888;padding:20px 0;">${tr('empty')}</p>`;
+    return;
+  }
+
+  container.innerHTML = cart.map((x, i) => `
+    <div class="cartrow">
+      <div>
+        <strong>${x.name}</strong>
+        <div style="font-size:12px;color:#777;">${x.size} | ${translatedColor(x.color)}</div>
+        <div>${x.price} EGP</div>
+      </div>
+      <div class="qty">
+        <button onclick="changeQty(${i}, -1)">-</button>
+        <span>${x.qty}</span>
+        <button onclick="changeQty(${i}, 1)">+</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openCart() {
+  document.getElementById('cartDrawer').style.display = 'block';
+}
+
+function closeCart() {
+  document.getElementById('cartDrawer').style.display = 'none';
+}
+
+function openCheckout() {
+  if (cart.length === 0) {
+    showMessage('السلة فارغة', 'برجاء إضافة منتجات للسلة أولًا.', '!');
+    return;
+  }
+  closeCart();
+  document.getElementById('checkoutModal').style.display = 'block';
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutModal').style.display = 'none';
+}
+
+function selectPayment(method) {
+  selectedPayment = method;
+  document.getElementById('payCodBox').classList.toggle('active', method === 'cod');
+  document.getElementById('payKashierBox').classList.toggle('active', method === 'kashier');
+  
+  const radios = document.querySelectorAll('input[name="paymethod"]');
+  radios.forEach(r => r.checked = (r.value === method));
+
+  syncCheckoutButton();
+}
+
+function syncCheckoutButton() {
+  const btn = document.getElementById('checkoutSubmit');
+  if (!btn) return;
+  btn.textContent = selectedPayment === 'kashier' ? tr('payNow') : tr('confirm');
+}
+
+function placeOrder() {
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const gov = document.getElementById('gov').value.trim();
+  const city = document.getElementById('city').value.trim();
+  const address = document.getElementById('address').value.trim();
+
+  if (!name || !phone || !gov || !address) {
+    showMessage('بيانات ناقصة', 'برجاء ملء جميع الحقول المطلوبة بالشكل الصحيح.', '!');
+    return;
+  }
+
+  const customer = { name, phone, gov, city, address };
+
+  if (selectedPayment === 'kashier') {
+    payWithKashier(customer);
+  } else {
+    sendWhatsAppOrder(customer);
+  }
+}
+
+function sendWhatsAppOrder(customer) {
+  const orderNum = 'SELCO-' + Math.floor(100000 + Math.random() * 900000);
+  let text = `*طلب جديد من متجر SELCO* 🛍️\n\n`;
+  text += `*رقم الطلب:* ${orderNum}\n`;
+  text += `*الاسم:* ${customer.name}\n`;
+  text += `*الهاتف:* ${customer.phone}\n`;
+  text += `*المحافظة:* ${customer.gov}\n`;
+  text += `*المدينة/المنطقة:* ${customer.city}\n`;
+  text += `*العنوان:* ${customer.address}\n\n`;
+  text += `*المنتجات:*\n`;
+
+  let total = 0;
+  cart.forEach((item, idx) => {
+    const itemTotal = item.price * item.qty;
+    total += itemTotal;
+    text += `${idx + 1}. ${item.name} (${item.size} / ${item.color}) × ${item.qty} = ${itemTotal} جنيه\n`;
+  });
+
+  text += `\n*الإجمالي:* ${total} جنيه\n`;
+  text += `*طريقة الدفع:* الدفع عند الاستلام (COD)`;
+
+  const waUrl = `https://wa.me/201000000000?text=${encodeURIComponent(text)}`;
+  
+  cart = [];
+  saveCart();
+  closeCheckout();
+
+  window.open(waUrl, '_blank');
+  showMessage('تم إرسال الطلب', 'تم توجيهك إلى الواتساب لتأكيد الطلب. شكرًا لتسوقك من SELCO!', '✓');
+}
+
+async function payWithKashier(customer) {
+  const button = document.getElementById("checkoutSubmit");
+
+  button.disabled = true;
+  button.textContent = tr("processing");
+
+  const requestBody = {
+    customer,
+    items: cart.map(x => ({
+      id: x.id,
+      qty: x.qty,
+      size: x.size,
+      color: x.color
+    }))
+  };
+
+  const endpoints = [
+    "/api/kashier-session",
+    "/api/kashier-session.js"
+  ];
+
+  try {
+    let response;
+    let payload = {};
+
+    for (let i = 0; i < endpoints.length; i++) {
+      response = await fetch(endpoints[i], {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      const responseText = await response.text();
+
+      try {
+        payload = responseText ? JSON.parse(responseText) : {};
+      } catch (parseError) {
+        payload = {};
+      }
+
+      if (response.status === 404 && i < endpoints.length - 1) {
+        continue;
+      }
+
+      break;
+    }
+
+    if (!response.ok || !payload.paymentUrl) {
+      if (response.status === 404) {
+        throw new Error(
+          "مسار الدفع غير موجود. برجاء إعادة نشر مشروع Vercel."
+        );
+      }
+
+      throw new Error(
+        payload.error || "تعذر إنشاء جلسة الدفع"
+      );
+    }
+
+    localStorage.setItem(
+      "selco_pending_order",
+      payload.merchantOrderId
+    );
+
+    window.location.href = payload.paymentUrl;
+
+  } catch (err) {
+    console.error("Kashier session failed:", err);
+
+    button.disabled = false;
+    syncCheckoutButton();
+
+    showMessage(
+      "تعذر بدء الدفع",
+      err.message || "برجاء المحاولة مرة أخرى أو اختيار الدفع عند الاستلام.",
+      "✕"
+    );
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderFilters();
+  loadProducts();
+  applyLanguage();
+});
+</script>
+</body>
+</html>
