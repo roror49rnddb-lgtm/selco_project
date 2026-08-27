@@ -299,14 +299,29 @@ window.si = window.si || function () { (window.siq = window.siq || []).push(argu
 
 <script>
 const img = [
-  
+  'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85',
+  'https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=900&q=85',
+  'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=78',
+  'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=85',
+  'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=900&q=85',
+  'https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=900&q=85',
+  'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=900&q=85',
+  'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=85'
+];
 
 const SUPABASE_URL = "https://gvbqjpaeibpdobgqiibq.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2YnFqcGFlaWJwZG9iZ3FpaWJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzcyOTMsImV4cCI6MjEwMzE1MzI5M30.28Vzz0yP5nEJ3Fkv7kM1eiL5Ff6_rrTNtOsv1-D3HWs";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const fallbackProducts = [
- 
+  {id:"1",name:"Oversized T-Shirt",cat:"تيشيرت",price:499,sizes:["S","M","L","XL"],colors:["أسود","أبيض"],image:""},
+  {id:"2",name:"Essential Hoodie",cat:"هودي",price:799,sizes:["M","L","XL"],colors:["أسود","رمادي"],image:""},
+  {id:"3",name:"Relaxed Pants",cat:"بنطلون",price:699,sizes:["S","M","L","XL"],colors:["بيج","أسود"],image:""},
+  {id:"4",name:"Classic Shirt",cat:"قميص",price:649,sizes:["M","L","XL"],colors:["أبيض","أزرق"],image:""},
+  {id:"5",name:"Basic Sweatshirt",cat:"سويت شيرت",price:749,sizes:["M","L","XL"],colors:["رمادي","أسود"],image:""},
+  {id:"6",name:"Cargo Pants",cat:"بنطلون",price:899,sizes:["M","L","XL"],colors:["زيتي","أسود"],image:""},
+  {id:"7",name:"Everyday Tee",cat:"تيشيرت",price:449,sizes:["S","M","L"],colors:["أبيض","أسود"],image:""},
+  {id:"8",name:"Denim Jacket",cat:"جاكيت",price:999,sizes:["M","L","XL"],colors:["أزرق"],image:""}
 ];
 
 let products = fallbackProducts;
