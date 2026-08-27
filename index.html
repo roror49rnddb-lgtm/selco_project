@@ -75,14 +75,6 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
 @media(max-width:900px){.hero{grid-template-columns:1fr}.heroText,.heroImg{min-height:430px}.grid{grid-template-columns:repeat(2,1fr)}.story{grid-template-columns:1fr}.links{display:none}.navActions{gap:12px}.navActions .accountBtn{display:none}}
 @media(max-width:560px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.heroText{padding:38px 28px}.hero h1{font-size:48px}}
 </style>
-<script>
-window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
-<script>
-window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-</script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 <div class="top"><span>✨ شحن لجميع المحافظات • الدفع عند الاستلام فقط • NEW DROP 2026 ✨</span></div>
@@ -298,34 +290,56 @@ window.si = window.si || function () { (window.siq = window.siq || []).push(argu
 </div>
 
 <script>
-const img = [
-  
-];
-
 const SUPABASE_URL = "https://gvbqjpaeibpdobgqiibq.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2YnFqcGFlaWJwZG9iZ3FpaWJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzcyOTMsImV4cCI6MjEwMzE1MzI5M30.28Vzz0yP5nEJ3Fkv7kM1eiL5Ff6_rrTNtOsv1-D3HWs";
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2YnFqcGFlaWJwZG9iZ3FpaWJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzcyOTMsImV4cCI6MjE0MzE1MzI5M30.28Vzz0yP5nEJ3Fkv7kM1eiL5Ff6_rrTNtOsv1-D3HWs";
+const db = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
 const fallbackProducts = [
- 
+  {
+    id: "1",
+    name: "CYCLO Hoodie Black",
+    cat: "هودي",
+    price: 495,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["أسود"],
+    images: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80"]
+  }
 ];
 
 let products = fallbackProducts;
 
 function mapProduct(row) {
+  let imagesArray = [];
+  if (Array.isArray(row.images) && row.images.length > 0) {
+    imagesArray = row.images;
+  } else if (typeof row.images === 'string') {
+    try {
+      imagesArray = JSON.parse(row.images);
+    } catch(e) {
+      imagesArray = [row.images];
+    }
+  }
+
   return {
     id: String(row.id),
-    name: row.title || "",
+    name: row.title || row.name || "",
     cat: row.category || "أخرى",
     price: Number(row.price) || 0,
     sizes: Array.isArray(row.sizes) && row.sizes.length ? row.sizes : ["S", "M", "L", "XL"],
     colors: Array.isArray(row.colors) ? row.colors : [],
     stock: row.stock,
-    image: Array.isArray(row.images) && row.images.length ? row.images[0] : ""
+    images: imagesArray,
+    image: imagesArray[0] || ""
   };
 }
 
 async function loadProducts() {
+  if (!db) {
+    renderProducts();
+    updateCart();
+    return;
+  }
+
   const { data, error } = await db
     .from("products")
     .select("id,title,description,price,stock,category,images,sizes,colors,created_at")
@@ -333,10 +347,9 @@ async function loadProducts() {
 
   if (error) {
     console.error("Supabase products fetch failed:", error.message);
-    return;
+  } else if (data && data.length) {
+    products = data.map(mapProduct);
   }
-
-  if (data && data.length) products = data.map(mapProduct);
   renderProducts();
   updateCart();
 }
@@ -484,22 +497,22 @@ function applyLanguage() {
   if (heroP) heroP.textContent = tr('heroText');
 
   const cta = document.querySelector('.cta');
-  if (cta) cta.innerHTML = `${tr('discover')} <span>${language === 'ar' ? '←' : '→'}</span>`;
+  if (cta) cta.innerHTML = `${tr('discover')}`;
 
-  const shopH2 = document.querySelector('.bar h2');
-  if (shopH2) shopH2.textContent = tr('shopTitle');
+  const shopTitle = document.querySelector('.bar h2');
+  if (shopTitle) shopTitle.textContent = tr('shopTitle');
 
-  const shopP = document.querySelector('.bar p');
-  if (shopP) shopP.textContent = tr('shopText');
+  const shopText = document.querySelector('.bar p');
+  if (shopText) shopText.textContent = tr('shopText');
 
-  const storyKicker = document.querySelector('.storyText .kicker');
-  if (storyKicker) storyKicker.textContent = tr('about');
+  const storyTitle = document.querySelector('.storyText h3');
+  if (storyTitle) storyTitle.innerHTML = tr('storyTitle');
 
-  const storyH3 = document.querySelector('.storyText h3');
-  if (storyH3) storyH3.innerHTML = tr('storyTitle');
+  const storyText = document.querySelector('.storyText p');
+  if (storyText) storyText.textContent = tr('storyText');
 
-  const storyP = document.querySelector('.storyText p');
-  if (storyP) storyP.textContent = tr('storyText');
+  const footer = document.querySelector('footer');
+  if (footer) footer.textContent = tr('footer');
 
   const searchInput = document.getElementById('searchInput');
   if (searchInput) searchInput.placeholder = tr('search');
@@ -513,11 +526,298 @@ function applyLanguage() {
   renderFilters();
   renderProducts();
   updateCart();
-  syncCheckoutButton();
 }
 
-function toggleSearch() {
-  document.getElementById('searchBox').classList.toggle('open');
+function renderFilters() {
+  const categories = ["الكل", "تيشيرت", "هودي", "بنطلون", "قميص", "سويت شيرت", "جاكيت"];
+  const filtersContainer = document.getElementById('filters');
+  if (!filtersContainer) return;
+
+  filtersContainer.innerHTML = categories.map(cat => `
+    <button class="chip ${filter === cat ? 'active' : ''}" onclick="setFilter('${cat}')">
+      ${translatedCat(cat)}
+    </button>
+  `).join('');
+}
+
+function setFilter(cat) {
+  filter = cat;
+  renderFilters();
+  renderProducts();
+}
+
+function renderProducts() {
+  const container = document.getElementById('products');
+  if (!container) return;
+
+  const filtered = filter === "الكل" ? products : products.filter(p => p.cat === filter);
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:40px;color:#888;">لا توجد منتجات متوفرة حالياً في هذه الفئة.</p>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(p => `
+    <div class="card visible">
+      <div class="pic" onclick="openProductModal('${p.id}')" style="cursor:pointer">
+        <span class="badge">${tr('newItem')}</span>
+        <img src="${p.image || (p.images && p.images[0]) || 'https://via.placeholder.com/400x500'}" alt="${p.name}" loading="lazy">
+        <button class="quick" onclick="event.stopPropagation(); openProductModal('${p.id}')">${tr('quick')}</button>
+      </div>
+      <div class="info">
+        <div class="muted">${translatedCat(p.cat)}</div>
+        <div class="name">${p.name}</div>
+        <div class="price">${p.price} جنيه</div>
+        <button class="buy" onclick="openProductModal('${p.id}')">${tr('add')}</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openProductModal(id) {
+  const product = products.find(p => p.id === String(id));
+  if (!product) return;
+
+  selectedModalProduct = product;
+  selectedModalSize = product.sizes[0] || 'M';
+  selectedModalColor = product.colors[0] || '';
+
+  document.getElementById('productTitle').textContent = product.name;
+  document.getElementById('productCat').textContent = translatedCat(product.cat);
+  document.getElementById('productPrice').textContent = product.price;
+
+  const previewContainer = document.getElementById('productPreview');
+  const images = (Array.isArray(product.images) && product.images.length > 0) 
+    ? product.images 
+    : [product.image || 'https://via.placeholder.com/500'];
+
+  previewContainer.innerHTML = `
+    <div style="width:100%; height:100%; display:flex; flex-direction:column; gap:12px;">
+      <div id="mainImageDisplay" style="flex:1; border-radius:16px; background:#eee url('${images[0]}') center/cover no-repeat; min-height:350px; transition: background-image 0.3s ease;"></div>
+      ${images.length > 1 ? `
+        <div style="display:flex; gap:10px; overflow-x:auto; padding-bottom:5px;">
+          ${images.map((imgUrl, idx) => `
+            <img src="${imgUrl}" class="thumb-item ${idx === 0 ? 'active' : ''}" 
+                 onclick="changeMainImage('${imgUrl}', this)"
+                 style="width:60px; height:60px; border-radius:10px; object-fit:cover; cursor:pointer; border:2px solid ${idx === 0 ? '#111' : 'transparent'}; opacity:${idx === 0 ? '1' : '0.6'}; transition:0.2s;" />
+          `).join('')}
+        </div>
+      ` : ''}
+    </div>
+  `;
+
+  const sizeContainer = document.getElementById('sizeOptions');
+  sizeContainer.innerHTML = product.sizes.map(size => `
+    <button class="sizeOption ${size === selectedModalSize ? 'active' : ''}" onclick="selectSize('${size}', this)">${size}</button>
+  `).join('');
+  document.getElementById('selectedSizeLabel').textContent = selectedModalSize;
+
+  const colorContainer = document.getElementById('colorOptions');
+  if (product.colors && product.colors.length > 0) {
+    colorContainer.innerHTML = product.colors.map(color => `
+      <div class="colorOption ${color === selectedModalColor ? 'active' : ''}" 
+           style="background-color: ${getColorCode(color)};" 
+           title="${translatedColor(color)}"
+           onclick="selectColor('${color}', this)"></div>
+    `).join('');
+    document.getElementById('selectedColorLabel').textContent = translatedColor(selectedModalColor);
+  } else {
+    colorContainer.innerHTML = `<span style="font-size:12px;color:#888;">قياسي</span>`;
+    document.getElementById('selectedColorLabel').textContent = '';
+  }
+
+  document.getElementById('productModal').classList.add('open');
+}
+
+function changeMainImage(imgUrl, element) {
+  document.getElementById('mainImageDisplay').style.backgroundImage = `url('${imgUrl}')`;
+  document.querySelectorAll('.thumb-item').forEach(el => {
+    el.style.borderColor = 'transparent';
+    el.style.opacity = '0.6';
+  });
+  element.style.borderColor = '#111';
+  element.style.opacity = '1';
+}
+
+function selectSize(size, btn) {
+  selectedModalSize = size;
+  document.getElementById('selectedSizeLabel').textContent = size;
+  document.querySelectorAll('.sizeOption').forEach(el => el.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function selectColor(color, el) {
+  selectedModalColor = color;
+  document.getElementById('selectedColorLabel').textContent = translatedColor(color);
+  document.querySelectorAll('.colorOption').forEach(item => item.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function getColorCode(colorName) {
+  const map = {
+    'أسود': '#000000', 'أبيض': '#ffffff', 'أزرق': '#1e40af', 
+    'رمادي': '#6b7280', 'بيج': '#f5f5dc', 'زيتي': '#3f6212'
+  };
+  return map[colorName] || '#cccccc';
+}
+
+function closeProduct() {
+  document.getElementById('productModal').classList.remove('open');
+}
+
+function addSelectedProduct() {
+  if (!selectedModalProduct) return;
+
+  const cartItem = {
+    id: selectedModalProduct.id,
+    name: selectedModalProduct.name,
+    price: selectedModalProduct.price,
+    image: selectedModalProduct.image || (selectedModalProduct.images && selectedModalProduct.images[0]),
+    size: selectedModalSize,
+    color: selectedModalColor,
+    qty: 1
+  };
+
+  const existingIndex = cart.findIndex(item => 
+    item.id === cartItem.id && item.size === cartItem.size && item.color === cartItem.color
+  );
+
+  if (existingIndex > -1) {
+    cart[existingIndex].qty += 1;
+  } else {
+    cart.push(cartItem);
+  }
+
+  saveCart();
+  closeProduct();
+  openCart();
+}
+
+function saveCart() {
+  localStorage.setItem('selco_cart', JSON.stringify(cart));
+  updateCart();
+}
+
+function updateCart() {
+  const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById('cartCount').textContent = cartCount;
+  document.getElementById('menuCartCount').textContent = cartCount;
+
+  const cartItemsContainer = document.getElementById('cartItems');
+  if (!cartItemsContainer) return;
+
+  if (cart.length === 0) {
+    cartItemsContainer.innerHTML = `<p style="padding:20px 0;text-align:center;color:#777;">${tr('empty')}</p>`;
+    document.getElementById('cartTotal').textContent = '0';
+    return;
+  }
+
+  let total = 0;
+  cartItemsContainer.innerHTML = cart.map((item, idx) => {
+    const itemTotal = item.price * item.qty;
+    total += itemTotal;
+    return `
+      <div class="cartrow">
+        <div>
+          <div style="font-weight:800;">${item.name}</div>
+          <div style="font-size:12px;color:#777;">المقاس: ${item.size} ${item.color ? `| اللون: ${translatedColor(item.color)}` : ''}</div>
+          <div style="font-weight:700;margin-top:4px;">${item.price} جنيه × ${item.qty}</div>
+        </div>
+        <div class="qty">
+          <button onclick="changeQty(${idx}, -1)">-</button>
+          <span>${item.qty}</span>
+          <button onclick="changeQty(${idx}, 1)">+</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('cartTotal').textContent = total;
+}
+
+function changeQty(index, change) {
+  cart[index].qty += change;
+  if (cart[index].qty <= 0) {
+    cart.splice(index, 1);
+  }
+  saveCart();
+}
+
+function openCart() {
+  document.getElementById('cartDrawer').style.display = 'block';
+}
+
+function closeCart() {
+  document.getElementById('cartDrawer').style.display = 'none';
+}
+
+function openCheckout() {
+  if (cart.length === 0) {
+    showMessage('السلة فارغة', 'يرجى إضافة منتجات للسلة أولاً قبل إتمام الطلب.', '!');
+    return;
+  }
+  closeCart();
+  const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  document.getElementById('checkoutTotal').textContent = total;
+  document.getElementById('checkoutModal').style.display = 'block';
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutModal').style.display = 'none';
+}
+
+function selectPayment(method) {
+  selectedPayment = method;
+  document.getElementById('payCodBox').classList.toggle('active', method === 'cod');
+  document.getElementById('payKashierBox').classList.toggle('active', method === 'kashier');
+  
+  const submitBtn = document.getElementById('checkoutSubmit');
+  if (method === 'kashier') {
+    submitBtn.textContent = tr('payNow');
+  } else {
+    submitBtn.textContent = tr('confirm');
+  }
+}
+
+function placeOrder() {
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const gov = document.getElementById('gov').value.trim();
+  const city = document.getElementById('city').value.trim();
+  const address = document.getElementById('address').value.trim();
+
+  if (!name || !phone || !address) {
+    showMessage('بيانات ناقصة', 'يرجى ملء كافة البيانات المطلوبة للشحن.', '!');
+    return;
+  }
+
+  const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+  if (selectedPayment === 'kashier') {
+    showMessage('الدفع الإلكتروني', 'سيتم تحويلك لبوابة Kashier للتجربة...', '💳');
+    return;
+  }
+
+  let text = `*طلب جديد من SELCO* 🛍️\n\n`;
+  text += `*الاسم:* ${name}\n`;
+  text += `*الهاتف:* ${phone}\n`;
+  text += `*العنوان:* ${gov} - ${city} - ${address}\n\n`;
+  text += `*المنتجات:*\n`;
+
+  cart.forEach((item, i) => {
+    text += `${i + 1}. ${item.name} (${item.size}${item.color ? ` - ${item.color}` : ''}) × ${item.qty} = ${item.price * item.qty} جنيه\n`;
+  });
+
+  text += `\n*الإجمالي النهائي:* ${total} جنيه\n`;
+  text += `*طريقة الدفع:* الدفع عند الاستلام (COD)`;
+
+  const whatsappNum = "201000000000";
+  const url = `https://wa.me/${whatsappNum}?text=${encodeURIComponent(text)}`;
+
+  cart = [];
+  saveCart();
+  closeCheckout();
+  window.open(url, '_blank');
 }
 
 function toggleMenu() {
@@ -526,9 +826,42 @@ function toggleMenu() {
   document.getElementById('menuButton').classList.toggle('open');
 }
 
-function showMessage(title, msg, icon = '!') {
+function toggleSearch() {
+  document.getElementById('searchBox').classList.toggle('open');
+}
+
+function searchProducts(query) {
+  const q = query.toLowerCase().trim();
+  const filtered = products.filter(p => p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q));
+  
+  const container = document.getElementById('products');
+  if (!container) return;
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:40px;color:#888;">لا توجد نتائج تطابق بحثك.</p>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(p => `
+    <div class="card visible">
+      <div class="pic" onclick="openProductModal('${p.id}')" style="cursor:pointer">
+        <span class="badge">${tr('newItem')}</span>
+        <img src="${p.image || (p.images && p.images[0]) || 'https://via.placeholder.com/400x500'}" alt="${p.name}" loading="lazy">
+        <button class="quick" onclick="event.stopPropagation(); openProductModal('${p.id}')">${tr('quick')}</button>
+      </div>
+      <div class="info">
+        <div class="muted">${translatedCat(p.cat)}</div>
+        <div class="name">${p.name}</div>
+        <div class="price">${p.price} جنيه</div>
+        <button class="buy" onclick="openProductModal('${p.id}')">${tr('add')}</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function showMessage(title, text, icon = '!') {
   document.getElementById('messageTitle').textContent = title;
-  document.getElementById('messageText').textContent = msg;
+  document.getElementById('messageText').textContent = text;
   document.getElementById('messageIcon').textContent = icon;
   document.getElementById('messageModal').classList.add('open');
 }
@@ -548,368 +881,21 @@ function closeLogin() {
 function submitLogin(e) {
   e.preventDefault();
   closeLogin();
-  showMessage('تم تسجيل الدخول', 'مرحبًا بك مجددًا في SELCO!', '✓');
+  showMessage('تم تسجيل الدخول', 'أهلاً بك مجدداً في SELCO!', '✓');
 }
 
 function forgotPassword(e) {
   e.preventDefault();
-  showMessage('استعادة كلمة المرور', 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك.', '✉');
+  showMessage('استعادة كلمة المرور', 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.', '✉');
 }
 
 function socialLogin(provider) {
-  showMessage(provider, `جاري الاتصال عبر ${provider}...`, '✦');
+  showMessage('تسجيل الدخول', `جاري الاتصال بـ ${provider}...`, '✦');
 }
 
-function renderFilters() {
-  const categories = ["الكل", "تيشيرت", "هودي", "بنطلون", "قميص", "سويت شيرت", "جاكيت"];
-  const container = document.getElementById("filters");
-  if (!container) return;
-  
-  container.innerHTML = categories.map(cat => `
-    <button class="chip ${filter === cat ? 'active' : ''}" onclick="setFilter('${cat}')">
-      ${translatedCat(cat)}
-    </button>
-  `).join('');
-}
-
-function setFilter(cat) {
-  filter = cat;
-  renderFilters();
-  renderProducts();
-}
-
-function searchProducts(query) {
-  const q = query.trim().toLowerCase();
-  const filtered = products.filter(p => p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q));
-  renderProducts(filtered);
-}
-
-function renderProducts(list = products) {
-  const grid = document.getElementById("products");
-  if (!grid) return;
-
-  const filteredList = filter === "الكل" ? list : list.filter(p => p.cat === filter);
-  
-  grid.innerHTML = filteredList.map((p, idx) => {
-    const imgSrc = p.image || img[idx % img.length];
-    return `
-      <div class="card visible">
-        <div class="pic">
-          <img src="${imgSrc}" alt="${p.name}">
-          <span class="badge">${tr('newItem')}</span>
-          <button class="quick" onclick="openProduct('${p.id}')">${tr('quick')}</button>
-        </div>
-        <div class="info">
-          <div class="muted">${translatedCat(p.cat)}</div>
-          <div class="name">${p.name}</div>
-          <div class="price">${p.price} EGP</div>
-          <button class="buy" onclick="openProduct('${p.id}')">${tr('add')}</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-function openProduct(id) {
-  selectedModalProduct = products.find(p => p.id === id);
-  if (!selectedModalProduct) return;
-
-  selectedModalSize = selectedModalProduct.sizes[0] || 'M';
-  selectedModalColor = selectedModalProduct.colors[0] || '';
-
-  const idx = products.findIndex(p => p.id === id);
-  const imgSrc = selectedModalProduct.image || img[idx % img.length];
-
-  document.getElementById('productPreview').style.backgroundImage = `url('${imgSrc}')`;
-  document.getElementById('productCat').textContent = translatedCat(selectedModalProduct.cat);
-  document.getElementById('productTitle').textContent = selectedModalProduct.name;
-  document.getElementById('productPrice').textContent = selectedModalProduct.price;
-
-  renderSizeOptions();
-  renderColorOptions();
-
-  document.getElementById('productModal').classList.add('open');
-}
-
-function closeProduct() {
-  document.getElementById('productModal').classList.remove('open');
-}
-
-function renderSizeOptions() {
-  const container = document.getElementById('sizeOptions');
-  if (!container || !selectedModalProduct) return;
-
-  document.getElementById('selectedSizeLabel').textContent = selectedModalSize;
-  container.innerHTML = selectedModalProduct.sizes.map(s => `
-    <button class="sizeOption ${selectedModalSize === s ? 'active' : ''}" onclick="selectSize('${s}')">${s}</button>
-  `).join('');
-}
-
-function selectSize(s) {
-  selectedModalSize = s;
-  renderSizeOptions();
-}
-
-function renderColorOptions() {
-  const container = document.getElementById('colorOptions');
-  if (!container || !selectedModalProduct) return;
-
-  document.getElementById('selectedColorLabel').textContent = translatedColor(selectedModalColor);
-  container.innerHTML = selectedModalProduct.colors.map(c => `
-    <button class="colorOption ${selectedModalColor === c ? 'active' : ''}" style="background-color: ${getColorHex(c)}" onclick="selectColor('${c}')"></button>
-  `).join('');
-}
-
-function selectColor(c) {
-  selectedModalColor = c;
-  renderColorOptions();
-}
-
-function getColorHex(c) {
-  const map = { "أسود": "#000", "أبيض": "#fff", "أزرق": "#1d4ed8", "رمادي": "#6b7280", "بيج": "#d1d5db", "زيتي": "#3f6212" };
-  return map[c] || "#888";
-}
-
-function addSelectedProduct() {
-  if (!selectedModalProduct) return;
-  addToCart(selectedModalProduct.id, selectedModalSize, selectedModalColor);
-  closeProduct();
-  openCart();
-}
-
-function addToCart(id, size = 'M', color = '') {
-  const product = products.find(p => p.id === id);
-  if (!product) return;
-
-  const existing = cart.find(x => x.id === id && x.size === size && x.color === color);
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    cart.push({ id, name: product.name, price: product.price, size, color, qty: 1 });
-  }
-  saveCart();
-}
-
-function changeQty(index, delta) {
-  cart[index].qty += delta;
-  if (cart[index].qty <= 0) cart.splice(index, 1);
-  saveCart();
-}
-
-function saveCart() {
-  localStorage.setItem('selco_cart', JSON.stringify(cart));
-  updateCart();
-}
-
-function updateCart() {
-  const totalQty = cart.reduce((acc, x) => acc + x.qty, 0);
-  const totalPrice = cart.reduce((acc, x) => acc + (x.price * x.qty), 0);
-
-  document.getElementById('cartCount').textContent = totalQty;
-  document.getElementById('menuCartCount').textContent = totalQty;
-  document.getElementById('cartTotal').textContent = totalPrice;
-  document.getElementById('checkoutTotal').textContent = totalPrice;
-
-  const container = document.getElementById('cartItems');
-  if (!container) return;
-
-  if (cart.length === 0) {
-    container.innerHTML = `<p style="text-align:center;color:#888;padding:20px 0;">${tr('empty')}</p>`;
-    return;
-  }
-
-  container.innerHTML = cart.map((x, i) => `
-    <div class="cartrow">
-      <div>
-        <strong>${x.name}</strong>
-        <div style="font-size:12px;color:#777;">${x.size} | ${translatedColor(x.color)}</div>
-        <div>${x.price} EGP</div>
-      </div>
-      <div class="qty">
-        <button onclick="changeQty(${i}, -1)">-</button>
-        <span>${x.qty}</span>
-        <button onclick="changeQty(${i}, 1)">+</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function openCart() {
-  document.getElementById('cartDrawer').style.display = 'block';
-}
-
-function closeCart() {
-  document.getElementById('cartDrawer').style.display = 'none';
-}
-
-function openCheckout() {
-  if (cart.length === 0) {
-    showMessage('السلة فارغة', 'برجاء إضافة منتجات للسلة أولًا.', '!');
-    return;
-  }
-  closeCart();
-  document.getElementById('checkoutModal').style.display = 'block';
-}
-
-function closeCheckout() {
-  document.getElementById('checkoutModal').style.display = 'none';
-}
-
-function selectPayment(method) {
-  selectedPayment = method;
-  document.getElementById('payCodBox').classList.toggle('active', method === 'cod');
-  document.getElementById('payKashierBox').classList.toggle('active', method === 'kashier');
-  
-  const radios = document.querySelectorAll('input[name="paymethod"]');
-  radios.forEach(r => r.checked = (r.value === method));
-
-  syncCheckoutButton();
-}
-
-function syncCheckoutButton() {
-  const btn = document.getElementById('checkoutSubmit');
-  if (!btn) return;
-  btn.textContent = selectedPayment === 'kashier' ? tr('payNow') : tr('confirm');
-}
-
-function placeOrder() {
-  const name = document.getElementById('name').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const gov = document.getElementById('gov').value.trim();
-  const city = document.getElementById('city').value.trim();
-  const address = document.getElementById('address').value.trim();
-
-  if (!name || !phone || !gov || !address) {
-    showMessage('بيانات ناقصة', 'برجاء ملء جميع الحقول المطلوبة بالشكل الصحيح.', '!');
-    return;
-  }
-
-  const customer = { name, phone, gov, city, address };
-
-  if (selectedPayment === 'kashier') {
-    payWithKashier(customer);
-  } else {
-    sendWhatsAppOrder(customer);
-  }
-}
-
-function sendWhatsAppOrder(customer) {
-  const orderNum = 'SELCO-' + Math.floor(100000 + Math.random() * 900000);
-  let text = `*طلب جديد من متجر SELCO* 🛍️\n\n`;
-  text += `*رقم الطلب:* ${orderNum}\n`;
-  text += `*الاسم:* ${customer.name}\n`;
-  text += `*الهاتف:* ${customer.phone}\n`;
-  text += `*المحافظة:* ${customer.gov}\n`;
-  text += `*المدينة/المنطقة:* ${customer.city}\n`;
-  text += `*العنوان:* ${customer.address}\n\n`;
-  text += `*المنتجات:*\n`;
-
-  let total = 0;
-  cart.forEach((item, idx) => {
-    const itemTotal = item.price * item.qty;
-    total += itemTotal;
-    text += `${idx + 1}. ${item.name} (${item.size} / ${item.color}) × ${item.qty} = ${itemTotal} جنيه\n`;
-  });
-
-  text += `\n*الإجمالي:* ${total} جنيه\n`;
-  text += `*طريقة الدفع:* الدفع عند الاستلام (COD)`;
-
-  const waUrl = `https://wa.me/201000000000?text=${encodeURIComponent(text)}`;
-  
-  cart = [];
-  saveCart();
-  closeCheckout();
-
-  window.open(waUrl, '_blank');
-  showMessage('تم إرسال الطلب', 'تم توجيهك إلى الواتساب لتأكيد الطلب. شكرًا لتسوقك من SELCO!', '✓');
-}
-
-async function payWithKashier(customer) {
-  const button = document.getElementById("checkoutSubmit");
-
-  button.disabled = true;
-  button.textContent = tr("processing");
-
-  const requestBody = {
-    customer,
-    items: cart.map(x => ({
-      id: x.id,
-      qty: x.qty,
-      size: x.size,
-      color: x.color
-    }))
-  };
-
-  const endpoints = [
-    "/api/kashier-session",
-    "/api/kashier-session.js"
-  ];
-
-  try {
-    let response;
-    let payload = {};
-
-    for (let i = 0; i < endpoints.length; i++) {
-      response = await fetch(endpoints[i], {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(requestBody)
-      });
-
-      const responseText = await response.text();
-
-      try {
-        payload = responseText ? JSON.parse(responseText) : {};
-      } catch (parseError) {
-        payload = {};
-      }
-
-      if (response.status === 404 && i < endpoints.length - 1) {
-        continue;
-      }
-
-      break;
-    }
-
-    if (!response.ok || !payload.paymentUrl) {
-      if (response.status === 404) {
-        throw new Error(
-          "مسار الدفع غير موجود. برجاء إعادة نشر مشروع Vercel."
-        );
-      }
-
-      throw new Error(
-        payload.error || "تعذر إنشاء جلسة الدفع"
-      );
-    }
-
-    localStorage.setItem(
-      "selco_pending_order",
-      payload.merchantOrderId
-    );
-
-    window.location.href = payload.paymentUrl;
-
-  } catch (err) {
-    console.error("Kashier session failed:", err);
-
-    button.disabled = false;
-    syncCheckoutButton();
-
-    showMessage(
-      "تعذر بدء الدفع",
-      err.message || "برجاء المحاولة مرة أخرى أو اختيار الدفع عند الاستلام.",
-      "✕"
-    );
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  renderFilters();
-  loadProducts();
+window.addEventListener('DOMContentLoaded', () => {
   applyLanguage();
+  loadProducts();
 });
 </script>
 </body>
