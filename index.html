@@ -310,26 +310,25 @@ let products = fallbackProducts;
 
 function mapProduct(row) {
   let imagesArray = [];
+  
   if (Array.isArray(row.images) && row.images.length > 0) {
     imagesArray = row.images;
   } else if (typeof row.images === 'string') {
-    try {
-      imagesArray = JSON.parse(row.images);
-    } catch(e) {
-      imagesArray = [row.images];
-    }
+    try { imagesArray = JSON.parse(row.images); } catch(e) { imagesArray = [row.images]; }
+  } else if (row.image) {
+    imagesArray = [row.image];
   }
 
   return {
     id: String(row.id),
-    name: row.title || row.name || "",
-    cat: row.category || "أخرى",
+    name: row.title || row.name || "منتج بدون اسم",
+    cat: row.category || row.cat || "الكل",
     price: Number(row.price) || 0,
-    sizes: Array.isArray(row.sizes) && row.sizes.length ? row.sizes : ["S", "M", "L", "XL"],
-    colors: Array.isArray(row.colors) ? row.colors : [],
-    stock: row.stock,
+    sizes: Array.isArray(row.sizes) ? row.sizes : (typeof row.sizes === 'string' ? JSON.parse(row.sizes) : ["S", "M", "L", "XL"]),
+    colors: Array.isArray(row.colors) ? row.colors : (typeof row.colors === 'string' ? JSON.parse(row.colors) : []),
+    stock: row.stock || 10,
     images: imagesArray,
-    image: imagesArray[0] || ""
+    image: imagesArray[0] || 'https://via.placeholder.com/400x500'
   };
 }
 
@@ -340,6 +339,28 @@ async function loadProducts() {
     return;
   }
 
+  try {
+    // جلب جميع الأعمدة لتفادي خطأ أسماء الحقول
+    const { data, error } = await db
+      .from("products")
+      .select("*");
+
+    if (error) {
+      console.error("Supabase error:", error.message);
+      products = fallbackProducts;
+    } else if (data && data.length > 0) {
+      products = data.map(mapProduct);
+    }
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    products = fallbackProducts;
+  }
+
+  renderProducts();
+  updateCart();
+}
+
+// تحديث دالة التعيين لتقرأ كل الأحتمالات الممكنة لأسماء الحقول
   const { data, error } = await db
     .from("products")
     .select("id,title,description,price,stock,category,images,sizes,colors,created_at")
