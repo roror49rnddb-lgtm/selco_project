@@ -6,19 +6,187 @@
   <title>SELCO - إضافة منتج</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    * { box-sizing: border-box; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: #f4f4f5; display: flex; justify-content: center; padding: 40px 10px; margin: 0; }
-    .card { background: #fff; padding: 25px; border-radius: 12px; width: 100%; max-width: 450px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    h2 { text-align: center; margin-top: 0; }
-    label { display: block; margin: 12px 0 4px; font-weight: bold; }
-    input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; background: #fff; }
-    .options { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
-    .options label { display: flex; align-items: center; gap: 6px; margin: 0; font-weight: normal; border: 1px solid #ccc; border-radius: 6px; padding: 8px 12px; cursor: pointer; }
-    .options input { width: auto; padding: 0; }
-    .swatch { width: 14px; height: 14px; border-radius: 50%; border: 1px solid #ccc; display: inline-block; }
-    button { width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 6px; margin-top: 20px; font-size: 16px; cursor: pointer; }
-    button:disabled { background: #888; cursor: not-allowed; }
-    #msg { margin-top: 15px; text-align: center; font-weight: bold; min-height: 20px; }
+    * { box-sizing: border-box; transition: all 0.25s ease; }
+    
+    body { 
+      font-family: system-ui, -apple-system, sans-serif; 
+      background: linear-gradient(135deg, #e4e4e7 0%, #f4f4f5 100%); 
+      display: flex; 
+      justify-content: center; 
+      padding: 40px 10px; 
+      margin: 0; 
+      min-height: 100vh;
+    }
+    
+    .card { 
+      background: #fff; 
+      padding: 30px; 
+      border-radius: 16px; 
+      width: 100%; 
+      max-width: 480px; 
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 { text-align: center; margin-top: 0; margin-bottom: 20px; color: #111; }
+    label { display: block; margin: 14px 0 6px; font-weight: 600; color: #374151; font-size: 14px; }
+    
+    input[type="text"], input[type="number"], textarea, select { 
+      width: 100%; 
+      padding: 12px; 
+      border: 1px solid #d1d5db; 
+      border-radius: 8px; 
+      background: #fff; 
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: #000;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .options label { 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+      margin: 0; 
+      font-weight: normal; 
+      border: 1px solid #e5e7eb; 
+      border-radius: 8px; 
+      padding: 8px 12px; 
+      cursor: pointer; 
+      background: #f9fafb;
+      user-select: none;
+    }
+    
+    .options label:hover {
+      background: #f3f4f6;
+      border-color: #d1d5db;
+      transform: translateY(-1px);
+    }
+
+    .options input[type="checkbox"] { width: auto; padding: 0; accent-color: #000; }
+    .swatch { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.15); display: inline-block; }
+
+    /* Drag & Drop Upload Zone */
+    .file-dropzone {
+      border: 2px dashed #d1d5db;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      background: #fafafa;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .file-dropzone:hover {
+      border-color: #000;
+      background: #f4f4f5;
+    }
+
+    .file-dropzone input[type="file"] {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    /* Images Preview Grid */
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .preview-item {
+      position: relative;
+      width: 100%;
+      height: 70px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.6); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .preview-item .remove-btn {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      background: rgba(220, 38, 38, 0.85);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .preview-item .remove-btn:hover {
+      background: #dc2626;
+      transform: scale(1.1);
+    }
+
+    button[type="submit"] { 
+      width: 100%; 
+      padding: 12px; 
+      background: #000; 
+      color: #fff; 
+      border: none; 
+      border-radius: 8px; 
+      margin-top: 24px; 
+      font-size: 16px; 
+      font-weight: 600;
+      cursor: pointer; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button[type="submit"]:hover:not(:disabled) { 
+      background: #27272a; 
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    button[type="submit"]:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    button[type="submit"]:disabled { background: #a1a1aa; cursor: not-allowed; }
+    
+    #msg { 
+      margin-top: 15px; 
+      text-align: center; 
+      font-weight: 600; 
+      min-height: 20px; 
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -68,8 +236,12 @@
       <label><input type="checkbox" name="size" value="XXL"> XXL</label>
     </div>
 
-    <label for="image">صورة المنتج</label>
-    <input type="file" id="image" accept="image/*" required>
+    <label>صور المنتج</label>
+    <div class="file-dropzone">
+      <span>اضغط أو اسحب الصور هنا لرفعها</span>
+      <input type="file" id="imagesInput" accept="image/*" multiple>
+    </div>
+    <div class="preview-grid" id="previewGrid"></div>
 
     <button type="submit" id="btn">حفظ ونشر المنتج</button>
     <div id="msg"></div>
@@ -86,6 +258,10 @@
   const form = document.getElementById("addForm");
   const btn = document.getElementById("btn");
   const msg = document.getElementById("msg");
+  const imagesInput = document.getElementById("imagesInput");
+  const previewGrid = document.getElementById("previewGrid");
+
+  let selectedFiles = [];
 
   function setStatus(text, color) {
     msg.textContent = text;
@@ -95,6 +271,39 @@
   function safeName(name) {
     const ext = name.includes(".") ? name.split(".").pop().toLowerCase() : "jpg";
     return Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "." + ext;
+  }
+
+  imagesInput.addEventListener("change", (e) => {
+    const files = Array.from(e.target.files);
+    files.forEach(file => selectedFiles.push(file));
+    renderPreviews();
+    imagesInput.value = "";
+  });
+
+  function renderPreviews() {
+    previewGrid.innerHTML = "";
+    selectedFiles.forEach((file, index) => {
+      const item = document.createElement("div");
+      item.className = "preview-item";
+
+      const img = document.createElement("img");
+      img.src = URL.createObjectURL(file);
+
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "remove-btn";
+      removeBtn.innerHTML = "✕";
+      removeBtn.onclick = () => removeFile(index);
+
+      item.appendChild(img);
+      item.appendChild(removeBtn);
+      previewGrid.appendChild(item);
+    });
+  }
+
+  function removeFile(index) {
+    selectedFiles.splice(index, 1);
+    renderPreviews();
   }
 
   form.addEventListener("submit", async (e) => {
@@ -107,10 +316,9 @@
     const category = document.getElementById("category").value;
     const sizes = Array.from(document.querySelectorAll('input[name="size"]:checked')).map((el) => el.value);
     const colors = Array.from(document.querySelectorAll('input[name="color"]:checked')).map((el) => el.value);
-    const file = document.getElementById("image").files[0];
 
-    if (!title || isNaN(price) || isNaN(stock) || !file) {
-      setStatus("برجاء ملء جميع الحقول المطلوبة واختيار صورة.", "#dc2626");
+    if (!title || isNaN(price) || isNaN(stock) || selectedFiles.length === 0) {
+      setStatus("برجاء ملء جميع الحقول المطلوبة واختيار صورة واحدة على الأقل.", "#dc2626");
       return;
     }
     if (!category) {
@@ -127,18 +335,22 @@
     }
 
     btn.disabled = true;
-    setStatus("جاري الحفظ...", "#3b82f6");
+    setStatus("جاري رفع الصور وحفظ المنتج...", "#3b82f6");
 
     try {
-      const path = safeName(file.name);
-      const { error: uploadError } = await client.storage
-        .from(BUCKET)
-        .upload(path, file, { cacheControl: "3600", contentType: file.type || "image/jpeg" });
+      const uploadedUrls = [];
 
-      if (uploadError) throw new Error("فشل رفع الصورة: " + uploadError.message);
+      for (const file of selectedFiles) {
+        const path = safeName(file.name);
+        const { error: uploadError } = await client.storage
+          .from(BUCKET)
+          .upload(path, file, { cacheControl: "3600", contentType: file.type || "image/jpeg" });
 
-      const { data: urlData } = client.storage.from(BUCKET).getPublicUrl(path);
-      const imageUrl = urlData.publicUrl;
+        if (uploadError) throw new Error("فشل رفع الصورة: " + uploadError.message);
+
+        const { data: urlData } = client.storage.from(BUCKET).getPublicUrl(path);
+        uploadedUrls.push(urlData.publicUrl);
+      }
 
       const { error: insertError } = await client.from("products").insert([{
         title: title,
@@ -148,13 +360,15 @@
         category: category,
         sizes: sizes,
         colors: colors,
-        images: [imageUrl]
+        images: uploadedUrls
       }]);
 
       if (insertError) throw new Error("فشل حفظ المنتج: " + insertError.message);
 
       setStatus("تمت إضافة المنتج بنجاح! 🎉", "#16a34a");
       form.reset();
+      selectedFiles = [];
+      renderPreviews();
     } catch (err) {
       setStatus("خطأ: " + err.message, "#dc2626");
     } finally {
