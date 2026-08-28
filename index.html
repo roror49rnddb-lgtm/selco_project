@@ -310,7 +310,7 @@ const translations = {
     kicker: "NEW COLLECTION / 2026", heroTitle: "Wear it.", heroSpan: "Own it.",
     heroText: "تشكيلة ملابس عصرية مصممة بأعلى جودة. اطلب الآن وادفع عند الاستلام باب البيت.",
     discover: "اكتشف المجموعة ←", shopTitle: "Shop the Drop", shopText: "اختر القطعة، المقاس واللون، وأكمل طلبك في ثوانٍ.",
-    about: "ABOUT SELCO", storyTitle: "مش مجرد متجر.<br>دي تجربة براند.",
+    about: "ABOUT CYCLO", storyTitle: "مش مجرد متجر.<br>دي تجربة براند.",
     storyText: "تصاميم خاصة بخامات ممتازة وراحة كاملة أثناء الحركة. اختر ملابسك بسهولة وادفع عند الاستلام بدون أي تعقيدات.",
     cotton: "قطن ممتاز", cod: "الدفع عند الاستلام", collection: "التشكيلة الجديدة", footer: "SELCO © 2026 — Fashion Store",
     cart: "سلة المشتريات", empty: "السلة فارغة حاليًا.", finish: "إتمام الطلب (الدفع عند الاستلام)",
@@ -325,7 +325,7 @@ const translations = {
     kicker: "NEW COLLECTION / 2026", heroTitle: "Wear it.", heroSpan: "Own it.",
     heroText: "Modern essentials made with premium quality. Order now and pay at your doorstep.",
     discover: "Discover the collection →", shopTitle: "Shop the Drop", shopText: "Choose your piece, size and color, then complete your order in seconds.",
-    about: "ABOUT SELCO", storyTitle: "More than a store.<br>It's a brand experience.",
+    about: "ABOUT CYCLO", storyTitle: "More than a store.<br>It's a brand experience.",
     storyText: "Distinctive designs, premium fabrics and all-day comfort. Choose your pieces easily and pay on delivery.",
     cotton: "Premium cotton", cod: "Cash on delivery", collection: "New collection", footer: "SELCO © 2026 — Fashion Store",
     cart: "Shopping cart", empty: "Your cart is currently empty.", finish: "Checkout (cash on delivery)",
@@ -381,9 +381,9 @@ function applyLanguage() {
     createAccount.firstChild.textContent = language === "ar" ? "ليس لديك حساب؟ " : "Don't have an account? ";
     createAccount.querySelector("button").textContent = language === "ar" ? "أنشئ حسابًا" : "Create one";
   }
-  set("#languageButton", language === "ar" ? "🇬🇧" : "عربي");
+  set("#languageButton", language === "ar" ? "AR" : "عربي");
   renderProducts(); updateCart(); refreshProductChoice();
-  localStorage.setItem("selco_language", language);
+  localStorage.setItem("CYCLO_language", language);
 }
 
 const escapeAttr = value => String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/'/g, "&#39;").replace(/</g, "&lt;");
@@ -421,7 +421,7 @@ function renderProducts() {
 }
 
 function saveCart() {
-  localStorage.setItem("selco_cart", JSON.stringify(cart));
+  localStorage.setItem("CYCLO_cart", JSON.stringify(cart));
   updateCart();
 }
 
@@ -680,8 +680,8 @@ function handlePaymentReturn() {
   const params = new URLSearchParams(window.location.search);
   const status = params.get("payment");
   if (!status) return;
-  const orderId = params.get("order") || localStorage.getItem("selco_pending_order") || "";
-  localStorage.removeItem("selco_pending_order");
+  const orderId = params.get("order") || localStorage.getItem("CYCLO_pending_order") || "";
+  localStorage.removeItem("CYCLO_pending_order");
   window.history.replaceState({}, document.title, window.location.pathname);
 
   if (status === "paid") {
