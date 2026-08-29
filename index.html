@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SELCO — Fashion Store</title>
+<title>CYCLO — Fashion Store</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
@@ -17,12 +16,12 @@ nav{position:sticky;top:0;z-index:25;background:rgba(246,244,239,.78);backdrop-f
 .links{display:flex;gap:25px}.links a{color:inherit;text-decoration:none;font-size:13px;position:relative}.links a:after{content:"";position:absolute;right:0;bottom:-6px;height:1px;width:0;background:#111;transition:.3s}.links a:hover:after{width:100%}
 .navbtn{border:1px solid #111;background:#111;color:#fff;padding:10px 16px;border-radius:999px;cursor:pointer;transition:.25s;box-shadow:0 8px 25px rgba(0,0,0,.10)}.navbtn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 15px 35px rgba(0,0,0,.18)}
 .bagdot{display:inline-flex;min-width:21px;height:21px;padding:0 6px;align-items:center;justify-content:center;border-radius:999px;background:#fff;color:#111;margin-right:5px;font-size:11px;font-weight:800}
- .navActions{display:flex;align-items:center;gap:25px;direction:ltr}.iconBtn{position:relative;border:0;background:transparent;padding:5px;cursor:pointer;color:#111;display:grid;place-items:center;transition:.25s}.iconBtn:hover{transform:translateY(-3px)}.iconBtn svg{width:38px;height:38px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}.langBtn{font-size:25px;line-height:1;filter:grayscale(.05)}.cartIcon .bagdot{position:absolute;right:-7px;top:-8px;background:#f15a29;color:#fff;width:31px;height:31px;border-radius:50%;font-size:16px;margin:0}.menuBtn span{display:block;width:42px;height:2px;background:#111;margin:7px 0;transition:.25s}.menuBtn.open span:nth-child(1){transform:translateY(9px) rotate(45deg)}.menuBtn.open span:nth-child(2){opacity:0}.menuBtn.open span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
- .searchBox{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:15px 22px;box-shadow:0 12px 30px rgba(0,0,0,.08)}.searchBox.open{display:block}.searchInner{max-width:1250px;margin:auto;position:relative}.searchInner input{width:100%;border:1px solid var(--line);border-radius:999px;padding:13px 48px 13px 18px;outline:0;background:#faf9f6}.searchInner svg{position:absolute;right:16px;top:11px;width:24px;height:24px}.menuPanel{position:fixed;top:0;right:0;bottom:0;width:min(360px,88%);background:#fff;z-index:45;padding:90px 28px 28px;transform:translateX(105%);transition:.35s;box-shadow:-20px 0 60px #0002}.menuPanel.open{transform:none}.menuPanel a{display:block;color:#111;text-decoration:none;font-size:22px;padding:16px 0;border-bottom:1px solid var(--line)}.menuShade{position:fixed;inset:0;background:#0007;z-index:44;display:none}.menuShade.open{display:block}
+.navActions{display:flex;align-items:center;gap:25px;direction:ltr}.iconBtn{position:relative;border:0;background:transparent;padding:5px;cursor:pointer;color:#111;display:grid;place-items:center;transition:.25s}.iconBtn:hover{transform:translateY(-3px)}.iconBtn svg{width:38px;height:38px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}.langBtn{font-size:25px;line-height:1;filter:grayscale(.05)}.cartIcon .bagdot{position:absolute;right:-7px;top:-8px;background:#f15a29;color:#fff;width:31px;height:31px;border-radius:50%;font-size:16px;margin:0}.menuBtn span{display:block;width:42px;height:2px;background:#111;margin:7px 0;transition:.25s}.menuBtn.open span:nth-child(1){transform:translateY(9px) rotate(45deg)}.menuBtn.open span:nth-child(2){opacity:0}.menuBtn.open span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
+.searchBox{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:15px 22px;box-shadow:0 12px 30px rgba(0,0,0,.08)}.searchBox.open{display:block}.searchInner{max-width:1250px;margin:auto;position:relative}.searchInner input{width:100%;border:1px solid var(--line);border-radius:999px;padding:13px 48px 13px 18px;outline:0;background:#faf9f6}.searchInner svg{position:absolute;right:16px;top:11px;width:24px;height:24px}.menuPanel{position:fixed;top:0;right:0;bottom:0;width:min(360px,88%);background:#fff;z-index:45;padding:90px 28px 28px;transform:translateX(105%);transition:.35s;box-shadow:-20px 0 60px #0002}.menuPanel.open{transform:none}.menuPanel a{display:block;color:#111;text-decoration:none;font-size:22px;padding:16px 0;border-bottom:1px solid var(--line)}.menuShade{position:fixed;inset:0;background:#0007;z-index:44;display:none}.menuShade.open{display:block}
 .hero{max-width:1250px;margin:20px auto 0;padding:18px 22px 36px;display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
 .heroText{background:#0e0e0e;color:#fff;border-radius:30px;padding:55px 48px;min-height:520px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;isolation:isolate;box-shadow:var(--shadow);animation:heroIn .9s both}@keyframes heroIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 .heroText:before{content:"";position:absolute;inset:auto -80px -100px auto;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,#fff3,transparent 68%);animation:float 7s ease-in-out infinite}
-.heroText:after{content:"SELCO / 26";position:absolute;left:28px;top:24px;font-size:10px;letter-spacing:3px;color:#888;transform:rotate(-90deg);transform-origin:left top}
+.heroText:after{content:"CYCLO / 26";position:absolute;left:28px;top:24px;font-size:10px;letter-spacing:3px;color:#888;transform:rotate(-90deg);transform-origin:left top}
 .kicker{letter-spacing:4px;font-size:11px;color:#a8a8a8;margin-bottom:18px}
 .hero h1{font-size:clamp(44px,6vw,82px);line-height:.98;margin:0 0 20px;letter-spacing:-3px;position:relative}.hero h1 span{display:block;color:#d6d0c6}
 .hero p{color:#bbb;line-height:1.9;max-width:520px;margin:0 0 15px}
@@ -58,10 +57,10 @@ nav{position:sticky;top:0;z-index:25;background:rgba(246,244,239,.78);backdrop-f
 footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;color:#777;font-weight:700}
 .drawer,.modal{position:fixed;inset:0;background:rgba(0,0,0,.48);display:none;z-index:40}
 .panel{position:absolute;right:0;top:0;bottom:0;width:min(560px,100%);background:#fff;padding:22px;overflow:auto;box-shadow:-20px 0 60px rgba(0,0,0,.15);animation:slide .35s both}@keyframes slide{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
- .modalBox{background:#fff;width:min(600px,94%);max-height:90vh;overflow:auto;margin:5vh auto;border-radius:24px;padding:24px;animation:pop .35s both}@keyframes pop{from{transform:scale(.96) translateY(15px);opacity:0}to{transform:none;opacity:1}}
- .messageModal{position:fixed;inset:0;background:rgba(10,10,10,.58);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:20px;z-index:70}.messageModal.open{display:flex}.messageBox{width:min(420px,100%);background:linear-gradient(145deg,#fff 0%,#f8f5ef 100%);border:1px solid #fff;border-radius:28px;padding:34px 28px 26px;text-align:center;box-shadow:0 28px 80px rgba(0,0,0,.25);animation:messagePop .35s cubic-bezier(.2,.8,.2,1) both}.messageIcon{width:58px;height:58px;display:grid;place-items:center;margin:0 auto 16px;border-radius:50%;background:#111;color:#fff;font-size:27px}.messageBox h3{margin:0 0 9px;font-size:22px;font-weight:900}.messageBox p{margin:0 auto 24px;color:#666;font-size:14px;line-height:1.9}.messageOk{border:0;background:#111;color:#fff;border-radius:999px;padding:12px 34px;cursor:pointer;font-weight:800;min-width:120px;transition:.25s}.messageOk:hover{transform:translateY(-2px);box-shadow:0 10px 22px #0003}@keyframes messagePop{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
- .loginModal{position:fixed;inset:0;background:rgba(10,10,10,.62);backdrop-filter:blur(9px);display:none;align-items:center;justify-content:center;padding:20px;z-index:65}.loginModal.open{display:flex}.loginBox{width:min(440px,100%);background:#fff;border-radius:28px;padding:30px;box-shadow:0 28px 80px rgba(0,0,0,.28);animation:messagePop .35s cubic-bezier(.2,.8,.2,1) both}.loginHead{text-align:center;margin:8px 0 22px}.loginAvatar{width:58px;height:58px;display:grid;place-items:center;margin:0 auto 14px;border-radius:50%;background:#111;color:#fff;font-size:25px}.loginHead h2{margin:0 0 5px;font-size:25px}.loginHead p{margin:0;color:#777;font-size:12px}.loginBox .close{margin-top:-8px}.loginField{margin:14px 0;text-align:right}.loginField label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}.loginField input{width:100%;border:1px solid #ddd;border-radius:12px;padding:13px 14px;outline:0;background:#fafafa;direction:ltr;text-align:left;transition:.2s}.loginField input:focus{border-color:#111;background:#fff;box-shadow:0 0 0 3px #1111}.forgot{display:block;color:#555;text-decoration:none;text-align:left;font-size:12px;margin:2px 0 18px}.forgot:hover{text-decoration:underline}.loginSubmit{width:100%;border:0;border-radius:12px;background:#111;color:#fff;padding:13px;cursor:pointer;font-weight:800}.loginDivider{display:flex;align-items:center;gap:10px;color:#999;font-size:11px;margin:20px 0}.loginDivider:before,.loginDivider:after{content:"";height:1px;background:#e6e2da;flex:1}.socialBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}.socialBtn{border:1px solid #ddd;border-radius:12px;background:#fff;padding:11px 8px;cursor:pointer;font-weight:700;font-size:12px;transition:.2s}.socialBtn:hover{transform:translateY(-2px);box-shadow:0 8px 18px #0001}.googleMark{color:#4285f4;font-weight:900}.facebookMark{color:#1877f2;font-weight:900}.createAccount{text-align:center;color:#777;font-size:12px;margin:21px 0 0}.createAccount button{border:0;background:none;color:#111;font-weight:800;cursor:pointer}
- .productModal{position:fixed;inset:0;background:rgba(10,10,10,.62);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}.productModal.open{display:flex}.productBox{width:min(900px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:28px;padding:22px;box-shadow:0 28px 80px #0004;animation:messagePop .35s cubic-bezier(.2,.8,.2,1) both}.productLayout{display:grid;grid-template-columns:1fr 1fr;gap:28px;direction:ltr}.productPreview{min-height:460px;border-radius:20px;background:#eee center/cover no-repeat;transition:filter .35s,background-image .35s}.productDetails{direction:rtl;padding:12px 5px}.productDetails h2{font-size:28px;margin:12px 0 4px}.productDetails .productCat{color:#888;font-size:12px}.optionTitle{font-size:13px;font-weight:800;margin:24px 0 10px}.optionTitle span{font-weight:400;color:#777}.sizeOptions{display:flex;gap:8px;flex-wrap:wrap}.sizeOption{min-width:45px;padding:10px;border:1px solid #ddd;background:#fff;border-radius:10px;cursor:pointer}.sizeOption.active{background:#111;color:#fff;border-color:#111}.colorOptions{display:flex;gap:12px}.colorOption{width:36px;height:36px;border-radius:50%;border:3px solid #fff;outline:1px solid #ddd;cursor:pointer;transition:.2s}.colorOption.active{outline:2px solid #111;transform:scale(1.12)}.productPrice{font-size:24px;font-weight:900;margin:18px 0}.productAdd{width:100%;border:0;border-radius:13px;background:#111;color:#fff;padding:14px;cursor:pointer;font-weight:800}.productAdd:hover{transform:translateY(-2px);box-shadow:0 12px 25px #0002}@media(max-width:700px){.productLayout{grid-template-columns:1fr;gap:8px}.productPreview{min-height:320px}.productDetails h2{font-size:23px}}
+.modalBox{background:#fff;width:min(600px,94%);max-height:90vh;overflow:auto;margin:5vh auto;border-radius:24px;padding:24px;animation:pop .35s both}@keyframes pop{from{transform:scale(.96) translateY(15px);opacity:0}to{transform:none;opacity:1}}
+.messageModal{position:fixed;inset:0;background:rgba(10,10,10,.58);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:20px;z-index:70}.messageModal.open{display:flex}.messageBox{width:min(420px,100%);background:linear-gradient(145deg,#fff 0%,#f8f5ef 100%);border:1px solid #fff;border-radius:28px;padding:34px 28px 26px;text-align:center;box-shadow:0 28px 80px rgba(0,0,0,.25);animation:messagePop .35s cubic-bezier(.2,.8,.2,1) both}.messageIcon{width:58px;height:58px;display:grid;place-items:center;margin:0 auto 16px;border-radius:50%;background:#111;color:#fff;font-size:27px}.messageBox h3{margin:0 0 9px;font-size:22px;font-weight:900}.messageBox p{margin:0 auto 24px;color:#666;font-size:14px;line-height:1.9}.messageOk{border:0;background:#111;color:#fff;border-radius:999px;padding:12px 34px;cursor:pointer;font-weight:800;min-width:120px;transition:.25s}.messageOk:hover{transform:translateY(-2px);box-shadow:0 10px 22px #0003}@keyframes messagePop{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
+.loginModal{position:fixed;inset:0;background:rgba(10,10,10,.62);backdrop-filter:blur(9px);display:none;align-items:center;justify-content:center;padding:20px;z-index:65}.loginModal.open{display:flex}.loginBox{width:min(440px,100%);background:#fff;border-radius:28px;padding:30px;box-shadow:0 28px 80px rgba(0,0,0,.28);animation:messagePop .35s cubic-bezier(.2,.8,.2,1) both}.loginHead{text-align:center;margin:8px 0 22px}.loginAvatar{width:58px;height:58px;display:grid;place-items:center;margin:0 auto 14px;border-radius:50%;background:#111;color:#fff;font-size:25px}.loginHead h2{margin:0 0 5px;font-size:25px}.loginHead p{margin:0;color:#777;font-size:12px}.loginBox .close{margin-top:-8px}.loginField{margin:14px 0;text-align:right}.loginField label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}.loginField input{width:100%;border:1px solid #ddd;border-radius:12px;padding:13px 14px;outline:0;background:#fafafa;direction:ltr;text-align:left;transition:.2s}.loginField input:focus{border-color:#111;background:#fff;box-shadow:0 0 0 3px #1111}.forgot{display:block;color:#555;text-decoration:none;text-align:left;font-size:12px;margin:2px 0 18px}.forgot:hover{text-decoration:underline}.loginSubmit{width:100%;border:0;border-radius:12px;background:#111;color:#fff;padding:13px;cursor:pointer;font-weight:800}.loginDivider{display:flex;align-items:center;gap:10px;color:#999;font-size:11px;margin:20px 0}.loginDivider:before,.loginDivider:after{content:"";height:1px;background:#e6e2da;flex:1}.socialBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}.socialBtn{border:1px solid #ddd;border-radius:12px;background:#fff;padding:11px 8px;cursor:pointer;font-weight:700;font-size:12px;transition:.2s}.socialBtn:hover{transform:translateY(-2px);box-shadow:0 8px 18px #0001}.googleMark{color:#4285f4;font-weight:900}.facebookMark{color:#1877f2;font-weight:900}.createAccount{text-align:center;color:#777;font-size:12px;margin:21px 0 0}.createAccount button{border:0;background:none;color:#111;font-weight:800;cursor:pointer}
+.productModal{position:fixed;inset:0;background:rgba(10,10,10,.62);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}.productModal.open{display:flex}.productBox{width:min(900px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:28px;padding:22px;box-shadow:0 28px 80px #0004;animation:messagePop .35s cubic-bezier(.2,.8,.2,1) both}.productLayout{display:grid;grid-template-columns:1fr 1fr;gap:28px;direction:ltr}.productPreview{min-height:460px;border-radius:20px;background:#eee center/cover no-repeat;transition:filter .35s,background-image .35s}.productDetails{direction:rtl;padding:12px 5px}.productDetails h2{font-size:28px;margin:12px 0 4px}.productDetails .productCat{color:#888;font-size:12px}.optionTitle{font-size:13px;font-weight:800;margin:24px 0 10px}.optionTitle span{font-weight:400;color:#777}.sizeOptions{display:flex;gap:8px;flex-wrap:wrap}.sizeOption{min-width:45px;padding:10px;border:1px solid #ddd;background:#fff;border-radius:10px;cursor:pointer}.sizeOption.active{background:#111;color:#fff;border-color:#111}.colorOptions{display:flex;gap:12px}.colorOption{width:36px;height:36px;border-radius:50%;border:3px solid #fff;outline:1px solid #ddd;cursor:pointer;transition:.2s}.colorOption.active{outline:2px solid #111;transform:scale(1.12)}.productPrice{font-size:24px;font-weight:900;margin:18px 0}.productAdd{width:100%;border:0;border-radius:13px;background:#111;color:#fff;padding:14px;cursor:pointer;font-weight:800}.productAdd:hover{transform:translateY(-2px);box-shadow:0 12px 25px #0002}@media(max-width:700px){.productLayout{grid-template-columns:1fr;gap:8px}.productPreview{min-height:320px}.productDetails h2{font-size:23px}}
 .close{float:left;border:0;background:#eee;border-radius:50%;width:35px;height:35px;cursor:pointer;transition:.2s}.close:hover{transform:rotate(90deg)}
 .cartrow{display:grid;grid-template-columns:1fr auto;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}
 .qty{display:flex;gap:8px;align-items:center}.qty button{border:1px solid var(--line);background:#fff;border-radius:8px;width:30px;height:30px;cursor:pointer}
@@ -73,7 +72,7 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
 .payment-badge input{width:auto;margin:0;accent-color:#111}
 .submit{width:100%;padding:13px;border:0;border-radius:12px;background:#111;color:#fff;cursor:pointer;font-weight:900;transition:.25s;margin-top:10px}.submit:hover{transform:translateY(-2px);box-shadow:0 15px 30px rgba(0,0,0,.15)}
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}.reveal.visible{opacity:1;transform:none}
- @media(max-width:900px){.hero{grid-template-columns:1fr}.heroText,.heroImg{min-height:430px}.grid{grid-template-columns:repeat(2,1fr)}.story{grid-template-columns:1fr}.links{display:none}.navActions{gap:12px}.navActions .accountBtn{display:none}}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.heroText,.heroImg{min-height:430px}.grid{grid-template-columns:repeat(2,1fr)}.story{grid-template-columns:1fr}.links{display:none}.navActions{gap:12px}.navActions .accountBtn{display:none}}
 @media(max-width:560px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.heroText{padding:38px 28px}.hero h1{font-size:48px}}
 </style>
 <script>
@@ -120,7 +119,7 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
 <aside class="menuPanel" id="menuPanel">
  <button class="close" onclick="toggleMenu()">×</button>
  <a href="#shop" onclick="toggleMenu()">المتجر</a>
- <a href="#story" onclick="toggleMenu()">عن SELCO</a>
+ <a href="#story" onclick="toggleMenu()">عن CYCLO</a>
  <a href="#shop" onclick="toggleMenu()">كل المنتجات</a>
  <a href="#" onclick="openCart();toggleMenu()">السلة (<span id="menuCartCount">0</span>)</a>
 </aside>
@@ -208,6 +207,7 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
   <button class="submit" id="checkoutSubmit" onclick="placeOrder()">تأكيد الطلب وإرسال عبر الواتساب</button>
  </div>
  </div>
+
  <div class="productModal" id="productModal" onclick="if(event.target===this)closeProduct()">
   <div class="productBox">
    <button class="close" onclick="closeProduct()" aria-label="إغلاق">×</button>
@@ -226,6 +226,7 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
    </div>
   </div>
  </div>
+
  <div class="messageModal" id="messageModal" role="dialog" aria-modal="true" aria-labelledby="messageTitle" onclick="if(event.target===this)closeMessage()">
   <div class="messageBox">
    <div class="messageIcon" id="messageIcon">!</div>
@@ -234,6 +235,7 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
    <button class="messageOk" onclick="closeMessage()">حسنًا</button>
   </div>
  </div>
+
  <div class="loginModal" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle" onclick="if(event.target===this)closeLogin()">
   <div class="loginBox">
    <button class="close" onclick="closeLogin()" aria-label="إغلاق">×</button>
@@ -266,10 +268,7 @@ const SUPABASE_URL = "https://gvbqjpaeibpdobgqiibq.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2YnFqcGFlaWJwZG9iZ3FpaWJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzcyOTMsImV4cCI6MjEwMzE1MzI5M30.28Vzz0yP5nEJ3Fkv7kM1eiL5Ff6_rrTNtOsv1-D3HWs";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const fallbackProducts = [
- 
-];
-
+const fallbackProducts = [];
 let products = fallbackProducts;
 
 function mapProduct(row) {
@@ -300,9 +299,9 @@ async function loadProducts() {
   updateCart();
 }
 
-let cart = JSON.parse(localStorage.getItem("selco_cart") || "[]").map(x => ({ ...x, id: String(x.id) }));
+let cart = JSON.parse(localStorage.getItem("CYCLO_cart") || "[]").map(x => ({ ...x, id: String(x.id) }));
 let filter = "الكل";
-let language = localStorage.getItem("selco_language") || "ar";
+let language = localStorage.getItem("CYCLO_language") || "ar";
 
 const translations = {
   ar: {
@@ -312,7 +311,7 @@ const translations = {
     discover: "اكتشف المجموعة ←", shopTitle: "Shop the Drop", shopText: "اختر القطعة، المقاس واللون، وأكمل طلبك في ثوانٍ.",
     about: "ABOUT CYCLO", storyTitle: "مش مجرد متجر.<br>دي تجربة براند.",
     storyText: "تصاميم خاصة بخامات ممتازة وراحة كاملة أثناء الحركة. اختر ملابسك بسهولة وادفع عند الاستلام بدون أي تعقيدات.",
-    cotton: "قطن ممتاز", cod: "الدفع عند الاستلام", collection: "التشكيلة الجديدة", footer: "SELCO © 2026 — Fashion Store",
+    cotton: "قطن ممتاز", cod: "الدفع عند الاستلام", collection: "التشكيلة الجديدة", footer: "CYCLO © 2026 — Fashion Store",
     cart: "سلة المشتريات", empty: "السلة فارغة حاليًا.", finish: "إتمام الطلب (الدفع عند الاستلام)",
     checkout: "بيانات الشحن والتوصيل", fullName: "الاسم بالكامل", phone: "رقم الهاتف", governorate: "المحافظة",
     city: "المدينة / المنطقة", address: "العنوان بالتفصيل", payment: "طريقة الدفع", codFull: "💵 الدفع عند الاستلام (COD)",
@@ -327,7 +326,7 @@ const translations = {
     discover: "Discover the collection →", shopTitle: "Shop the Drop", shopText: "Choose your piece, size and color, then complete your order in seconds.",
     about: "ABOUT CYCLO", storyTitle: "More than a store.<br>It's a brand experience.",
     storyText: "Distinctive designs, premium fabrics and all-day comfort. Choose your pieces easily and pay on delivery.",
-    cotton: "Premium cotton", cod: "Cash on delivery", collection: "New collection", footer: "SELCO © 2026 — Fashion Store",
+    cotton: "Premium cotton", cod: "Cash on delivery", collection: "New collection", footer: "CYCLO © 2026 — Fashion Store",
     cart: "Shopping cart", empty: "Your cart is currently empty.", finish: "Checkout (cash on delivery)",
     checkout: "Shipping & delivery details", fullName: "Full name", phone: "Phone number", governorate: "Governorate",
     city: "City / area", address: "Full address", payment: "Payment method", codFull: "💵 Cash on delivery (COD)",
@@ -364,12 +363,12 @@ function applyLanguage() {
   if (kashierLabel) kashierLabel.textContent = tr("kashierFull");
   const checkoutTotal = document.getElementById("checkoutTotal");
   if (checkoutTotal) checkoutTotal.parentElement.firstChild.textContent = `${tr("finalTotal")} `;
-  syncCheckoutButton(); set(".menuPanel a:nth-of-type(1)", tr("store")); set(".menuPanel a:nth-of-type(2)", language === "ar" ? "عن SELCO" : "About SELCO");
+  syncCheckoutButton(); set(".menuPanel a:nth-of-type(1)", tr("store")); set(".menuPanel a:nth-of-type(2)", language === "ar" ? "عن CYCLO" : "About CYCLO");
   set(".menuPanel a:nth-of-type(3)", language === "ar" ? "كل المنتجات" : "All products");
   const optionTitles = document.querySelectorAll(".productDetails .optionTitle");
   if (optionTitles[0]) optionTitles[0].firstChild.textContent = `${tr("size")} `;
   if (optionTitles[1]) optionTitles[1].firstChild.textContent = `${tr("color")} `;
-  set("#loginTitle", language === "ar" ? "أهلًا بك في SELCO" : "Welcome to SELCO");
+  set("#loginTitle", language === "ar" ? "أهلًا بك في CYCLO" : "Welcome to CYCLO");
   set(".loginHead p", language === "ar" ? "سجّل دخولك لمتابعة طلباتك وحفظ منتجاتك المفضلة" : "Sign in to track orders and save your favorite products");
   document.querySelectorAll(".loginField label")[0].textContent = language === "ar" ? "البريد الإلكتروني" : "Email address";
   document.querySelectorAll(".loginField label")[1].textContent = language === "ar" ? "كلمة المرور" : "Password";
@@ -666,7 +665,7 @@ async function payWithKashier(customer) {
     });
     const payload = await response.json();
     if (!response.ok || !payload.paymentUrl) throw new Error(payload.error || "payment session failed");
-    localStorage.setItem("selco_pending_order", payload.merchantOrderId);
+    localStorage.setItem("CYCLO_pending_order", payload.merchantOrderId);
     window.location.href = payload.paymentUrl;
   } catch (err) {
     console.error("Kashier session failed:", err);
@@ -720,7 +719,7 @@ function placeOrder() {
 
   const orderId = Math.floor(1000 + Math.random() * 9000);
   
-  let whatsappMessage = `*طلب جديد من متجر SELCO* 🛍️\n\n` +
+  let whatsappMessage = `*طلب جديد من متجر CYCLO* 🛍️\n\n` +
     `🔢 *رقم الطلب:* #${orderId}\n` +
     `👤 *الاسم:* ${name}\n` +
     `📞 *رقم الهاتف:* ${phone}\n` +
@@ -735,7 +734,6 @@ function placeOrder() {
   saveCart();
   closeCheckout();
 
-  // استخدام encodeURIComponent لحل مشكلة الرموز والمسافات تماماً
   const encodedMessage = encodeURIComponent(whatsappMessage);
   window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
 }
