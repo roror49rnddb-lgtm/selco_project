@@ -28,7 +28,7 @@ nav{position:sticky;top:0;z-index:25;background:rgba(246,244,239,.78);backdrop-f
 .hero p{color:#bbb;line-height:1.9;max-width:520px;margin:0 0 15px}
 .cta{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;border:0;border-radius:999px;padding:14px 19px;text-decoration:none;width:max-content;transition:.3s;position:relative;overflow:hidden}
 .cta:hover{transform:translateY(-4px);box-shadow:0 18px 35px rgba(255,255,255,.13)}
-.heroImg{min-height:520px;border-radius:30px;overflow:hidden;position:relative;background:#ddd url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1200&q=85') center/cover;box-shadow:var(--shadow);}@keyframes heroImage{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
+.heroImg{min-height:520px;border-radius:30px;overflow:hidden;position:relative;background:#0b0b0b;box-shadow:var(--shadow)}
 .heroTag{position:absolute;bottom:22px;right:22px;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);padding:9px 13px;border-radius:13px;font-size:12px}
 .marquee{overflow:hidden;background:#111;color:#fff;border-radius:18px;max-width:1250px;margin:0 auto 35px}
 .track{display:flex;width:max-content;animation:marquee 20s linear infinite;padding:12px 0;gap:28px;font-size:12px;letter-spacing:2px}.track b{font-size:15px}@keyframes marquee{to{transform:translateX(-50%)}}
@@ -42,8 +42,7 @@ nav{position:sticky;top:0;z-index:25;background:rgba(246,244,239,.78);backdrop-f
 .card{background:rgba(255,255,255,.86);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 5px 18px rgba(0,0,0,.04);transition:transform .35s,box-shadow .35s;opacity:0;transform:translateY(25px)}
 .card.visible{opacity:1;transform:none}.card:hover{transform:translateY(-9px);box-shadow:0 25px 50px rgba(0,0,0,.12)}
 .pic{aspect-ratio:4/5;position:relative;overflow:hidden;background:#ddd}
-.pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .65s}
-.card:hover .pic img{transform:scale(1.08)}
+.pic img{display:none}
 .badge{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.9);padding:6px 9px;border-radius:999px;font-size:10px;font-weight:800;z-index:2}
 .quick{position:absolute;left:12px;bottom:12px;background:#111;color:#fff;border:0;border-radius:999px;padding:8px 12px;font-size:11px;opacity:0;transform:translateY(10px);transition:.3s;cursor:pointer}
 .card:hover .quick{opacity:1;transform:none}
@@ -76,18 +75,14 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
 @media(max-width:900px){.hero{grid-template-columns:1fr}.heroText,.heroImg{min-height:430px}.grid{grid-template-columns:repeat(2,1fr)}.story{grid-template-columns:1fr}.links{display:none}.navActions{gap:12px}.navActions .accountBtn{display:none}}
 @media(max-width:560px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.heroText{padding:38px 28px}.hero h1{font-size:48px}}
 
-/* CYCLO Lottie animations */
+/* CYCLO Lottie animations — each animation replaces the old visual */
 .lottie-stage{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;z-index:1}
-.heroImg .lottie-stage{z-index:1;mix-blend-mode:normal}
-.heroImg > .heroTag{z-index:3}
 .heroLottie{width:100%;height:100%;}
-.card .pic{background:#111}
-.cardLottie{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:1;mix-blend-mode:normal}
-.card:hover .cardLottie{opacity:1}
-.pic img{position:relative;z-index:0}
-.badge{z-index:3;min-width:70px;min-height:38px;display:flex;align-items:center;justify-content:center;padding:0;background:transparent}
-.badgeLottie{width:96px;height:54px;position:absolute;inset:50% auto auto 50%;transform:translate(-50%,-50%);pointer-events:none}
-.badgeText{position:relative;z-index:2;background:rgba(255,255,255,.9);padding:6px 9px;border-radius:999px;font-size:10px;font-weight:800}
+.heroImg > .heroTag{z-index:3}
+.cardLottie{position:absolute;inset:0;width:100%;height:100%;opacity:1;pointer-events:none;z-index:1}
+.badge{z-index:3;width:96px;height:54px;display:block;padding:0;background:transparent}
+.badgeLottie{width:96px;height:54px;position:absolute;inset:0;pointer-events:none}
+.badgeText{display:none}
 </style>
 <script>
 window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -606,15 +601,12 @@ function renderProducts(list = products) {
   const filteredList = filter === "الكل" ? list : list.filter(p => p.cat === filter);
   
   grid.innerHTML = filteredList.map((p, idx) => {
-    const imgSrc = p.image || img[idx % img.length];
     return `
       <div class="card visible">
         <div class="pic">
-          <img src="${imgSrc}" alt="${p.name}">
           <div class="cardLottie" data-card-lottie aria-hidden="true"></div>
-          <span class="badge">
-            <div class="badgeLottie" data-badge-lottie aria-hidden="true"></div>
-            <span class="badgeText">${tr('newItem')}</span>
+          <span class="badge" aria-hidden="true">
+            <div class="badgeLottie" data-badge-lottie></div>
           </span>
           <button class="quick" onclick="openProduct('${p.id}')">${tr('quick')}</button>
         </div>
@@ -928,7 +920,7 @@ async function payWithKashier(customer) {
 
 const LOTTIE_FILES = {
   hero: "CYCLO-Luxury-Hero.json",
-  card: "Product-Card-Cinematic(1).json",
+  card: "Product-Card-Cinematic.json",
   badge: "CYCLO-badge-Elegant.json"
 };
 
@@ -956,18 +948,7 @@ function initHeroAnimation() {
 
 function initCardAnimations() {
   document.querySelectorAll("[data-card-lottie]").forEach(el => {
-    loadLottie(el, LOTTIE_FILES.card, true, false);
-    const card = el.closest(".card");
-    if (!card || card.__hoverBound) return;
-    card.__hoverBound = true;
-    card.addEventListener("mouseenter", () => {
-      const anim = el.__lottie;
-      if (anim) { anim.goToAndPlay(0, true); }
-    });
-    card.addEventListener("mouseleave", () => {
-      const anim = el.__lottie;
-      if (anim) { anim.pause(); anim.goToAndStop(0, true); }
-    });
+    loadLottie(el, LOTTIE_FILES.card, true, true);
   });
 }
 
