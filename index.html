@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CYCLO — Fashion Store</title>
+<title>SELCO — Fashion Store</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
 :root{ --bg:#f6f4ef;--card:#fff;--text:#111;--muted:#777;--line:#e6e2da;--dark:#111; --shadow:0 20px 60px rgba(0,0,0,.10);}
@@ -20,15 +19,15 @@ nav{position:sticky;top:0;z-index:25;background:rgba(246,244,239,.78);backdrop-f
 .navActions{display:flex;align-items:center;gap:25px;direction:ltr}.iconBtn{position:relative;border:0;background:transparent;padding:5px;cursor:pointer;color:#111;display:grid;place-items:center;transition:.25s}.iconBtn:hover{transform:translateY(-3px)}.iconBtn svg{width:38px;height:38px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}.langBtn{font-size:25px;line-height:1;filter:grayscale(.05)}.cartIcon .bagdot{position:absolute;right:-7px;top:-8px;background:#f15a29;color:#fff;width:31px;height:31px;border-radius:50%;font-size:16px;margin:0}.menuBtn span{display:block;width:42px;height:2px;background:#111;margin:7px 0;transition:.25s}.menuBtn.open span:nth-child(1){transform:translateY(9px) rotate(45deg)}.menuBtn.open span:nth-child(2){opacity:0}.menuBtn.open span:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
 .searchBox{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:15px 22px;box-shadow:0 12px 30px rgba(0,0,0,.08)}.searchBox.open{display:block}.searchInner{max-width:1250px;margin:auto;position:relative}.searchInner input{width:100%;border:1px solid var(--line);border-radius:999px;padding:13px 48px 13px 18px;outline:0;background:#faf9f6}.searchInner svg{position:absolute;right:16px;top:11px;width:24px;height:24px}.menuPanel{position:fixed;top:0;right:0;bottom:0;width:min(360px,88%);background:#fff;z-index:45;padding:90px 28px 28px;transform:translateX(105%);transition:.35s;box-shadow:-20px 0 60px #0002}.menuPanel.open{transform:none}.menuPanel a{display:block;color:#111;text-decoration:none;font-size:22px;padding:16px 0;border-bottom:1px solid var(--line)}.menuShade{position:fixed;inset:0;background:#0007;z-index:44;display:none}.menuShade.open{display:block}
 .hero{max-width:1250px;margin:20px auto 0;padding:18px 22px 36px;display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
-.heroText{background:#0e0e0e;color:#fff;border-radius:30px;padding:55px 48px;min-height:520px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;isolation:isolate;box-shadow:var(--shadow);}@keyframes heroIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.heroText{background:#0e0e0e;color:#fff;border-radius:30px;padding:55px 48px;min-height:520px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;isolation:isolate;box-shadow:var(--shadow);animation:heroIn .9s both}@keyframes heroIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 .heroText:before{content:"";position:absolute;inset:auto -80px -100px auto;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,#fff3,transparent 68%);animation:float 7s ease-in-out infinite}
-.heroText:after{content:"CYCLO / 26";position:absolute;left:28px;top:24px;font-size:10px;letter-spacing:3px;color:#888;transform:rotate(-90deg);transform-origin:left top}
+.heroText:after{content:"SELCO / 26";position:absolute;left:28px;top:24px;font-size:10px;letter-spacing:3px;color:#888;transform:rotate(-90deg);transform-origin:left top}
 .kicker{letter-spacing:4px;font-size:11px;color:#a8a8a8;margin-bottom:18px}
 .hero h1{font-size:clamp(44px,6vw,82px);line-height:.98;margin:0 0 20px;letter-spacing:-3px;position:relative}.hero h1 span{display:block;color:#d6d0c6}
 .hero p{color:#bbb;line-height:1.9;max-width:520px;margin:0 0 15px}
 .cta{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;border:0;border-radius:999px;padding:14px 19px;text-decoration:none;width:max-content;transition:.3s;position:relative;overflow:hidden}
 .cta:hover{transform:translateY(-4px);box-shadow:0 18px 35px rgba(255,255,255,.13)}
-.heroImg{min-height:520px;border-radius:30px;overflow:hidden;position:relative;background:#0b0b0b;box-shadow:var(--shadow)}
+.heroImg{min-height:520px;border-radius:30px;overflow:hidden;position:relative;background:#ddd url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1200&q=85') center/cover;box-shadow:var(--shadow);animation:heroImage .95s .1s both}@keyframes heroImage{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
 .heroTag{position:absolute;bottom:22px;right:22px;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);padding:9px 13px;border-radius:13px;font-size:12px}
 .marquee{overflow:hidden;background:#111;color:#fff;border-radius:18px;max-width:1250px;margin:0 auto 35px}
 .track{display:flex;width:max-content;animation:marquee 20s linear infinite;padding:12px 0;gap:28px;font-size:12px;letter-spacing:2px}.track b{font-size:15px}@keyframes marquee{to{transform:translateX(-50%)}}
@@ -42,7 +41,8 @@ nav{position:sticky;top:0;z-index:25;background:rgba(246,244,239,.78);backdrop-f
 .card{background:rgba(255,255,255,.86);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 5px 18px rgba(0,0,0,.04);transition:transform .35s,box-shadow .35s;opacity:0;transform:translateY(25px)}
 .card.visible{opacity:1;transform:none}.card:hover{transform:translateY(-9px);box-shadow:0 25px 50px rgba(0,0,0,.12)}
 .pic{aspect-ratio:4/5;position:relative;overflow:hidden;background:#ddd}
-.pic img{display:none}
+.pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .65s}
+.card:hover .pic img{transform:scale(1.08)}
 .badge{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.9);padding:6px 9px;border-radius:999px;font-size:10px;font-weight:800;z-index:2}
 .quick{position:absolute;left:12px;bottom:12px;background:#111;color:#fff;border:0;border-radius:999px;padding:8px 12px;font-size:11px;opacity:0;transform:translateY(10px);transition:.3s;cursor:pointer}
 .card:hover .quick{opacity:1;transform:none}
@@ -74,15 +74,6 @@ footer{border-top:1px solid var(--line);padding:35px 22px;text-align:center;colo
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}.reveal.visible{opacity:1;transform:none}
 @media(max-width:900px){.hero{grid-template-columns:1fr}.heroText,.heroImg{min-height:430px}.grid{grid-template-columns:repeat(2,1fr)}.story{grid-template-columns:1fr}.links{display:none}.navActions{gap:12px}.navActions .accountBtn{display:none}}
 @media(max-width:560px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.heroText{padding:38px 28px}.hero h1{font-size:48px}}
-
-/* CYCLO Lottie animations — each animation replaces the old visual */
-.lottie-stage{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;z-index:1}
-.heroLottie{width:100%;height:100%;}
-.heroImg > .heroTag{z-index:3}
-.cardLottie{position:absolute;inset:0;width:100%;height:100%;opacity:1;pointer-events:none;z-index:1}
-.badge{z-index:3;width:96px;height:54px;display:block;padding:0;background:transparent}
-.badgeLottie{width:96px;height:54px;position:absolute;inset:0;pointer-events:none}
-.badgeText{display:none}
 </style>
 <script>
 window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -98,7 +89,7 @@ window.si = window.si || function () { (window.siq = window.siq || []).push(argu
 
 <nav>
   <div class="navin">
-    <a href="#" class="logo">CYCLO.</a>
+    <a href="#" class="logo">SELCO.</a>
     <div class="links">
       <a href="#shop">المتجر</a>
       <a href="#story">البراند</a>
@@ -132,7 +123,7 @@ window.si = window.si || function () { (window.siq = window.siq || []).push(argu
 <aside class="menuPanel" id="menuPanel">
   <button class="close" onclick="toggleMenu()">×</button>
   <a href="#shop" onclick="toggleMenu()">المتجر</a>
-  <a href="#story" onclick="toggleMenu()">عن CYCLO</a>
+  <a href="#story" onclick="toggleMenu()">عن SELCO</a>
   <a href="#shop" onclick="toggleMenu()">كل المنتجات</a>
   <a href="#" onclick="openCart();toggleMenu()">السلة (<span id="menuCartCount">0</span>)</a>
 </aside>
@@ -146,7 +137,6 @@ window.si = window.si || function () { (window.siq = window.siq || []).push(argu
   </div>
 
   <div class="heroImg">
-    <div class="lottie-stage heroLottie" id="heroAnimation" aria-hidden="true"></div>
     <div class="heroTag">LIMITED / DROP 01</div>
   </div>
 </section>
@@ -172,7 +162,7 @@ window.si = window.si || function () { (window.siq = window.siq || []).push(argu
   <section class="story reveal" id="story">
     <div class="storyImg"></div>
     <div class="storyText">
-      <div class="kicker" style="color:#888">ABOUT CYCLO</div>
+      <div class="kicker" style="color:#888">ABOUT SELCO</div>
       <h3>مش مجرد متجر.<br>دي تجربة براند.</h3>
       <p>تصاميم خاصة بخامات ممتازة وراحة كاملة أثناء الحركة. اختر ملابسك بسهولة وادفع عند الاستلام بدون أي تعقيدات.</p>
       <div class="stats">
@@ -184,7 +174,7 @@ window.si = window.si || function () { (window.siq = window.siq || []).push(argu
   </section>
 </main>
 
-<footer>CYCLO © 2026 — Fashion Store</footer>
+<footer>SELCO © 2026 — Fashion Store</footer>
 
 <div class="drawer" id="cartDrawer" onclick="if(event.target===this)closeCart()">
   <div class="panel">
@@ -274,7 +264,7 @@ window.si = window.si || function () { (window.siq = window.siq || []).push(argu
 
     <div class="loginHead">
       <div class="loginAvatar">♙</div>
-      <h2 id="loginTitle">أهلًا بك في CYCLO</h2>
+      <h2 id="loginTitle">أهلًا بك في SELCO</h2>
       <p>سجّل دخولك لمتابعة طلباتك وحفظ منتجاتك المفضلة</p>
     </div>
 
@@ -351,9 +341,9 @@ async function loadProducts() {
   updateCart();
 }
 
-let cart = JSON.parse(localStorage.getItem("cyclo_cart") || "[]").map(x => ({ ...x, id: String(x.id) }));
+let cart = JSON.parse(localStorage.getItem("selco_cart") || "[]").map(x => ({ ...x, id: String(x.id) }));
 let filter = "الكل";
-let language = localStorage.getItem("cyclo_language") || "ar";
+let language = localStorage.getItem("selco_language") || "ar";
 
 const translations = {
   ar: {
@@ -367,13 +357,13 @@ const translations = {
     discover: "اكتشف المجموعة ←",
     shopTitle: "Shop the Drop",
     shopText: "اختر القطعة، المقاس واللون، وأكمل طلبك في ثوانٍ.",
-    about: "ABOUT CYCLO",
+    about: "ABOUT SELCO",
     storyTitle: "مش مجرد متجر.<br>دي تجربة براند.",
     storyText: "تصاميم خاصة بخامات ممتازة وراحة كاملة أثناء الحركة. اختر ملابسك بسهولة وادفع عند الاستلام بدون أي تعقيدات.",
     cotton: "قطن ممتاز",
     cod: "الدفع عند الاستلام",
     collection: "التشكيلة الجديدة",
-    footer: "CYCLO © 2026 — Fashion Store",
+    footer: "SELCO © 2026 — Fashion Store",
     cart: "سلة المشتريات",
     empty: "السلة فارغة حاليًا.",
     finish: "إتمام الطلب (الدفع عند الاستلام)",
@@ -409,13 +399,13 @@ const translations = {
     discover: "Discover the collection →",
     shopTitle: "Shop the Drop",
     shopText: "Choose your piece, size and color, then complete your order in seconds.",
-    about: "ABOUT CYCLO",
+    about: "ABOUT SELCO",
     storyTitle: "More than a store.<br>It's a brand experience.",
     storyText: "Distinctive designs, premium fabrics and all-day comfort. Choose your pieces easily and pay on delivery.",
     cotton: "Premium cotton",
     cod: "Cash on delivery",
     collection: "New collection",
-    footer: "CYCLO © 2026 — Fashion Store",
+    footer: "SELCO © 2026 — Fashion Store",
     cart: "Shopping cart",
     empty: "Your cart is currently empty.",
     finish: "Checkout (cash on delivery)",
@@ -472,7 +462,7 @@ let selectedModalColor = '';
 
 function toggleLanguage() {
   language = language === 'ar' ? 'en' : 'ar';
-  localStorage.setItem('cyclo_language', language);
+  localStorage.setItem('selco_language', language);
   applyLanguage();
 }
 
@@ -558,7 +548,7 @@ function closeLogin() {
 function submitLogin(e) {
   e.preventDefault();
   closeLogin();
-  showMessage('تم تسجيل الدخول', 'مرحبًا بك مجددًا في CYCLO!', '✓');
+  showMessage('تم تسجيل الدخول', 'مرحبًا بك مجددًا في SELCO!', '✓');
 }
 
 function forgotPassword(e) {
@@ -601,13 +591,12 @@ function renderProducts(list = products) {
   const filteredList = filter === "الكل" ? list : list.filter(p => p.cat === filter);
   
   grid.innerHTML = filteredList.map((p, idx) => {
+    const imgSrc = p.image || img[idx % img.length];
     return `
       <div class="card visible">
         <div class="pic">
-          <div class="cardLottie" data-card-lottie aria-hidden="true"></div>
-          <span class="badge" aria-hidden="true">
-            <div class="badgeLottie" data-badge-lottie></div>
-          </span>
+          <img src="${imgSrc}" alt="${p.name}">
+          <span class="badge">${tr('newItem')}</span>
           <button class="quick" onclick="openProduct('${p.id}')">${tr('quick')}</button>
         </div>
         <div class="info">
@@ -619,7 +608,6 @@ function renderProducts(list = products) {
       </div>
     `;
   }).join('');
-  setTimeout(() => { initCardAnimations(); initBadgeAnimations(); }, 0);
 }
 
 function openProduct(id) {
@@ -709,7 +697,7 @@ function changeQty(index, delta) {
 }
 
 function saveCart() {
-  localStorage.setItem('cyclo_cart', JSON.stringify(cart));
+  localStorage.setItem('selco_cart', JSON.stringify(cart));
   updateCart();
 }
 
@@ -806,8 +794,8 @@ function placeOrder() {
 }
 
 function sendWhatsAppOrder(customer) {
-  const orderNum = 'CYCLO-' + Math.floor(100000 + Math.random() * 900000);
-  let text = `*طلب جديد من متجر CYCLO* 🛍️\n\n`;
+  const orderNum = 'SELCO-' + Math.floor(100000 + Math.random() * 900000);
+  let text = `*طلب جديد من متجر SELCO* 🛍️\n\n`;
   text += `*رقم الطلب:* ${orderNum}\n`;
   text += `*الاسم:* ${customer.name}\n`;
   text += `*الهاتف:* ${customer.phone}\n`;
@@ -833,7 +821,7 @@ function sendWhatsAppOrder(customer) {
   closeCheckout();
 
   window.open(waUrl, '_blank');
-  showMessage('تم إرسال الطلب', 'تم توجيهك إلى الواتساب لتأكيد الطلب. شكرًا لتسوقك من CYCLO!', '✓');
+  showMessage('تم إرسال الطلب', 'تم توجيهك إلى الواتساب لتأكيد الطلب. شكرًا لتسوقك من SELCO!', '✓');
 }
 
 async function payWithKashier(customer) {
@@ -898,7 +886,7 @@ async function payWithKashier(customer) {
     }
 
     localStorage.setItem(
-      "cyclo_pending_order",
+      "selco_pending_order",
       payload.merchantOrderId
     );
 
@@ -918,57 +906,10 @@ async function payWithKashier(customer) {
   }
 }
 
-const LOTTIE_FILES = {
-  hero: "CYCLO-Luxury-Hero.json",
-  card: "Product-Card-Cinematic.json",
-  badge: "CYCLO-badge-Elegant.json"
-};
-
-function loadLottie(container, path, loop = true, autoplay = true) {
-  if (!container || !window.lottie) return null;
-  if (container.__lottie) {
-    container.__lottie.destroy();
-    container.innerHTML = "";
-  }
-  const animation = lottie.loadAnimation({
-    container,
-    renderer: "svg",
-    loop,
-    autoplay,
-    path
-  });
-  container.__lottie = animation;
-  return animation;
-}
-
-function initHeroAnimation() {
-  const el = document.getElementById("heroAnimation");
-  loadLottie(el, LOTTIE_FILES.hero, true, true);
-}
-
-function initCardAnimations() {
-  document.querySelectorAll("[data-card-lottie]").forEach(el => {
-    loadLottie(el, LOTTIE_FILES.card, true, true);
-  });
-}
-
-function initBadgeAnimations() {
-  document.querySelectorAll("[data-badge-lottie]").forEach(el => {
-    loadLottie(el, LOTTIE_FILES.badge, true, true);
-  });
-}
-
-function initCycLOAnimations() {
-  initHeroAnimation();
-  initCardAnimations();
-  initBadgeAnimations();
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   renderFilters();
   loadProducts();
   applyLanguage();
-  setTimeout(initCycLOAnimations, 0);
 });
 </script>
 </body>
